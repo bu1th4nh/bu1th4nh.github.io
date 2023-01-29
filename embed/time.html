@@ -1,0 +1,87 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
+<style>
+    @font-face {
+          font-family: 'HornetDisplayBold';
+          src: url('https://raw.githubusercontent.com/morkvitnir/hornet-display/main/HornetDisplay-Bold.ttf') format('truetype');
+        }
+    
+
+
+    :root {
+        --foreground-color: #03faff;
+        --background-color: #191919;
+
+        color: var(--foreground-color);
+        background-color: var(--background-color);
+        font-family: 'HornetDisplayBold';
+    }
+
+
+    #countdown {
+        font-family: 'HornetDisplayBold';
+        font-size: 70px;
+        color: var(--foreground-color);
+        background-color: var(--background-color);
+        text-align: center;
+    }
+</style>
+
+<script>
+  const updateTheme = () => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.style.setProperty('--foreground-color', '#03faff');
+      document.documentElement.style.setProperty('--background-color', '#191919');
+    } else {
+      document.documentElement.style.setProperty('--foreground-color', '#191919');
+      document.documentElement.style.setProperty('--background-color', '#fff');
+    }
+  };
+
+  window.addEventListener('load', updateTheme);
+  window.addEventListener('themechange', updateTheme);
+</script>
+
+
+<p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 40; margin-bottom: 12px;">NEXT EXAM</p>
+<div id="countdown"></div>
+<p style="text-align: center;">(Days - Hours - Minutes - Seconds)</p>
+
+
+<script>
+    // Set the date we're counting down to
+    function lpad(value, padding) {
+        var zeroes = new Array(padding+1).join("0");
+        return (zeroes + value).slice(-padding);
+    }
+  
+    var countDownDate = new Date("Feb 10, 2024 15:37:25").getTime();
+  
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+  
+        // Get today's date and time
+        var now = new Date().getTime();
+    
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+    
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+        // Display the result in the element with id="countdown"
+        document.getElementById("countdown").innerHTML = lpad(days, 3) + ":" + lpad(hours, 2) + ":"
+        + lpad(minutes, 2) + ":" + lpad(seconds, 2);
+    
+        // If the count down is finished, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>
