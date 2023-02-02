@@ -1,6 +1,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
 
 <style>
     @font-face {
@@ -18,9 +18,24 @@
 
     #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-NearestExam, #localtime, #utctime, #localdate {
         font-family: 'HornetDisplayBold';
-        font-size: 50px;
+        font-size: 3em;
         text-align: center;
     }
+
+    #cd-caption {
+        font-family: 'IBM Plex Mono'; 
+        text-align: center; 
+        font-size: 1.25em; 
+        margin-bottom: 12px;
+    }
+
+    #line-countdown-box {
+        display: inline-block; 
+        margin-left: 45px; 
+        margin-right: 45px;
+    }
+
+
 </style>
 
 <script>
@@ -38,67 +53,68 @@
   window.addEventListener('themechange', updateTheme);
 </script>
 
-<div style="text-align: center; margin-bottom: 100px;">
-    <!-- UTC time -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">UTC TIME</p>
-        <div id="utctime"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p>
+<div style="width: auto; height: auto;">
+    
+
+    <div style="text-align: center; margin-bottom: 100px;">
+        <!-- UTC time -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">UTC TIME</div>
+            <div id="utctime"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>
+
+
+        <!-- Local time -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">LOCAL TIME</div>
+            <div id="localtime"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
+        
+        <!-- Countdown to nearest exam -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">NEAREST EXAM: 3RD TSA IN</div>
+            <div id="countdown-NearestExam"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
     </div>
 
 
-    <!-- Local time -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">LOCAL TIME</p>
-        <div id="localtime"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p>
-    </div>  
-    
-    
-    <!-- Countdown to nearest exam -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">NEAREST EXAM: 3RD TSA IN</p>
-        <div id="countdown-NearestExam"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p>
-    </div> 
-</div>
+    <div style="text-align: center; color: #dc572a;">
+        <!-- SA&D -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">SYSTEM ANALYSIS AND DESIGN</div>
+            <div id="countdown-SAAD"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
+        
+        <!-- TSA -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">TIME SERIES ANALYSIS</div>
+            <div id="countdown-TSA"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
 
 
-<div style="text-align: center; color: #dc572a;">
-    <!-- SA&D -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">SYSTEM ANALYSIS AND DESIGN</p>
-        <div id="countdown-SAAD"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p>
-    </div>  
-    
-    
-    <!-- TSA -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">TIME SERIES ANALYSIS</p>
-        <div id="countdown-TSA"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p>
-    </div> 
+        <!-- Com. Opt -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">COMBINATORIAL OPTIMIZATION</div>
+            <div id="countdown-CO"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>
 
 
-    <!-- Com. Opt -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">COMBINATORIAL OPTIMIZATION</p>
-        <div id="countdown-CO"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p>
+        <!-- PRJ2 -->
+        <div id="line-countdown-box">
+            <div id="cd-caption">PROJECT II</div>
+            <div id="countdown-PRJ2"></div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
     </div>
-
-
-    <!-- PRJ2 -->
-    <div style="display: inline-block; margin-left: 45px; margin-right: 45px;">
-        <p style="font-family: 'IBM Plex Mono'; text-align: center; font-size: 20; margin-bottom: 12px;">PROJECT II</p>
-        <div id="countdown-PRJ2"></div>
-        <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p>
-    </div>  
 </div>
-
-
-
 
 
 
@@ -137,11 +153,11 @@
         return lpad(y, 4) + "/" + lpad(m, 2) + "/" + lpad(d, 2) + " " + lpad(hh, 2) + ":" + lpad(mm, 2) + ":" + lpad(ss, 2) 
     }
     
-    var nearestExamDate     = new Date("Feb 16, 2023 12:30:00").getTime();
+    var nearestExamDate     = new Date("Feb 23, 2023 12:30:00").getTime();
 
     var SAAD_FinalExamDate  = new Date("Mar 01, 2023 12:30:00").getTime();
     var TSA_FinalExamDate   = new Date("Mar 09, 2023 15:00:00").getTime();
-    var CO_FinalExamDate    = new Date("Mar 15, 2023 15:30:00").getTime();
+    var CO_FinalExamDate    = new Date("Mar 15, 2023 15:00:00").getTime();
     var PRJ2_Date           = new Date("Mar 16, 2023 07:00:00").getTime();
 
 
