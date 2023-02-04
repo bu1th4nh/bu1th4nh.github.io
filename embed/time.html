@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-NearestExam, #localtime, #utctime, #localdate {
+    #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-NearestExam, #localtime, #esttime, #localdate {
         font-family: 'HornetDisplay';
         font-size: 3.25em;
         text-align: center;
@@ -66,8 +66,8 @@
     <div style="text-align: center; margin-bottom: 100px;">
         <!-- UTC time -->
         <div id="line-countdown-box">
-            <div id="utctime"></div>
-            <div id="cd-caption">UTC TIME</div>
+            <div id="esttime"></div>
+            <div id="cd-caption">EST TIME</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>
 
@@ -173,6 +173,7 @@
     var x = setInterval(function() {
         // Get today's date and time
         var now      = new Date();
+        var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
     
 
 
@@ -198,7 +199,7 @@
 
 
         // Display the UTC time
-        document.getElementById("utctime").innerHTML = localTime2Str(now.getUTCFullYear(), now.getUTCMonth()+1, now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
 
     }, 1000);
 
