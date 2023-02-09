@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #Presentation, #EOT, #localtime {
+    #SK, #CK, #localtime {
         font-family: 'HornetDisplay';
         font-size: 3.25em;
         text-align: center;
@@ -75,16 +75,16 @@
 
         <!-- Presentation -->
         <div id="line-countdown-box">
-            <div id="Presentation"></div>
-            <div id="cd-caption">THUYẾT TRÌNH</div>
+            <div id="SK"></div>
+            <div id="cd-caption">SƠ KHẢO</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
         
         <!-- EoT exam -->
         <div id="line-countdown-box">
-            <div id="EOT"></div>
-            <div id="cd-caption">THI CUỐI KỲ</div>
+            <div id="CK"></div>
+            <div id="cd-caption">CHUNG KHẢO</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
     </div>
@@ -129,8 +129,8 @@
     }
     
     
-    var Presentation    = new Date("Feb 16, 2023 07:00:00").getTime();
-    var EOT             = new Date("Mar 15, 2023 15:00:00").getTime();
+    var SK      = new Date("Mar 26, 2023 18:00:00").getTime();
+    var CK      = new Date("Apr 02, 2023 18:00:00").getTime();
 
 
   
@@ -151,9 +151,9 @@
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         // Display the result: SA&D
-        document.getElementById("Presentation").innerHTML = timeCountdown2Str(Presentation);        
+        document.getElementById("SK").innerHTML = timeCountdown2Str(SK);        
         // Display the result: TSA
-        document.getElementById("EOT").innerHTML = timeCountdown2Str(EOT);
+        document.getElementById("CK").innerHTML = timeCountdown2Str(CK);
         
         
     
