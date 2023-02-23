@@ -142,7 +142,7 @@
 
         // If expired
         if(distance < 0)
-            return "COUNTDOWN OVER"
+            return "EXPIRED"
 
         // Return the str value
         rtn = "";
@@ -154,8 +154,7 @@
         return lpad(y, 4) + "/" + lpad(m, 2) + "/" + lpad(d, 2) + " " + lpad(hh, 2) + ":" + lpad(mm, 2) + ":" + lpad(ss, 2) 
     }
     
-    var nearestExamDate     = new Date("Feb 23, 2023 12:30:00").getTime();
-
+    
     var SAAD_FinalExamDate  = new Date("Mar 01, 2023 12:30:00").getTime();
     var TSA_FinalExamDate   = new Date("Mar 09, 2023 15:00:00").getTime();
     var CO_FinalExamDate    = new Date("Mar 15, 2023 15:00:00").getTime();
@@ -170,13 +169,6 @@
         var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
     
 
-
-        // Display the result: Nearest exam
-        document.getElementById("countdown-NearestExam").innerHTML = timeCountdown2Str(nearestExamDate);
-
-        
-        
-        
         // Display the result: SA&D
         document.getElementById("countdown-SAAD").innerHTML = timeCountdown2Str(SAAD_FinalExamDate);        
         // Display the result: TSA
