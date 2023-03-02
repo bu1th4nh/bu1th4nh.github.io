@@ -23,9 +23,9 @@
         background-color: var(--background-color);
     }
 
-    #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-NearestExam, #localtime, #esttime, #localdate {
+    #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-PRJ2D, #countdown-NearestExam, #localtime, #esttime, #localdate {
         font-family: 'HornetDisplay';
-        font-size: 3.25em;
+        font-size: 3em;
         text-align: center;
         margin-bottom: 12px;
     }
@@ -33,7 +33,7 @@
     #cd-caption {
         font-family: 'IBM Plex Mono'; 
         text-align: center; 
-        font-size: 1.2em; 
+        font-size: 1em; 
     }
 
     #line-countdown-box {
@@ -83,7 +83,7 @@
         <!-- Countdown to nearest exam -->
         <div id="line-countdown-box">
             <div id="countdown-PRJ2"></div>
-            <div id="cd-caption">SUBMIT WINDOW CLOSE: PROJECT II</div>
+            <div id="cd-caption">SUBMIT WINDOW CLOSURE: PROJECT II</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
     </div>
@@ -114,6 +114,17 @@
             <div id="cd-caption">EXAM: COMB. OPTIMIZATION</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>
+
+
+
+        <!-- Def: Prj.2 -->
+        <div id="line-countdown-box">
+            <div id="countdown-PRJ2D"></div>
+            <div id="cd-caption">DEFEND: PROJECT II</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>
+
+        
     </div>
 </div>
 
@@ -156,9 +167,10 @@
     
     
     var SAAD_FinalExamDate  = new Date("Mar 01, 2023 12:30:00").getTime();
+    var PRJ2_Date           = new Date("Mar 03, 2023 15:00:00").getTime();
     var TSA_FinalExamDate   = new Date("Mar 09, 2023 15:00:00").getTime();
     var CO_FinalExamDate    = new Date("Mar 15, 2023 15:00:00").getTime();
-    var PRJ2_Date           = new Date("Mar 03, 2023 15:00:00").getTime();
+    var PRJ2_DefDate        = new Date("Mar 16, 2023 07:00:00").getTime();
 
 
   
@@ -177,6 +189,8 @@
         document.getElementById("countdown-CO").innerHTML = timeCountdown2Str(CO_FinalExamDate);
         // Display the result: PRJ2
         document.getElementById("countdown-PRJ2").innerHTML = timeCountdown2Str(PRJ2_Date);
+        // Display the result: PRJ2 Defend
+        document.getElementById("countdown-PRJ2D").innerHTML = timeCountdown2Str(PRJ2_DefDate);
 
         
     
