@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #countdown-CO, #countdown-TSA, #countdown-SAAD, #countdown-PRJ2, #countdown-PRJ2D, #countdown-NearestExam, #localtime, #esttime, #localdate {
+    #countdown-GradThesis, #localtime, #esttime, #localdate {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -80,53 +80,12 @@
         </div>  
         
         
-        
-
-        <!-- Def: Prj.2 -->
+        <!-- Def: Grad Thesis -->
         <div id="line-countdown-box">
-            <div id="countdown-PRJ2D"></div>
-            <div id="cd-caption">DEFEND: PROJECT II</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>
-    </div>
-
-
-    <div style="text-align: center; color: #dc572a;">
-        <!-- PRJ2 -->
-        
-        <!-- SA&D -->
-        <div id="line-countdown-box">
-            <div id="countdown-SAAD"></div>
-            <div id="cd-caption">EXAM: SYSTEM ANALYSIS AND DESIGN</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>  
-
-
-
-        <div id="line-countdown-box">
-            <div id="countdown-PRJ2"></div>
-            <div id="cd-caption">SUBMIT WINDOW CLOSURE: PROJECT II</div>
+            <div id="countdown-GradThesis"></div>
+            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
-        
-        
-        <!-- TSA -->
-        <div id="line-countdown-box">
-            <div id="countdown-TSA"></div>
-            <div id="cd-caption">DEFEND: TIME SERIES ANALYSIS</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
-        </div> 
-
-
-        <!-- Countdown to nearest exam -->
-        <div id="line-countdown-box">
-            <div id="countdown-CO"></div>
-            <div id="cd-caption">EXAM: COMB. OPTIMIZATION</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>
-        
-
-        
     </div>
 </div>
 
@@ -159,7 +118,7 @@
 
         // Return the str value
         rtn = "";
-        rtn += lpad(days, 2) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2);
+        rtn += lpad(days, 3) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2);
         return rtn;
     }
 
@@ -168,11 +127,8 @@
     }
     
     
-    var SAAD_FinalExamDate  = new Date("Mar 01, 2023 12:30:00").getTime();
-    var PRJ2_Date           = new Date("Mar 03, 2023 15:00:00").getTime();
-    var TSA_FinalExamDate   = new Date("Mar 09, 2023 13:00:00").getTime();
-    var CO_FinalExamDate    = new Date("Mar 15, 2023 15:00:00").getTime();
-    var PRJ2_DefDate        = new Date("Mar 16, 2023 07:00:00").getTime();
+
+    var GradThesis = new Date("Aug 14, 2023 07:00:00").getTime();
 
 
   
@@ -183,16 +139,9 @@
         var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
     
 
-        // Display the result: SA&D
-        document.getElementById("countdown-SAAD").innerHTML = timeCountdown2Str(SAAD_FinalExamDate);        
-        // Display the result: TSA
-        document.getElementById("countdown-TSA").innerHTML = timeCountdown2Str(TSA_FinalExamDate);
-        // Display the result: CO
-        document.getElementById("countdown-CO").innerHTML = timeCountdown2Str(CO_FinalExamDate);
-        // Display the result: PRJ2
-        document.getElementById("countdown-PRJ2").innerHTML = timeCountdown2Str(PRJ2_Date);
-        // Display the result: PRJ2 Defend
-        document.getElementById("countdown-PRJ2D").innerHTML = timeCountdown2Str(PRJ2_DefDate);
+        // Display the result: Graduation Thesis
+        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(GradThesis);        
+        
 
         
     
