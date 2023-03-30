@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #countdown-GradThesis, #localtime, #esttime, #localdate {
+    #countdown-GradThesis, #localtime, #esttime, #localdate, #ddl-cuhk, #ddl-vef, #countdown-IELTS {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -85,6 +85,31 @@
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
     </div>
+
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+        <!-- Deadline: CUHK Apps -->
+        <div id="line-countdown-box">
+            <div id="ddl-cuhk"></div>
+            <div id="cd-caption">DEADLINE: CUHK APPLICATION</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
+
+        <!-- Deadline: VEF -->
+        <div id="line-countdown-box">
+            <div id="ddl-vef"></div>
+            <div id="cd-caption">DEADLINE: VEF</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>
+
+        
+        <!-- Deadline: IELTS -->
+        <div id="line-countdown-box">
+            <div id="countdown-IELTS"></div>
+            <div id="cd-caption">IELTS: TEST</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
+    </div>
 </div>
 
 
@@ -94,6 +119,12 @@
 <script>
     // Set the date we're counting down to
     function lpad(value, padding) {
+        if(value >= 1000)
+            padding = 4;
+        else if(value >= 100 && value < 1000)
+            padding = 3;
+        else 
+            padding = 2;
         var zeroes = new Array(padding+1).join("0");
         return (zeroes + value).slice(-padding);
     }
@@ -139,16 +170,19 @@
 
         // Display the result: Graduation Thesis
         document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(GradThesis);        
-        
-
-        
-    
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-
-
         // Display the UTC time
         document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
+
+
+        // Display the result: CUHK Apps
+        document.getElementById("ddl-cuhk").innerHTML = timeCountdown2Str(new Date("Apr 27, 2023 23:59:59").getTime());
+        // Display the result: VEF
+        document.getElementById("ddl-vef").innerHTML = timeCountdown2Str(new Date("Jun 27, 2023 23:59:59").getTime());
+        // Display the result: IELTS
+        document.getElementById("countdown-IELTS").innerHTML = "TBD";
+
 
     }, 1000);
 
