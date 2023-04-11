@@ -43,6 +43,11 @@
     }
 
 
+    .frame {
+        border: 3px solid var(--foreground-color);
+    }
+
+
 </style>
 
 <script>
@@ -60,7 +65,7 @@
   window.addEventListener('themechange', updateTheme);
 </script>
 
-<div style="width: auto; height: auto;">
+<div class = "frame", style="width: auto; height: auto;">
     <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
         <!-- UTC time -->
         <div id="line-countdown-box">
