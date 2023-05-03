@@ -162,7 +162,7 @@
         return (zeroes + value).slice(-padding);
     }
 
-    function timeCountdown2Str(value) {
+    function timeCountdown2Str(value, end = value) {
         // Find the distance between now and the count down date
         var now_time = new Date().getTime();
         var distance = value - now_time;
@@ -175,8 +175,10 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // If expired
-        if(distance < 0)
-            return "EXPIRED"
+        if(end - now_time < 0)
+            return "ENDED"
+        else if(value - now_time < 0)
+            return "IN PROGESS"
 
         // Return the str value
         rtn = "";
@@ -216,7 +218,7 @@
         // Display the result: VEF
         document.getElementById("ddl-vef").innerHTML = timeCountdown2Str(new Date("Jun 27, 2023 23:59:59").getTime());
         // Display the result: IELTS
-        document.getElementById("countdown-IELTS").innerHTML = timeCountdown2Str(new Date("May 03, 2023 11:40:00").getTime());
+        document.getElementById("countdown-IELTS").innerHTML = timeCountdown2Str(new Date("May 03, 2023 12:10:00").getTime());
 
 
     }, 1000);
