@@ -23,22 +23,13 @@
         background-color: var(--background-color);
     }
 
-    #countdown-GradThesis, #localtime, #esttime, #localdate, #ddl-cuhk, #ev-svbk, #ddl-vef {
+    #countdown-GradThesis, #localtime, #esttime, #localdate, #countdown-mtm, #countdown-cuhksc, #ddl-vef {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
         margin-bottom: 12px;
     }
 
-    #countdown-IELTS {
-        font-family: 'HornetDisplay';
-        font-size: 3em;
-        text-align: center;
-        margin-bottom: 12px;
-        color: #ff0000;
-    }
-
-    
 
     #cd-caption {
         font-family: 'IBM Plex Mono'; 
@@ -46,15 +37,6 @@
         font-size: 1em; 
     }
 
-    #cd-caption-IELTS {
-        font-family: 'IBM Plex Mono'; 
-        text-align: center; 
-        font-size: 1em; 
-        color: #ff0000;
-
-    }
-
-    
 
     #line-countdown-box {
         display: inline-block; 
@@ -102,10 +84,10 @@
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
-        <!-- Deadline: IELTS -->
+        <!-- Begin Operation: Meet the Magic -->
         <div id="line-countdown-box">
-            <div id="countdown-IELTS"></div>
-            <div id="cd-caption-IELTS">IELTS EXAM</div>
+            <div id="countdown-mtm"></div>
+            <div id="cd-caption">START OPERATION: MEET THE MAGIC</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
         
@@ -114,18 +96,11 @@
     <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
         <!-- Deadline: CUHK Apps -->
         <div id="line-countdown-box">
-            <div id="ev-svbk"></div>
-            <div id="cd-caption">EVENT: SVBK 2023</div>
+            <div id="countdown-cuhksc"></div>
+            <div id="cd-caption"> CUHK SUMMER CAMP STARTS</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
 
-
-        <div id="line-countdown-box">
-            <div id="ddl-cuhk"></div>
-            <div id="cd-caption">DEADLINE: CUHK APPLICATION</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>  
-        
 
         <!-- Deadline: VEF -->
         <div id="line-countdown-box">
@@ -211,10 +186,10 @@
         document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
 
 
-        // Display the result: CUHK Apps
-        document.getElementById("ev-svbk").innerHTML = timeCountdown2Str(new Date("Apr 23, 2023 14:00:00").getTime());
-        // Display the result: CUHK Apps
-        document.getElementById("ddl-cuhk").innerHTML = timeCountdown2Str(new Date("Apr 27, 2023 23:59:59").getTime());
+        // Display the result: MTM
+        document.getElementById("countdown-mtm").innerHTML = timeCountdown2Str(new Date("Jul 10, 2023 10:00:00").getTime());
+        // Display the result: CUHKSC
+        document.getElementById("countdown-cuhksc").innerHTML = timeCountdown2Str(new Date("Jul 10, 2023 09:00:00").getTime());
         // Display the result: VEF
         document.getElementById("ddl-vef").innerHTML = timeCountdown2Str(new Date("Jun 27, 2023 23:59:59").getTime());
         // Display the result: IELTS
