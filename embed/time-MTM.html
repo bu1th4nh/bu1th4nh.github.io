@@ -87,10 +87,10 @@
 
 
         <!-- Alpha W opens -->
-        <!-- <div id="line-countdown-box">
+        <div id="line-countdown-box">
             <div id="alpha-window"></div>
             <div id="cd-caption">ALPHA WINDOW OPENS</div>
-        </div>   -->
+        </div>  
         
         
         <!-- Next STBY pass -->
@@ -163,12 +163,12 @@
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         document.getElementById("ops-begin").innerHTML = timeCountdown2Str(
-            new Date("Jul 10, 2023 10:00:00").getTime(), new Date("Jul 15, 2023 23:59:59").getTime()
+            new Date("Jul 10, 2023 10:30:00").getTime(), new Date("Jul 15, 2023 23:59:59").getTime()
         );        
-        // document.getElementById("alpha-window").innerHTML = timeCountdown2Str(
-        //     new Date("Jul 10, 2023 11:00:00").getTime(), new Date("Jul 10, 2023 17:00:00").getTime()
-        // );
-        // document.getElementById("next-stby").innerHTML = "TBA"
+        document.getElementById("alpha-window").innerHTML = timeCountdown2Str(
+            new Date("Jul 10, 2023 11:00:00").getTime(), new Date("Jul 10, 2023 17:00:00").getTime()
+        );
+        document.getElementById("next-stby").innerHTML = "TBA"
         // timeCountdown2Str(
         //     new Date("TBA").getTime(), new Date(" ").getTime()
         // );
