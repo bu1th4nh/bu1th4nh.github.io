@@ -163,10 +163,13 @@
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         document.getElementById("ops-begin").innerHTML = timeCountdown2Str(
-            new Date("Jul 10, 2023 10:30:00").getTime(), new Date("Jul 15, 2023 23:59:59").getTime()
-        );        
+            new Date("Jul 09, 2023 06:00:00").getTime(), 
+            new Date("Jul 11, 2023 00:00:00").getTime()
+        );
+
         document.getElementById("alpha-window").innerHTML = timeCountdown2Str(
-            new Date("Jul 10, 2023 11:00:00").getTime(), new Date("Jul 10, 2023 17:00:00").getTime()
+            new Date("Jul 09, 2023 09:30:00").getTime(), 
+            new Date("Jul 10, 2023 20:00:00").getTime()
         );
         document.getElementById("next-stby").innerHTML = "TBA"
         // timeCountdown2Str(
