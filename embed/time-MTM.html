@@ -89,7 +89,7 @@
         <!-- Alpha W opens -->
         <div id="line-countdown-box">
             <div id="alpha-window"></div>
-            <div id="cd-caption">ALPHA WINDOW OPENS</div>
+            <div id="cd-caption">OPERATION TIME</div>
         </div>  
         
         
@@ -193,11 +193,7 @@
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         
-
-        document.getElementById("alpha-window").innerHTML = timeCountdown2Str(
-            new Date("Jul 09, 2023 09:30:00").getTime(), 
-            new Date("Jul 10, 2023 20:00:00").getTime()
-        );
+        
         document.getElementById("next-stby").innerHTML = "TBA"
         // timeCountdown2Str(
         //     new Date("TBA").getTime(), new Date(" ").getTime()
@@ -230,6 +226,13 @@
         document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
             new Date("Jul 11, 2023 10:30:00").getTime()
         );
+
+        document.getElementById("alpha-window").innerHTML = timeCountdown2StrMs(
+            new Date("Jul 11, 2023 07:15:00").getTime()
+        );
+        
+        
+        
         
         
     
