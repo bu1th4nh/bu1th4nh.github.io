@@ -81,7 +81,7 @@
         <!-- Operation begins -->
         <div id="line-countdown-box">
             <div id="ops-begin"></div>
-            <div id="cd-caption">OPERATION BEGINS</div>
+            <div id="cd-caption">PARK OPENS</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>          
 
@@ -137,6 +137,36 @@
         return rtn;
     }
 
+
+    function timeCountdown2StrMs(value) {
+        // Find the distance between now and the count down date
+        var now_time = new Date().getTime();
+        var distance = Math.abs(value - now_time);
+    
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var miliseconds = Math.floor((distance % (1000)));
+
+
+        // Return the str value
+        rtn = "";
+        rtn += lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2) +  ":" + lpad(miliseconds, 3);
+
+        if(value - now_time < 0)
+            rtn = "+" + rtn;
+        else
+            rtn = "-" + rtn;
+        
+        return rtn;
+    }
+
+
+    
+
     function localTime2Str(y, m, d, hh, mm, ss) {
         return lpad(y, 4) + "/" + lpad(m, 2) + "/" + lpad(d, 2) + " " + lpad(hh, 2) + ":" + lpad(mm, 2) + ":" + lpad(ss, 2) 
     }
@@ -162,10 +192,7 @@
         
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-        document.getElementById("ops-begin").innerHTML = timeCountdown2Str(
-            new Date("Jul 09, 2023 06:00:00").getTime(), 
-            new Date("Jul 11, 2023 00:00:00").getTime()
-        );
+        
 
         document.getElementById("alpha-window").innerHTML = timeCountdown2Str(
             new Date("Jul 09, 2023 09:30:00").getTime(), 
@@ -184,6 +211,34 @@
         // document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
 
     }, 1000);
+
+
+    var y = setInterval(function() {
+        // Get today's date and time
+        var now      = new Date();
+        var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
+    
+
+
+        // Display the result: Nearest exam
+        // document.getElementById("countdown-NearestExam").innerHTML = timeCountdown2Str(nearestExamDate);
+
+        
+        
+        
+        // Display the local time
+        document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
+            new Date("Jul 11, 2023 10:30:00").getTime()
+        );
+        
+        
+    
+
+
+        // Display the UTC time
+        // document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
+
+    }, 1);
 
 
 
