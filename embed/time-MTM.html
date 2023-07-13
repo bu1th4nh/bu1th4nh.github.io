@@ -73,24 +73,24 @@
         <!-- Local time -->
         <div id="line-countdown-box">
             <div id="localtime"></div>
-            <div id="cd-caption">LOCAL TIME</div>
+            <!-- <div id="cd-caption">LOCAL TIME</div> -->
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
 
 
         <!-- Alpha W opens -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="alpha-window"></div>
             <div id="cd-caption">OPERATION TIME</div>
-        </div>  
+        </div>   -->
 
         <!-- Operation begins -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="ops-begin"></div>
-            <div id="cd-caption">PARK OPENS</div>
+            <div id="cd-caption">PARK OPENS</div> -->
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>          
+        <!-- </div>           -->
         
         
         <!-- Next STBY pass -->
@@ -191,10 +191,11 @@
         
         
         // Display the local time
-        document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+        // document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+        document.getElementById("localtime").innerHTML = "PHASE 1 COMPLETED. PHASE 2 LOCKED.";
         
         
-        document.getElementById("next-stby").innerHTML = "TBA"
+        // document.getElementById("next-stby").innerHTML = "TBA"
         // timeCountdown2Str(
         //     new Date("TBA").getTime(), new Date(" ").getTime()
         // );

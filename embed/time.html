@@ -23,14 +23,14 @@
         background-color: var(--background-color);
     }
 
-    #countdown-GradThesis, #localtime, #esttime, #localdate, #countdown-mtm, #countdown-cuhksc {
+    #countdown-GradThesis, #localtime, #esttime, #localdate, #countdown-mtm, #ddl-grad-submit {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
         margin-bottom: 12px;
     }
 
-    #ddl-vef {
+    #ddl-icit23 {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -95,27 +95,32 @@
         
         <!-- Deadline: VEF -->
         <div id="line-countdown-box">
-            <div id="ddl-vef"></div>
-            <div id="cd-caption">DEADLINE: VEF</div>
+            <div id="ddl-icit23"></div>
+            <div id="cd-caption">ICIT SUBMISSION</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>
     </div>
 
     <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
-        <!-- Deadline: CUHK Apps -->
-        <div id="line-countdown-box">
-            <div id="countdown-cuhksc"></div>
-            <div id="cd-caption"> FLIGHT TO HKG </div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>  
+
         
         
         <!-- Begin Operation: Meet the Magic -->
         <div id="line-countdown-box">
             <div id="countdown-mtm"></div>
-            <div id="cd-caption">START OPERATION: MEET THE MAGIC</div>
+            <div id="cd-caption">OPERATION: MEET THE MAGIC</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
+
+
+
+        <!-- Deadline: CUHK Apps -->
+        <div id="line-countdown-box">
+            <div id="ddl-grad-submit"></div>
+            <div id="cd-caption"> SUBMIT: GRAD THESIS </div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
         
 
         <!-- Def: Grad Thesis -->
@@ -175,7 +180,7 @@
     
     
 
-    var GradThesis = new Date("Aug 14, 2023 07:00:00").getTime();
+    // var GradThesis = new Date("Aug 14, 2023 07:00:00").getTime();
 
 
   
@@ -186,22 +191,20 @@
         var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
     
 
-        // Display the result: Graduation Thesis
-        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(GradThesis);        
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         // Display the UTC time
         document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
-
-
+        // Display the result: ICIT 2023
+        document.getElementById("ddl-icit23").innerHTML = timeCountdown2Str(new Date("Jul 19, 2023 23:00:00").getTime());
+        
+        
         // Display the result: MTM
-        document.getElementById("countdown-mtm").innerHTML = timeCountdown2Str(new Date("Jul 09, 2023 06:00:00").getTime(), new Date("Jul 11, 2023 00:00:00").getTime());
-        // Display the result: CUHKSC
-        document.getElementById("countdown-cuhksc").innerHTML = timeCountdown2Str(new Date("Jul 08, 2023 11:00:00").getTime(), new Date("Jul 08, 2023 15:00:00").getTime());
-        // Display the result: VEF
-        document.getElementById("ddl-vef").innerHTML = timeCountdown2Str(new Date("Jun 30, 2023 10:00:00").getTime());
-        // Display the result: IELTS
-        document.getElementById("countdown-IELTS").innerHTML = timeCountdown2Str(new Date("May 03, 2023 12:10:00").getTime());
+        document.getElementById("countdown-mtm").innerHTML = "OPERATION ENDED";
+        // Display the result: Graduation Thesis Submission
+        document.getElementById("ddl-grad-submit").innerHTML = timeCountdown2Str(new Date("Jul 21, 2023 11:00:00").getTime(), new Date("Jul 21, 2023 23:59:59").getTime());
+        // Display the result: Graduation Thesis Defense
+        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(new Date("Aug 14, 2023 07:00:00").getTime());        
 
 
     }, 1000);
