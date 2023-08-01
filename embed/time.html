@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #ddl-icit23, #localtime, #esttime, #localdate, #countdown-mtm, #ddl-grad-submit {
+    #ddl-icit23, #localtime, #esttime, #localdate, #countdown-mtm {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -32,7 +32,7 @@
 
     
 
-    #countdown-GradThesis {
+    #countdown-GradThesis, #ddl-grad-submit {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -93,13 +93,16 @@
             <div id="cd-caption">LOCAL TIME</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
-        
-        <!-- Def: Grad Thesis -->
+
+            
+        <!-- Hard copy - Grad thesis -->
         <div id="line-countdown-box">
-            <div id="countdown-GradThesis"></div>
-            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
-        </div> 
+            <div id="ddl-grad-submit"></div>
+            <div id="cd-caption"> SUBMIT END: GRAD THESIS </div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
+        
         
     </div>
 
@@ -116,12 +119,12 @@
 
 
 
-        <!-- Deadline: CUHK Apps -->
+        <!-- Def: Grad Thesis -->
         <div id="line-countdown-box">
-            <div id="ddl-grad-submit"></div>
-            <div id="cd-caption"> SUBMIT END: GRAD THESIS </div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>  
+            <div id="countdown-GradThesis"></div>
+            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
         
         
 
@@ -204,7 +207,7 @@
         // Display the result: MTM
         document.getElementById("countdown-mtm").innerHTML = "OPERATION ENDED";
         // Display the result: Graduation Thesis Submission
-        document.getElementById("ddl-grad-submit").innerHTML = timeCountdown2Str(new Date("Jul 31, 2023 0:0:0").getTime());
+        document.getElementById("ddl-grad-submit").innerHTML = timeCountdown2Str(new Date("Aug 02, 2023 16:30:00").getTime());
         // Display the result: Graduation Thesis Defense
         document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(new Date("Aug 16, 2023 07:00:00").getTime());        
 
