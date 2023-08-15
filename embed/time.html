@@ -95,12 +95,15 @@
         </div>  
 
             
-        <!-- Hard copy - Grad thesis -->
+        
+
+
+        <!-- Def: Grad Thesis -->
         <div id="line-countdown-box">
-            <div id="ddl-grad-submit"></div>
-            <div id="cd-caption"> SUBMIT END: GRAD THESIS </div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>  
+            <div id="countdown-GradThesis"></div>
+            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
         
         
         
@@ -119,12 +122,12 @@
 
 
 
-        <!-- Def: Grad Thesis -->
+        <!-- Hard copy - Grad thesis -->
         <div id="line-countdown-box">
-            <div id="countdown-GradThesis"></div>
-            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
-        </div> 
+            <div id="ddl-grad-submit"></div>
+            <div id="cd-caption"> SUBMIT END: GRAD THESIS </div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
         
         
 
@@ -209,7 +212,7 @@
         // Display the result: Graduation Thesis Submission
         document.getElementById("ddl-grad-submit").innerHTML = timeCountdown2Str(new Date("Aug 02, 2023 17:00:00").getTime());
         // Display the result: Graduation Thesis Defense
-        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(new Date("Aug 16, 2023 07:00:00").getTime());        
+        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(new Date("Aug 16, 2023 07:30:00").getTime(), new Date("Aug 16, 2023 12:00:00").getTime());        
 
 
     }, 1000);
