@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #ddl-icit23, #localtime, #esttime, #localdate, #countdown-mtm, #ddl-grad-submit {
+    #localtime, #esttime, #localdate, #countdown-mtm, #countdown-gradthesis {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -32,7 +32,7 @@
 
     
 
-    #countdown-GradThesis {
+    #countdown-HKUSTSPR24, #countdown-PhDAll {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -94,6 +94,15 @@
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
 
+
+
+        <!-- Defend: Grad Thesis -->
+        <div id="line-countdown-box">
+            <div id="countdown-gradthesis"></div>
+            <div id="cd-caption">GRAD THESIS DEFENCE</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+
         
         
         
@@ -105,33 +114,24 @@
         
         
         <!-- Begin Operation: Meet the Magic -->
-        <!-- <div id="line-countdown-box">
-            <div id="countdown-mtm"></div>
-            <div id="cd-caption">OPERATION: MEET THE ROYALTIES</div>
-        </div>  -->
-
-
-
-        <!-- Hard copy - Grad thesis -->
-        <!-- <div id="line-countdown-box">
-            <div id="ddl-grad-submit"></div>
-            <div id="cd-caption"> SUBMIT END: GRAD THESIS </div>
-        </div>   -->
-        
-        
-
-        <!-- Deadline: VEF -->
-        <!-- <div id="line-countdown-box">
-            <div id="ddl-icit23"></div>
-            <div id="cd-caption">ICIT CORR. SUBMISSION</div>
-        </div> -->
-
-
-
-        <!-- Def: Grad Thesis -->
         <div id="line-countdown-box">
-            <div id="countdown-GradThesis"></div>
-            <div id="cd-caption">DEFEND: GRADUATION THESIS</div>
+            <div id="countdown-mtm"></div>
+            <div id="cd-caption">OPERATION: MEET THE ROYALTY</div>
+        </div> 
+
+
+        <!-- Deadlines: HKUST Spring -->
+        <div id="line-countdown-box">
+            <div id="countdown-HKUSTSPR24"></div>
+            <div id="cd-caption">DEADLINE: HKUST SPRING 2024</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
+        </div> 
+
+
+        <!-- Deadlines: PhD Application -->
+        <div id="line-countdown-box">
+            <div id="countdown-PhDAll"></div>
+            <div id="cd-caption">DEADLINE: PH.D. ALL APPLICATION</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;">(DD:HH:MM:SS)</p> -->
         </div> 
         
@@ -145,19 +145,15 @@
 <script>
     // Set the date we're counting down to
     function lpad(value, padding) {
-        if(value >= 1000)
-            padding = 4;
-        else if(value >= 100 && value < 1000)
-            padding = 3;
-        else 
-            padding = 2;
         var zeroes = new Array(padding+1).join("0");
         return (zeroes + value).slice(-padding);
     }
 
-    function timeCountdown2Str(value, end = value) {
+    function timeCountdown2Str(value, end = null, miliseconds = false) {
         // Find the distance between now and the count down date
         var now_time = new Date().getTime();
+        
+        if(end == null) end = value;
         var distance = value - now_time;
     
 
@@ -166,6 +162,8 @@
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var milseconds = Math.floor((distance % (1000 * 60)) % 1000);
+
 
         // If expired
         if(end - now_time < 0)
@@ -175,7 +173,9 @@
 
         // Return the str value
         rtn = "";
-        rtn += lpad(days, 3) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2);
+        rtn += (days) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2);
+
+        if(miliseconds) rtn += ":" + lpad(milseconds, 3);
         return rtn;
     }
 
@@ -200,19 +200,20 @@
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         // Display the UTC time
         document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
-        // Display the result: ICIT 2023
-        // document.getElementById("ddl-icit23").innerHTML = timeCountdown2Str(new Date("Aug 04, 2023 00:00:00").getTime());
+        // Display the result: Graduation Thesis Defense
+        document.getElementById("countdown-gradthesis").innerHTML = "COMPLETED";
+        
         
         
         // Display the result: MTM
-        // document.getElementById("countdown-mtm").innerHTML = "OPERATION ENDED";
+        document.getElementById("countdown-mtm").innerHTML = "ENDED";
         // Display the result: Graduation Thesis Submission
-        // document.getElementById("ddl-grad-submit").innerHTML = timeCountdown2Str(new Date("Aug 02, 2023 17:00:00").getTime());
+        document.getElementById("countdown-HKUSTSPR24").innerHTML = timeCountdown2Str(new Date("Oct 31, 2023 00:00:00").getTime(), null, true);
         // Display the result: Graduation Thesis Defense
-        document.getElementById("countdown-GradThesis").innerHTML = timeCountdown2Str(new Date("Aug 16, 2023 07:30:00").getTime(), new Date("Aug 16, 2023 12:00:00").getTime());        
+        document.getElementById("countdown-PhDAll").innerHTML = timeCountdown2Str(new Date("Nov 30, 2023 00:00:00").getTime(), null, true);        
 
 
-    }, 1000);
+    }, 1);
 
 
 
