@@ -68,12 +68,10 @@
     
     
     <div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
-
-
         <!-- Local time -->
         <div id="line-countdown-box">
             <div id="localtime"></div>
-            <div id="cd-caption">LOCAL TIME</div>
+            <!-- <div id="cd-caption">LOCAL TIME</div> -->
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
@@ -86,17 +84,17 @@
         </div>   -->
 
         <!-- Operation begins -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="ops-begin"></div>
             <div id="cd-caption">PARK OPENS</div> 
-        </div>           
+        </div>            -->
         
         
         <!-- Next STBY pass -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="next-stby"></div>
             <div id="cd-caption">NEXT STANDBY PASS</div>
-        </div> 
+        </div>  -->
     </div>
 
 </div>
@@ -190,8 +188,8 @@
         
         
         // Display the local time
-        document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-        // document.getElementById("localtime").innerHTML = "PHASE 1 COMPLETED. PHASE 2 LOCKED.";
+        // document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+        document.getElementById("localtime").innerHTML = "PHASE 1 COMPLETED. PHASE 2 LOCKED.";
         
         
         // document.getElementById("next-stby").innerHTML = "TBA"
@@ -220,10 +218,10 @@
         
         
         // Display the local time
-        document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
-            new Date("Dec 8, 2023 10:30:00").getTime()
-        );
-        document.getElementById("next-stby").innerHTML = "TBA"
+        // document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
+        //     new Date("Dec 8, 2023 10:30:00").getTime()
+        // );
+        // document.getElementById("next-stby").innerHTML = "TBA"
         
 
         // document.getElementById("alpha-window").innerHTML = timeCountdown2StrMs(
@@ -238,4 +236,3 @@
 
 
 </script>
-''
