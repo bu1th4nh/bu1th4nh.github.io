@@ -73,7 +73,7 @@
         <!-- Local time -->
         <div id="line-countdown-box">
             <div id="localtime"></div>
-            <!-- <div id="cd-caption">LOCAL TIME</div> -->
+            <div id="cd-caption">LOCAL TIME</div>
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
@@ -86,18 +86,17 @@
         </div>   -->
 
         <!-- Operation begins -->
-        <!-- <div id="line-countdown-box">
+        <div id="line-countdown-box">
             <div id="ops-begin"></div>
-            <div id="cd-caption">PARK OPENS</div> -->
-            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
-        </div>           -->
+            <div id="cd-caption">PARK OPENS</div> 
+        </div>           
         
         
         <!-- Next STBY pass -->
-        <!-- <div id="line-countdown-box">
+        <div id="line-countdown-box">
             <div id="next-stby"></div>
             <div id="cd-caption">NEXT STANDBY PASS</div>
-        </div>  -->
+        </div> 
     </div>
 
 </div>
@@ -154,12 +153,12 @@
 
         // Return the str value
         rtn = "";
-        rtn += lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2) +  ":" + lpad(miliseconds, 3);
+        rtn += lpad(days, 3) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2) +  ":" + lpad(miliseconds, 3);
 
         if(value - now_time < 0)
-            rtn = "+" + rtn;
+            rtn = "T+" + rtn;
         else
-            rtn = "-" + rtn;
+            rtn = "T-" + rtn;
         
         return rtn;
     }
@@ -191,8 +190,8 @@
         
         
         // Display the local time
-        // document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-        document.getElementById("localtime").innerHTML = "PHASE 1 COMPLETED. PHASE 2 LOCKED.";
+        document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+        // document.getElementById("localtime").innerHTML = "PHASE 1 COMPLETED. PHASE 2 LOCKED.";
         
         
         // document.getElementById("next-stby").innerHTML = "TBA"
@@ -200,9 +199,6 @@
         //     new Date("TBA").getTime(), new Date(" ").getTime()
         // );
         
-        
-    
-
 
         // Display the UTC time
         // document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
@@ -225,19 +221,14 @@
         
         // Display the local time
         document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
-            new Date("Jul 11, 2023 10:30:00").getTime()
+            new Date("Dec 8, 2023 10:30:00").getTime()
         );
+        document.getElementById("next-stby").innerHTML = "TBA"
+        
 
-        document.getElementById("alpha-window").innerHTML = timeCountdown2StrMs(
-            new Date("Jul 11, 2023 07:15:00").getTime()
-        );
-        
-        
-        
-        
-        
-    
-
+        // document.getElementById("alpha-window").innerHTML = timeCountdown2StrMs(
+        //     new Date("Jul 11, 2023 07:15:00").getTime()
+        // );
 
         // Display the UTC time
         // document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
