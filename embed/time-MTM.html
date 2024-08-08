@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #ops-begin, #alpha-window, #next-stby, #localtime {
+    #ops-begin, #alpha-window, #meet-begin, #localtime {
         font-family: 'HornetDisplay';
         font-size: 3.25em;
         text-align: center;
@@ -80,15 +80,17 @@
         <!-- Operation begins -->
         <div id="line-countdown-box">
             <div id="ops-begin"></div>
-            <div id="cd-caption">FLIGHT BEGINS</div> 
+            <div id="cd-caption">PARK OPENS</div> 
+        </div>           
+        
+
+        <!-- Operation begins -->
+        <div id="line-countdown-box">
+            <div id="meet-begin"></div>
+            <div id="cd-caption">MEET BEGINS</div> 
         </div>           
         
         
-        <!-- Next STBY pass -->
-        <!-- <div id="line-countdown-box">
-            <div id="next-stby"></div>
-            <div id="cd-caption">NEXT STANDBY PASS</div>
-        </div>  -->
     </div>
 
 </div>
@@ -205,9 +207,15 @@
         var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
     
 
-        // Flight begins
+        // Park opens
         document.getElementById("ops-begin").innerHTML = timeCountdown2StrMs(
-            new Date("Aug 1, 2024 01:30:00").getTime()
+            new Date("Aug 8, 2024 09:00:00").getTime()
+        );
+
+        
+        // M&G Window open
+        document.getElementById("meet-begin").innerHTML = timeCountdown2StrMs(
+            new Date("Aug 8, 2024 10:00:00").getTime()
         );
 
 
