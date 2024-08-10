@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #localtime, #esttime, #localdate, #countdown-mtm, #countdown-gradthesis {
+    #localtime, #esttime, #localdate, #flights-begin, #semester-begin {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -88,19 +88,19 @@
         
     
 
-        <!-- Operation begins -->
+        <!-- Flight to U.S. begins -->
         <div id="line-countdown-box">
-            <div id="ops-begin"></div>
+            <div id="flights-begin"></div>
             <div id="cd-caption">FLIGHT BEGINS</div> 
-        </div>           
+        </div>         
         
         
-        <!-- Next STBY pass -->
-        <!-- <div id="line-countdown-box">
-            <div id="next-stby"></div>
-            <div id="cd-caption">NEXT STANDBY PASS</div>
-        </div>  -->
-
+        <!-- Flight to U.S. begins -->
+        <div id="line-countdown-box">
+            <div id="semester-begin"></div>
+            <div id="cd-caption">CLASS BEGINS</div> 
+        </div>         
+        
         
     </div>
 </div>
@@ -146,6 +146,34 @@
         return rtn;
     }
 
+
+    function timeCountdown2StrMs(value) {
+        // Find the distance between now and the count down date
+        var now_time = new Date().getTime();
+        var distance = Math.abs(value - now_time);
+    
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var miliseconds = Math.floor((distance % (1000)));
+
+
+        // Return the str value
+        rtn = "";
+        rtn += lpad(days, 2) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2) +  ":" + lpad(miliseconds, 3);
+
+        if(value - now_time < 0)
+            rtn = "T+" + rtn;
+        else
+            rtn = "T-" + rtn;
+        
+        return rtn;
+    }
+    
+
     function localTime2Str(y, m, d, hh, mm, ss) {
         return lpad(y, 4) + "/" + lpad(m, 2) + "/" + lpad(d, 2) + " " + lpad(hh, 2) + ":" + lpad(mm, 2) + ":" + lpad(ss, 2) 
     }
@@ -165,20 +193,13 @@
 
         // Display the local time
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-        // Display the UTC time
-        document.getElementById("esttime").innerHTML = localTime2Str(now_est.getFullYear(), now_est.getMonth()+1, now_est.getDate(), now_est.getHours(), now_est.getMinutes(), now_est.getSeconds());
-        // Display the result: Graduation Thesis Defense
-        document.getElementById("countdown-gradthesis").innerHTML = "COMPLETED";
+        // Display the result: Flight
+        document.getElementById("flights-begin").innerHTML = "ARRIVED";
+        // Display the result: Class Starts
+        document.getElementById("semester-begin").innerHTML = timeCountdown2StrMs(
+            new Date("Aug 19, 2024 09:00:00").getTime()
+        );
         
-        
-        
-        // Display the result: MTM
-        document.getElementById("countdown-mtm").innerHTML = "ENDED";
-        // Display the result: Graduation Thesis Submission
-        document.getElementById("countdown-GRE").innerHTML = timeCountdown2Str(new Date("Dec 5, 2023 10:00:00").getTime(), null, true);
-        // Display the result: Graduation Thesis Defense
-        document.getElementById("countdown-PhDAll").innerHTML = timeCountdown2Str(new Date("Nov 30, 2023 00:00:00").getTime(), null, true);        
-
 
     }, 1);
 
