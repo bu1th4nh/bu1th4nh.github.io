@@ -32,7 +32,7 @@
 
     
 
-    #cot5405-finals, #cap5510-finals, #cot5405-midterm {
+    #cot5405-finals, #cap5510-finals, #cot5405-midterm, #phd-qualreview {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -88,17 +88,24 @@
         
     
         <!-- Finals -->
-         <!-- COT5405: 2024/12/05 -->
+        <!-- COT5405: 2024/12/05 -->
         <div id="line-countdown-box">
             <div id="cot5405-finals"></div>
             <div id="cd-caption">COT5405: FINALS</div> 
         </div> 
         
         
-         <!-- CAP5510: TBD -->
+        <!-- CAP5510: TBD -->
         <div id="line-countdown-box">
             <div id="cap5510-finals"></div>
             <div id="cd-caption">CAP5510: FINALS</div> 
+        </div> 
+
+
+        <!-- QUALIFYING REVIEW -->
+        <div id="line-countdown-box">
+            <div id="phd-qualreview"></div>
+            <div id="cd-caption">PHD QUALIFYING REVIEW</div> 
         </div> 
     </div>
 
@@ -239,10 +246,11 @@
         // Finals
         document.getElementById("cot5405-finals").innerHTML = timeCountdown2Str(new Date("Dec 5, 2024 00:00:00").getTime());
         document.getElementById("cap5510-finals").innerHTML = "TBD"
+        document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
         document.getElementById("cap5510-paper-time-selection").innerHTML = timeCountdown2Str(new Date("Sep 09, 2024 00:00:00").getTime());
-        document.getElementById("cap5510-paper-presentation").innerHTML   = "TBD";
+        document.getElementById("cap5510-paper-presentation").innerHTML   = timeCountdown2Str(new Date("Sep 24, 2024 00:00:00").getTime());
         document.getElementById("cap5510-final-topic-sels").innerHTML     = timeCountdown2Str(new Date("Sep 17, 2024 00:00:00").getTime());
         
         document.getElementById("cot5405-midterm").innerHTML = timeCountdown2Str(new Date("Oct 17, 2024 00:00:00").getTime());
