@@ -86,7 +86,17 @@
             <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
         </div>  
         
-    
+        
+        <!-- QUALIFYING REVIEW -->
+        <div id="line-countdown-box">
+            <div id="phd-qualreview"></div>
+            <div id="cd-caption">PHD QUALIFYING REVIEW</div> 
+        </div> 
+    </div>
+
+
+
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
         <!-- Finals -->
         <!-- COT5405: 2024/12/05 -->
         <div id="line-countdown-box">
@@ -100,34 +110,7 @@
             <div id="cap5510-finals"></div>
             <div id="cd-caption">CAP5510: FINALS</div> 
         </div> 
-
-
-        <!-- QUALIFYING REVIEW -->
-        <div id="line-countdown-box">
-            <div id="phd-qualreview"></div>
-            <div id="cd-caption">PHD QUALIFYING REVIEW</div> 
-        </div> 
     </div>
-
-
-
-    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
-        <!-- COT5405: Midterm | 2024/10/14 -->
-        <div id="line-countdown-box">
-            <div id="cot5405-midterm"></div>
-            <div id="cd-caption">COT5405: MIDTERM EXAM</div> 
-        </div> 
-
-        <!-- CAP5510: Midterm Presentation | 2024/10/15 -->
-        <div id="line-countdown-box">
-            <div id="cap5510-final-midterm-present"></div>
-            <div id="cd-caption">CAP5510: FINALS MIDTERM PRESENTATION</div> 
-        </div>  
-    </div>
-
-
-    
-
 </div>
 
 
@@ -217,12 +200,12 @@
         
         // Finals
         document.getElementById("cot5405-finals").innerHTML = timeCountdown2Str(new Date("Dec 5, 2024 00:00:00").getTime());
-        document.getElementById("cap5510-finals").innerHTML = "TBD";
+        document.getElementById("cap5510-finals").innerHTML = timeCountdown2Str(new Date("Nov 21, 2024 00:00:00").getTime());
         document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
-        document.getElementById("cot5405-midterm").innerHTML = timeCountdown2Str(new Date("Oct 17, 2024 00:00:00").getTime());
-        document.getElementById("cap5510-final-midterm-present").innerHTML = timeCountdown2Str(new Date("Oct 24, 2024 00:00:00").getTime());
+        // document.getElementById("cot5405-midterm").innerHTML = timeCountdown2Str(new Date("Oct 17, 2024 00:00:00").getTime());
+        // document.getElementById("cap5510-final-midterm-present").innerHTML = timeCountdown2Str(new Date("Oct 24, 2024 00:00:00").getTime());
     }, 1);
 
 
