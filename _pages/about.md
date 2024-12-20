@@ -31,10 +31,14 @@ I'm mainly interested in the research of **Data Mining** and **Computational Bio
 - Honours Bachelor of Mathematics and Informatics, *Aug. 2019 -- Nov. 2023, Excellent rating*
 
 
-## Employment
+## Teaching Assistance
 
 **University of Central Florida**, Orlando, FL, USA
-- Teaching Assistant, *Aug. 2024 -- present*
+- COT3100, Introduction to Discrete Structures, *Fall 2024, Spring 2025*
+
+
+## Employment
+
 **CMC Research Institute for Applied Technology, CMC Corporation**, Hanoi, Vietnam
 - Researcher, *Dec. 2023 -- Jul. 2024*
 
