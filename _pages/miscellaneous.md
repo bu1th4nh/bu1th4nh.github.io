@@ -30,14 +30,14 @@ I was the show and AV techncal leader for numerous events in my undergraduate ye
 
 Besides academic work, I'm also into numerous hobbies:
 
-#### Games and eSports
+**Games and eSports**
 
 I am an avid fan of FPS games, such as Counter-Strike 2, Call of Duty, and Half-Life Series. Additionally, I also enjoy playing open-world games, such as GTA Online, Minecraft, and Disney Dreamlight Valley. I also follow eSports tournaments, especially the CS:GO Major Championships, ESL Pro Tour CS and BLAST Premier Series.
 
 ![bu1th4nh](https://steam-stat.vercel.app/api?profileName=bu1th4nh)
 
 
-#### Music
+**Music**
 
 I can't live without music. My primary genres is Electronic Dance Music (EDM) with concentration on high-energy subgenres such as Hardstyle, Big Room (with its Techno variant), and Psytrance. My favorite artists including, but not limited to:
 - [Hardwell](https://www.youtube.com/watch?v=oMq7E3iPzbc)
@@ -50,7 +50,13 @@ However, EDM alone is not enough to balance my music taste. I also enjoy listeni
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7IxqFWRiUxv7FhFfGKntZU?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 
-#### Disney (Princesses)
+**Disney (Princesses)**
+
+
+
+**Sport**
+
+
 
 
 
