@@ -26,16 +26,15 @@ I'm mainly interested in the research of **Data Mining** and **Computational Bio
 ## Education
 
 **University of Central Florida**, Orlando, FL, USA
-
 - Doctor of Philosophy in Computer Science, *Aug. 2024 -- Apr. 2029 (expected)*
-
 **Hanoi University of Science and Technology**, Hanoi, Vietnam
-
 - Honours Bachelor of Mathematics and Informatics, *Aug. 2019 -- Nov. 2023, Excellent rating*
+
 
 ## Employment
 
+**University of Central Florida**, Orlando, FL, USA
+- Teaching Assistant, *Aug. 2024 -- present*
 **CMC Research Institute for Applied Technology, CMC Corporation**, Hanoi, Vietnam
-
 - Researcher, *Dec. 2023 -- Jul. 2024*
 
