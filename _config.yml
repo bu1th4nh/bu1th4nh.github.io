@@ -22,10 +22,10 @@ repository               : "bu1th4nh/bu1th4nh.github.io"
 author:
   # Biographic information
   avatar           : "profile.jpeg"
-  name             : "Tien-Thanh Bui"
+  name             : "Tien-Thanh Bui (Bùi Tiến Thành)"
   pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
-  location         : "Earth"
+  bio              : "EDM fanatics, Counter-Strike & Disney Princess lover. HUST alumni. CS PhD student @ UCF"
+  location         : "Orlando, FL"
   employer         : "University of Central Florida"
   uri              : # URL
   email            : "tienthanh.bui@ucf.edu" 
