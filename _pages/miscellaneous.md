@@ -32,7 +32,7 @@ Besides academic work, I'm also into numerous hobbies:
 
 **Games and eSports**
 
-I am an avid fan of FPS games, such as Counter-Strike 2, Call of Duty, and Half-Life Series. Additionally, I also enjoy playing open-world games, such as GTA Online, Minecraft, and Disney Dreamlight Valley. I also follow eSports tournaments, especially the CS:GO Major Championships, ESL Pro Tour CS and BLAST Premier Series.
+I am an avid fan of FPS games, such as Counter-Strike 2, Call of Duty, and Half-Life Series. Additionally, I also enjoy playing open-world games, such as GTA Online, Fallout 76, Minecraft, and Disney Dreamlight Valley. I also follow eSports tournaments, especially the CS:GO Major Championships, ESL Pro Tour CS and BLAST Premier Series.
 
 ![bu1th4nh](https://steam-stat.vercel.app/api?profileName=bu1th4nh)
 
