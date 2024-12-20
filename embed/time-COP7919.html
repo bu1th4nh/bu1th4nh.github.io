@@ -1,0 +1,212 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
+
+<style>
+    @font-face {
+          font-family: 'HornetDisplayBold';
+          src: url('https://raw.githubusercontent.com/morkvitnir/hornet-display/main/HornetDisplay-Bold.ttf') format('truetype');
+        }
+    
+    @font-face {
+          font-family: 'HornetDisplay';
+          src: url('https://raw.githubusercontent.com/morkvitnir/hornet-display/main/HornetDisplay-Regular.ttf') format('truetype');
+        }
+    
+    
+    
+    :root {
+        --foreground-color: #03faff;
+        --background-color: #191919;
+
+        color: var(--foreground-color);
+        background-color: var(--background-color);
+    }
+
+    #localtime, #literature-review, #alg-proposal, #alg-test
+    {
+        font-family: 'HornetDisplay';
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    
+
+    #final-midterm-present, #final-presentation, #paper-presentation {
+        font-family: 'HornetDisplay';
+        color: #ff0000;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+
+    #cd-caption {
+        font-family: 'IBM Plex Mono'; 
+        text-align: center; 
+        font-size: 1em; 
+    }
+
+
+    #line-countdown-box {
+        display: inline-block; 
+        margin-left: 45px; 
+        margin-right: 45px;
+    }
+
+
+    .frame {
+        border: 3px solid var(--foreground-color);
+    }
+
+
+</style>
+
+<script>
+  const updateTheme = () => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.style.setProperty('--foreground-color', '#03faff');
+      document.documentElement.style.setProperty('--background-color', '#191919');
+    } else {
+      document.documentElement.style.setProperty('--foreground-color', '#191919');
+      document.documentElement.style.setProperty('--background-color', '#fff');
+    }
+  };
+
+  window.addEventListener('load', updateTheme);
+  window.addEventListener('themechange', updateTheme);
+</script>
+
+<div class = "frame", style="width: auto; height: auto;">
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+        <!-- Local time -->
+        <div id="line-countdown-box">
+            <div id="localtime"></div>
+            <div id="cd-caption">LOCAL TIME</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+    </div>
+
+
+    <!-- ================= COP7919 ================= -->
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+        
+
+        <!-- Literature Review | 2024/10/14 -->
+        <div id="line-countdown-box">
+            <div id="literature-review"></div>
+            <div id="cd-caption">LITERATURE REVIEW</div> 
+        </div>         
+
+        <!-- Algorithm Proposal | 2024/11/14 -->
+        <div id="line-countdown-box">
+            <div id="alg-proposal"></div>
+            <div id="cd-caption">ALGORITHM PROPOSAL</div> 
+        </div>         
+
+        <!-- Algorithm Test | 2024/11/14 -->
+        <div id="line-countdown-box">
+            <div id="alg-test"></div>
+            <div id="cd-caption">ALGORITHM TEST</div> 
+        </div>         
+
+        
+    </div>
+
+
+</div>
+
+
+
+
+
+<script>
+    // Set the date we're counting down to
+    function lpad(value, padding) {
+        var zeroes = new Array(padding+1).join("0");
+        return (zeroes + value).slice(-padding);
+    }
+
+    function timeCountdown2Str(value, end = null, miliseconds = false) {
+        // Find the distance between now and the count down date
+        var now_time = new Date().getTime();
+        
+        if(end == null) end = value;
+        var distance = value - now_time;
+    
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var milseconds = Math.floor((distance % (1000 * 60)) % 1000);
+
+
+        // If expired
+        if(end - now_time < 0)
+            return "ENDED"
+        else if(value - now_time < 0)
+            return "IN PROGESS"
+
+        // Return the str value
+        rtn = "";
+        rtn += (days) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2);
+
+        if(miliseconds) rtn += ":" + lpad(milseconds, 3);
+        return rtn;
+    }
+
+
+    function timeCountdown2StrMs(value) {
+        // Find the distance between now and the count down date
+        var now_time = new Date().getTime();
+        var distance = Math.abs(value - now_time);
+    
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var miliseconds = Math.floor((distance % (1000)));
+
+
+        // Return the str value
+        rtn = "";
+        rtn += lpad(days, 2) + ":" + lpad(hours, 2) + ":" + lpad(minutes, 2) + ":" + lpad(seconds, 2) +  ":" + lpad(miliseconds, 3);
+
+        if(value - now_time < 0)
+            rtn = "T+" + rtn;
+        else
+            rtn = "T-" + rtn;
+        
+        return rtn;
+    }
+    
+
+    function localTime2Str(y, m, d, hh, mm, ss) {
+        return lpad(y, 4) + "/" + lpad(m, 2) + "/" + lpad(d, 2) + " " + lpad(hh, 2) + ":" + lpad(mm, 2) + ":" + lpad(ss, 2) 
+    }
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+        // Get today's date and time
+        var now      = new Date();
+        var now_est  = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
+    
+
+        // Display the local time
+        document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+        
+
+        // ----------- COP 7919 ------------
+        document.getElementById("literature-review").innerHTML = timeCountdown2Str(new Date("Oct 14, 2024 00:00:00").getTime());
+        document.getElementById("alg-proposal").innerHTML = timeCountdown2Str(new Date("Nov 14, 2024 00:00:00").getTime());
+        document.getElementById("alg-test").innerHTML = timeCountdown2Str(new Date("Dec 04, 2024 00:00:00").getTime());
+    }, 1);
+
+
+
+</script>
