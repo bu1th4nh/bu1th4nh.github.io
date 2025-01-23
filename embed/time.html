@@ -32,7 +32,7 @@
 
     
 
-    #cap5510-paper-presentation, #cot5405-finals, #cap5510-finals, #cot5405-midterm, #phd-qualreview {
+    #cap5510-paper-presentation, #rd-princess-10k, #cap5510-finals, #cot5405-midterm, #phd-qualreview {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -92,6 +92,13 @@
             <div id="phd-qualreview"></div>
             <div id="cd-caption">PHD QUALIFYING REVIEW</div> 
         </div> 
+        
+        
+        <!-- RUNDISNEY PRINCESS 10k -->
+        <div id="line-countdown-box">
+            <div id="rd-princess-10k"></div>
+            <div id="cd-caption">runDISNEY PRINCESS 10k</div> 
+        </div> 
     </div>
 
 
@@ -99,17 +106,17 @@
     <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
         <!-- Finals -->
         <!-- COT5405: 2024/12/05 -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="cot5405-finals"></div>
             <div id="cd-caption">COT5405: FINALS</div> 
-        </div> 
+        </div>  -->
         
         
         <!-- CAP5510: TBD -->
-        <div id="line-countdown-box">
+        <!-- <div id="line-countdown-box">
             <div id="cap5510-finals"></div>
             <div id="cd-caption">CAP5510: FINALS</div> 
-        </div> 
+        </div>  -->
     </div>
 </div>
 
@@ -199,8 +206,7 @@
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         
         // Finals
-        document.getElementById("cot5405-finals").innerHTML = timeCountdown2Str(new Date("Dec 5, 2024 00:00:00").getTime());
-        document.getElementById("cap5510-finals").innerHTML = timeCountdown2Str(new Date("Nov 21, 2024 00:00:00").getTime());
+        document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
         document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
