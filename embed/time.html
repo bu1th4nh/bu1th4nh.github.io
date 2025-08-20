@@ -92,32 +92,12 @@
             <div id="phd-qualreview"></div>
             <div id="cd-caption">PHD QUALIFYING REVIEW</div> 
         </div> 
-        
-        
-        <!-- RUNDISNEY PRINCESS 10k -->
-        <div id="line-countdown-box">
-            <div id="rd-princess-10k"></div>
-            <div id="cd-caption">runDISNEY PRINCESS 10k</div> 
-        </div> 
     </div>
 
 
 
-    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
-        <!-- Finals -->
-        <!-- COT5405: 2024/12/05 -->
-        <div id="line-countdown-box">
-            <div id="cda5106-finals"></div>
-            <div id="cd-caption">CDA5106: FINALS</div> 
-        </div> 
-        
-        
-        <!-- CAP5510: TBD -->
-        <div id="line-countdown-box">
-            <div id="cap6545-finals"></div>
-            <div id="cd-caption">CAP6545: FINALS</div> 
-        </div> 
-    </div>
+    <!-- <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+    </div> -->
 </div>
 
 
@@ -206,12 +186,12 @@
         document.getElementById("localtime").innerHTML = localTime2Str(now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
         
         // Finals
-        document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
+        // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
         document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
-        document.getElementById("cda5106-finals").innerHTML = timeCountdown2Str(new Date("Apr 14, 2025 13:00:00").getTime());
-        document.getElementById("cap6545-finals").innerHTML = timeCountdown2Str(new Date("Apr 16, 2025 10:00:00").getTime());
+        // document.getElementById("cda5106-finals").innerHTML = timeCountdown2Str(new Date("Apr 14, 2025 13:00:00").getTime());
+        // document.getElementById("cap6545-finals").innerHTML = timeCountdown2Str(new Date("Apr 16, 2025 10:00:00").getTime());
     }, 1);
 
 
