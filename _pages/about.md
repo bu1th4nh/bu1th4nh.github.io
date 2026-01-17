@@ -16,11 +16,13 @@ Welcome to part of my world!
 
 I'm a first year PhD student in [Computer Science](https://www.cs.ucf.edu/) at [College of Engineering and Computer Science, University of Central Florida](https://www.ucf.edu/), supervised by [Dr. Wei Zhang](https://www.cs.ucf.edu/~wzhang/). Previously, I was a researcher at [CMC Research Institute for Applied Technology, CMC Corporation](https://cmcu.edu.vn/en/cmc-research-institute-for-applied-technology-cmc-ati/), working with [Dr. Nguyen Thi Ngoc Anh](https://fami.hust.edu.vn/giang-vien/?name=anhntn) in cooperation with Hanoi University of Science and Technology. I received my honours bachelor degree in Mathematics and Informatics from [Hanoi University of Science and Technology](https://www.hust.edu.vn/).
 
-This webpage is last updated on **2024/12/20**. 
+**Update:** My newest paper, *X-intNMF: A Cross- and Intra-Omics Regularized NMF Framework for Multi-Omics Integration*, has been accepted for publication at *Bioinformatics* (2026)!. You can find the preprint [here](https://www.biorxiv.org/content/10.1101/2025.09.17.676796v1).
+
+This webpage is last updated on **2026/01/17**. 
 
 ## Research Interest
 
-I'm mainly interested in the research of **Data Mining** and **Computational Biology**. My current research focuses on **multi-omics data integration for cancer phenotype prediction**. I'm also interested in **Machine Learning** and **Mathematical Optimization**.
+I'm mainly interested in the research of **Data Mining** and **Computational Biology**. My current research focuses on developing algorithms and models for **multi-omics data integration**, ranged from bulk, single-cell to spatial omics. I'm also interested in **Machine Learning** and **Mathematical Optimization**.
 
 
 ## Education
