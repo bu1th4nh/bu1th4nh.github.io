@@ -87,6 +87,12 @@
         </div>  
         
         
+        <!-- Purchase cooldown -->
+        <div id="line-countdown-box">
+            <div id="purc-cooldown"></div>
+            <div id="cd-caption">>$50 PURCHASE COOLDOWN</div> 
+        </div> 
+        
         <!-- QUALIFYING REVIEW -->
         <div id="line-countdown-box">
             <div id="phd-qualreview"></div>
@@ -187,6 +193,7 @@
         
         // Finals
         // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
+        document.getElementById("purc-cooldown").innerHTML = timeCountdown2Str(new Date("June 01, 2026 00:00:00").getTime());;
         document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
