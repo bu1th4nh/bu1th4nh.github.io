@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #localtime, #cap5510-paper-time-selection, #cap5510-final-topic-sels, #cap5510-final-midterm-present {
+    #localtime, #COT6410-HW3, #COT6410-VIDEOS {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -32,7 +32,7 @@
 
     
 
-    #cap5510-paper-presentation, #purc-cooldown, #cda5106-finals, #cap6545-finals, #phd-qualreview {
+    #purc-cooldown, #COT6410-FINALS, #CAP6938-FINALS {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -94,6 +94,39 @@
         </div> 
     </div>
 
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+        <div id="line-countdown-box">
+            <div id="COT6410-HW3"></div>
+            <div id="cd-caption">COT 6410 HW3</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+        
+        
+        <div id="line-countdown-box">
+            <div id="COT6410-VIDEOS"></div>
+            <div id="cd-caption">COT 6410 VIDEOS</div> 
+        </div> 
+    </div>
+
+    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+        <div id="line-countdown-box">
+            <div id="COT6410-FINALS"></div>
+            <div id="cd-caption">COT 6410 FINALS</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+
+        <div id="line-countdown-box">
+            <div id="CAP6938-FINALS"></div>
+            <div id="cd-caption">CAP 6938 FINALS</div>
+            <!-- <p style="font-family: 'HornetDisplayBold';text-align: center;"> (YYYY-MM-DD HH:MM:SS) </p> -->
+        </div>  
+
+        
+    </div>
+
+    
+
+    
 
 
     <!-- <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
@@ -191,8 +224,10 @@
         document.getElementById("phd-qualreview").innerHTML = "TBD";
 
         // Nearest deadlines
-        // document.getElementById("cda5106-finals").innerHTML = timeCountdown2Str(new Date("Apr 14, 2025 13:00:00").getTime());
-        // document.getElementById("cap6545-finals").innerHTML = timeCountdown2Str(new Date("Apr 16, 2025 10:00:00").getTime());
+        document.getElementById("COT6410-HW3").innerHTML = timeCountdown2Str(new Date("Apr 17, 2026 23:59:00").getTime());
+        document.getElementById("COT6410-VIDEOS").innerHTML = timeCountdown2Str(new Date("Apr 19, 2026 23:59:00").getTime());
+        document.getElementById("CAP6938-FINALS").innerHTML = timeCountdown2Str(new Date("Apr 22, 2026 18:00:00").getTime(), new Date("Apr 22, 2026 19:00:00").getTime());
+        document.getElementById("COT6410-FINALS").innerHTML = timeCountdown2Str(new Date("Apr 30, 2026 07:00:00").getTime(), new Date("Apr 30, 2026 09:50:00").getTime());
     }, 1);
 
 
