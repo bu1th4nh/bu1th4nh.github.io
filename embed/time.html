@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #localtime, #COT6410-REPORT {
+    #localtime {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -32,7 +32,7 @@
 
     
 
-    #purc-cooldown, #COT6410-FINALS, #CAP6938-FINALS {
+    #purc-cooldown {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -94,7 +94,7 @@
         </div> 
     </div>
 
-    <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+    <!-- <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
         
         <div id="line-countdown-box">
             <div id="COT6410-REPORT"></div>
@@ -112,7 +112,7 @@
         </div>  
 
         
-    </div>
+    </div> -->
 
     
 
@@ -210,12 +210,9 @@
         
         // Finals
         // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
-        document.getElementById("purc-cooldown").innerHTML = timeCountdown2Str(new Date("May 01, 2026 00:00:00").getTime());
+        document.getElementById("purc-cooldown").innerHTML = timeCountdown2Str(new Date("June 26, 2026 00:00:00").getTime());
 
         // Nearest deadlines
-        document.getElementById("COT6410-REPORT").innerHTML = timeCountdown2Str(new Date("Apr 24, 2026 23:59:00").getTime());
-        document.getElementById("CAP6938-FINALS").innerHTML = timeCountdown2Str(new Date("Apr 22, 2026 18:00:00").getTime(), new Date("Apr 22, 2026 19:00:00").getTime());
-        document.getElementById("COT6410-FINALS").innerHTML = timeCountdown2Str(new Date("Apr 30, 2026 07:00:00").getTime(), new Date("Apr 30, 2026 09:50:00").getTime());
     }, 1);
 
 
