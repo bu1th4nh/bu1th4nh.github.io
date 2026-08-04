@@ -23,7 +23,7 @@
         background-color: var(--background-color);
     }
 
-    #localtime {
+    #localtime, #vef-annual {
         font-family: 'HornetDisplay';
         font-size: 3em;
         text-align: center;
@@ -91,6 +91,12 @@
         <div id="line-countdown-box">
             <div id="purc-cooldown"></div>
             <div id="cd-caption">>$50 PURCHASE COOLDOWN</div> 
+        </div> 
+
+         
+        <div id="line-countdown-box">
+            <div id="vef-annual"></div>
+            <div id="cd-caption">VEF ANNUAL MEETING 2026</div> 
         </div> 
     </div>
 
@@ -211,6 +217,7 @@
         // Finals
         // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
         document.getElementById("purc-cooldown").innerHTML = timeCountdown2Str(new Date("November 1, 2026 00:00:00").getTime());
+        document.getElementById("vef-annual").innerHTML = timeCountdown2Str(new Date("August 14, 2026 06:50:00").getTime());
 
         // Nearest deadlines
     }, 1);
