@@ -22,21 +22,6 @@ redirect_from:
     <article class="project">
       <div class="project-index">01</div>
       <div>
-        <div class="kicker">Active research</div>
-        <h3>ARIELSpatial</h3>
-        <p>Probabilistic integration of spatial multi-omics, imaging, uncertainty, and multi-slice alignment.</p>
-      </div>
-      <div class="project-meta">
-        <div><span>Domain</span><span>Spatial omics</span></div>
-        <div><span>Methods</span><span>Generative ML</span></div>
-        <div><span>Modalities</span><span>RNA / ATAC / ADT</span></div>
-        <div><span>Status</span><span>In progress</span></div>
-      </div>
-    </article>
-
-    <article class="project">
-      <div class="project-index">02</div>
-      <div>
         <div class="kicker">Published research</div>
         <h3>X-intNMF</h3>
         <p>A cross- and intra-omics regularized non-negative matrix factorization framework for multi-omics integration.</p>
