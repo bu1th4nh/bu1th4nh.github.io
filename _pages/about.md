@@ -9,7 +9,7 @@ redirect_from:
 
 <main id="top">
   <section class="hero">
-    <h1>Machine learning for biological systems.</h1>
+    <h1>Machine learning for complex, multi-modal data with focus on biological systems.</h1>
     <div class="hero-meta">
       <p>Ph.D. researcher in computer science working across computational biology, multi-omics integration, spatial omics, and mathematical optimization.</p>
       <a class="scroll" href="#work">Scroll to work ↓</a>
