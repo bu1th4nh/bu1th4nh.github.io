@@ -7,16 +7,16 @@ redirect_from:
   - /about.html
 ---
 
-<main id="top">
+<div id="top">
   <section class="hero">
     <h1>Machine learning for complex, multi-modal data with focus on biological systems.</h1>
     <div class="hero-meta">
       <p>Tien-Thanh Bui is a Ph.D. researcher in computer science working across computational biology, multi-omics integration, spatial omics, and mathematical optimization.</p>
-      <a class="scroll" href="#work">Scroll to work ↓</a>
+      <a class="scroll sweep" href="#work">Scroll to work ↓</a>
     </div>
   </section>
 
-  <section class="section reveal" id="work">
+  <section class="section" id="work">
     <div class="section-head"><span>I</span><span>Selected Work</span></div>
 
     <article class="project">
@@ -35,12 +35,12 @@ redirect_from:
     </article>
   </section>
 
-  <section class="section reveal">
+  <section class="section">
     <div class="section-head"><span>II</span><span>Research</span></div>
     <p class="statement">His work develops computational methods for complex, multimodal measurements, with a particular focus on biological systems and data that were never designed to fit neatly together.</p>
   </section>
 
-  <section class="section reveal" id="publications">
+  <section class="section" id="publications">
     <div class="section-head"><span>III</span><span>Selected Publications</span></div>
     <div class="list">
       <a class="list-row" href="https://doi.org/10.1093/bioinformatics/btag046">
@@ -51,7 +51,7 @@ redirect_from:
     </div>
   </section>
 
-  <section class="section reveal" id="about">
+  <section class="section" id="about">
     <div class="section-head"><span>IV</span><span>About</span></div>
     <div class="about-grid">
       <p class="about-copy">Tien-Thanh Bui is a Ph.D. student in Computer Science at the University of Central Florida. His research focuses on data mining, computational biology, multi-omics integration, machine learning, and mathematical optimization.</p>
@@ -64,7 +64,7 @@ redirect_from:
     </div>
   </section>
 
-  <section class="section contact-section reveal" id="contact">
+  <section class="section contact-section" id="contact">
     <div class="section-head"><span>V</span><span>Contact</span></div>
     <div class="contact-grid">
       <div class="contact-identity">
@@ -83,4 +83,4 @@ redirect_from:
       </div>
     </div>
   </section>
-</main>
+</div>
