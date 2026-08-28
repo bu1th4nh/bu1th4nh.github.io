@@ -1,31 +1,330 @@
----
-layout: compress
----
-
-{% include base_path %}
-
 <!doctype html>
-<html lang="{{ site.locale | slice: 0,2 }}" class="no-js"{% if site.site_theme == "dark" %} data-theme="dark"{% endif %}>
-  <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+<html lang="{{ site.locale | default: 'en-US' | slice: 0,2 }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | escape }}">
+  <link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}">
+  <style>
+    :root {
+      --bg: #f4f3ef;
+      --fg: #111111;
+      --muted: #66645f;
+      --rule: rgba(17,17,17,.28);
+      --soft-rule: rgba(17,17,17,.14);
+      --page: clamp(20px, 3.2vw, 56px);
+      --display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --prose: 760px;
+    }
 
-  <body>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; }
+    .site-shell { padding: 0 var(--page); }
 
-    {% include browser-upgrade.html %}
-    {% include masthead.html %}
+    .topbar {
+      min-height: 78px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      border-bottom: 1px solid var(--fg);
+      font-size: 13px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .brand { font-weight: 500; }
+    .nav { display: flex; gap: clamp(12px, 2vw, 26px); align-items: center; }
 
-    {{ content }}
+    .sweep,
+    .brand,
+    .nav a,
+    footer a {
+      position: relative;
+      display: inline-block;
+      width: max-content;
+      max-width: 100%;
+    }
+    .sweep::after,
+    .brand::after,
+    .nav a::after,
+    footer a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 430ms var(--ease-out);
+      pointer-events: none;
+    }
+    .sweep:hover::after,
+    .sweep:focus-visible::after,
+    .brand:hover::after,
+    .brand:focus-visible::after,
+    .nav a:hover::after,
+    .nav a:focus-visible::after,
+    footer a:hover::after,
+    footer a:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
 
-    <div class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include footer.html %}
-      </footer>
-    </div>
+    .site-main { min-height: 70vh; }
+    .page-hero {
+      padding: clamp(64px, 9vw, 132px) 0 clamp(58px, 8vw, 110px);
+    }
+    .page-kicker,
+    .section-label {
+      margin: 0 0 26px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+    }
+    .page-hero h1 {
+      margin: 0;
+      max-width: 14ch;
+      font-size: clamp(58px, 9vw, 140px);
+      line-height: .88;
+      letter-spacing: -.055em;
+      font-weight: 400;
+    }
+    .page-deck {
+      margin: clamp(34px, 5vw, 68px) 0 0;
+      max-width: 48ch;
+      font-size: clamp(18px, 1.8vw, 26px);
+      line-height: 1.18;
+    }
+    .page-meta-line {
+      margin-top: 24px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-    {% include scripts.html %}
+    .section-block {
+      border-top: 1px solid var(--fg);
+      padding: 20px 0 clamp(80px, 10vw, 150px);
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      margin-bottom: clamp(48px, 7vw, 100px);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
 
-  </body>
+    .prose {
+      max-width: var(--prose);
+      font-size: clamp(18px, 1.45vw, 21px);
+      line-height: 1.62;
+    }
+    .prose > :first-child { margin-top: 0; }
+    .prose h2,
+    .prose h3,
+    .prose h4 {
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: 1.05;
+      scroll-margin-top: 32px;
+    }
+    .prose h2 { margin: 2.5em 0 .7em; font-size: clamp(34px, 4vw, 58px); }
+    .prose h3 { margin: 2.2em 0 .65em; font-size: clamp(26px, 2.7vw, 38px); }
+    .prose h4 { margin: 2em 0 .6em; font-size: 22px; }
+    .prose p { margin: 0 0 1.35em; }
+    .prose ul, .prose ol { margin: 0 0 1.5em; padding-left: 1.2em; }
+    .prose li { margin: .35em 0; }
+    .prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .prose blockquote {
+      margin: 2em 0;
+      padding: 0 0 0 22px;
+      border-left: 1px solid var(--fg);
+      font-size: 1.2em;
+      line-height: 1.4;
+    }
+    .prose hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .prose figure, .prose iframe, .prose img { margin-top: 1.6em; margin-bottom: 1.6em; }
+    .prose iframe { max-width: 100%; }
+    .prose code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em;
+      background: rgba(17,17,17,.055);
+      padding: .12em .28em;
+    }
+    .prose pre {
+      overflow-x: auto;
+      padding: 18px;
+      border: 1px solid var(--rule);
+      background: rgba(17,17,17,.035);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    .prose pre code { background: transparent; padding: 0; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 2em 0; font-size: 15px; }
+    .prose th, .prose td { padding: 10px 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+
+    .archive-list { border-top: 1px solid var(--fg); }
+    .archive-row { position: relative; border-bottom: 1px solid var(--rule); }
+    .archive-row::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 1px;
+      background: var(--fg);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 520ms var(--ease-out);
+      pointer-events: none;
+    }
+    .archive-row:hover::after,
+    .archive-row:focus-within::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+    .archive-row-link {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr) 180px;
+      gap: 24px;
+      padding: 20px 0 24px;
+      align-items: start;
+    }
+    .archive-date,
+    .archive-meta { font-size: 13px; color: var(--muted); }
+    .archive-meta { text-align: right; }
+    .archive-title {
+      margin: 0;
+      font-size: clamp(25px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: -.035em;
+      font-weight: 400;
+    }
+    .archive-excerpt {
+      margin: 12px 0 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .archive-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .empty-state {
+      border-top: 1px solid var(--fg);
+      padding: 24px 0 100px;
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.04;
+      letter-spacing: -.035em;
+      max-width: 18ch;
+    }
+
+    .taxonomy {
+      margin-top: 72px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      gap: 10px 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .post-nav {
+      border-top: 1px solid var(--fg);
+      margin-top: clamp(72px, 9vw, 130px);
+      padding: 18px 0 clamp(70px, 8vw, 110px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .post-nav a:last-child { text-align: right; justify-self: end; }
+
+    footer {
+      border-top: 1px solid var(--fg);
+      padding: 22px 0 36px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 24px;
+      align-items: baseline;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .design-credit { color: var(--muted); text-transform: none; letter-spacing: 0; }
+
+    @media (max-width: 900px) {
+      .nav a:nth-child(1), .nav a:nth-child(2) { display: none; }
+      .archive-row-link { grid-template-columns: 86px minmax(0, 1fr); }
+      .archive-meta { grid-column: 2; text-align: left; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar { min-height: 68px; }
+      .nav { gap: 12px; }
+      .nav a:nth-child(5), .nav a:nth-child(6) { display: none; }
+      .page-hero { padding-top: 54px; }
+      .page-hero h1 { font-size: clamp(50px, 17vw, 78px); max-width: 11ch; }
+      .section-head { grid-template-columns: 56px 1fr; }
+      .archive-row-link { grid-template-columns: 1fr; gap: 8px; }
+      .archive-meta { grid-column: auto; }
+      .post-nav { grid-template-columns: 1fr; }
+      .post-nav a:last-child { text-align: left; justify-self: start; }
+      footer { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="{{ '/' | relative_url }}">Tien-Thanh Bui</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="{{ '/' | relative_url }}#work">Work</a>
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+        <a href="{{ '/blog/' | relative_url }}">Blog</a>
+        <a href="{{ '/miscellaneous/' | relative_url }}">Misc</a>
+        <a href="{{ '/' | relative_url }}#about">About</a>
+        <a href="{{ '/' | relative_url }}#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      {{ content }}
+    </main>
+
+    <footer>
+      <div>© {{ 'now' | date: "%Y" }} Tien-Thanh Bui</div>
+      <div class="design-credit">Design language inspired by <a href="https://ndstudio.gov/" target="_blank" rel="noopener noreferrer">National Design Studio ↗</a></div>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </div>
+</body>
 </html>
