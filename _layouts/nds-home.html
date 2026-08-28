@@ -208,16 +208,33 @@
     .contact-identity p { margin: 0; color: var(--muted); font-size: 14px; }
     .contact-links { border-top: 1px solid var(--fg); }
     .contact-links a {
+      position: relative;
       display: grid;
       grid-template-columns: 150px minmax(0, 1fr);
       gap: 20px;
       padding: 15px 0 17px;
       border-bottom: 1px solid var(--rule);
       font-size: 14px;
-      transition: opacity 180ms ease;
+    }
+    .contact-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background: var(--fg);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 430ms var(--ease-out);
+      pointer-events: none;
+    }
+    .contact-links a:hover::after,
+    .contact-links a:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left center;
     }
     .contact-links a span:last-child { text-align: right; color: var(--muted); }
-    .contact-links a:hover { opacity: .58; }
 
     footer {
       border-top: 1px solid var(--fg);
