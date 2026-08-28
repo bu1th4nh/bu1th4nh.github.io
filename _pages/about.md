@@ -1,46 +1,80 @@
 ---
+layout: nds-home
 permalink: /
-title: "Part of Thanh's World"
-excerpt: "About me"
-author_profile: true
-redirect_from: 
+title: "Tien-Thanh Bui"
+redirect_from:
   - /about/
   - /about.html
 ---
 
+<main id="top">
+  <section class="hero">
+    <h1>Machine learning for biological systems.</h1>
+    <div class="hero-meta">
+      <p>Ph.D. researcher in computer science working across computational biology, multi-omics integration, spatial omics, and mathematical optimization.</p>
+      <a class="scroll" href="#work">Scroll to work ↓</a>
+    </div>
+  </section>
 
+  <section class="section" id="work">
+    <div class="section-head"><span>I</span><span>Selected Work</span></div>
 
-## About me
+    <article class="project">
+      <div class="project-index">01</div>
+      <div>
+        <div class="kicker">Active research</div>
+        <h3>ARIELSpatial</h3>
+        <p>Probabilistic integration of spatial multi-omics, imaging, uncertainty, and multi-slice alignment.</p>
+      </div>
+      <div class="project-meta">
+        <div><span>Domain</span><span>Spatial omics</span></div>
+        <div><span>Methods</span><span>Generative ML</span></div>
+        <div><span>Modalities</span><span>RNA / ATAC / ADT</span></div>
+        <div><span>Status</span><span>In progress</span></div>
+      </div>
+    </article>
 
-Welcome to part of my world! 
+    <article class="project">
+      <div class="project-index">02</div>
+      <div>
+        <div class="kicker">Published research</div>
+        <h3>X-intNMF</h3>
+        <p>A cross- and intra-omics regularized non-negative matrix factorization framework for multi-omics integration.</p>
+      </div>
+      <div class="project-meta">
+        <div><span>Venue</span><span>Bioinformatics</span></div>
+        <div><span>Year</span><span>2026</span></div>
+        <div><span>Area</span><span>Multi-omics</span></div>
+        <div><span>Type</span><span>Method</span></div>
+      </div>
+    </article>
+  </section>
 
-I'm a second year PhD student in [Computer Science](https://www.cs.ucf.edu/) at [College of Engineering and Computer Science, University of Central Florida](https://www.ucf.edu/), supervised by [Dr. Wei Zhang](https://www.cs.ucf.edu/~wzhang/). Previously, I was a researcher at [CMC Research Institute for Applied Technology, CMC Corporation](https://cmcu.edu.vn/en/cmc-research-institute-for-applied-technology-cmc-ati/), working with [Dr. Nguyen Thi Ngoc Anh](https://fami.hust.edu.vn/giang-vien/?name=anhntn) in cooperation with Hanoi University of Science and Technology. I received my honours bachelor degree in Mathematics and Informatics from [Hanoi University of Science and Technology](https://www.hust.edu.vn/).
+  <section class="section">
+    <div class="section-head"><span>II</span><span>Research</span></div>
+    <p class="statement">I build computational methods for biological measurements that were never designed to fit neatly together.</p>
+  </section>
 
-**Update:** My paper, [*X-intNMF: a cross- and intra-omics regularized NMF framework for multi-omics integration*](https://doi.org/10.1093/bioinformatics/btag046), was published in *Bioinformatics* (2026).
+  <section class="section" id="publications">
+    <div class="section-head"><span>III</span><span>Selected Publications</span></div>
+    <div class="list">
+      <a class="list-row" href="https://doi.org/10.1093/bioinformatics/btag046">
+        <span>2026</span>
+        <span class="title">X-intNMF: a cross- and intra-omics regularized NMF framework for multi-omics integration</span>
+        <span class="meta">Bioinformatics ↗</span>
+      </a>
+    </div>
+  </section>
 
-This webpage is last updated on **2026/07/31**.
-
-## Research Interest
-
-I'm mainly interested in the research of **Data Mining** and **Computational Biology**. My current research focuses on developing algorithms and models for **multi-omics data integration**, ranged from bulk, single-cell to spatial omics. I'm also interested in **Machine Learning** and **Mathematical Optimization**.
-
-
-## Education
-
-**University of Central Florida**, Orlando, FL, USA
-- Doctor of Philosophy in Computer Science, *Aug. 2024 -- Apr. 2029 (expected)*
-
-**Hanoi University of Science and Technology**, Hanoi, Vietnam
-- Honours Bachelor of Mathematics and Informatics, *Aug. 2019 -- Nov. 2023, Excellent rating*
-
-
-## Teaching Assistance
-
-**University of Central Florida**, Orlando, FL, USA
-- COT3100, Introduction to Discrete Structures, *Fall 2024, Spring 2025, Fall 2025, and Spring 2026*
-
-
-## Employment
-
-**CMC Research Institute for Applied Technology, CMC Corporation**, Hanoi, Vietnam
-- Researcher, *Dec. 2023 -- Jul. 2024*
+  <section class="section" id="about">
+    <div class="section-head"><span>IV</span><span>About</span></div>
+    <div class="about-grid">
+      <p class="about-copy">I am a Ph.D. student in Computer Science at the University of Central Florida. My research focuses on data mining, computational biology, multi-omics integration, machine learning, and mathematical optimization.</p>
+      <div class="about-small">
+        <p><strong>Current</strong><br>University of Central Florida<br>Orlando, Florida</p>
+        <p><strong>Previously</strong><br>CMC Research Institute for Applied Technology</p>
+        <p><strong>Education</strong><br>Hanoi University of Science and Technology<br>Honours B.Sc., Mathematics &amp; Informatics</p>
+      </div>
+    </div>
+  </section>
+</main>
