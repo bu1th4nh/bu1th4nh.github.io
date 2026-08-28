@@ -214,11 +214,17 @@
       border-top: 1px solid var(--fg);
       padding: 22px 0 36px;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr auto auto;
       gap: 24px;
+      align-items: baseline;
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: .03em;
+    }
+    .design-credit {
+      color: var(--muted);
+      text-transform: none;
+      letter-spacing: 0;
     }
 
     /* Short landscape screens such as Nest Hub-class displays. */
@@ -287,6 +293,7 @@
 
     <footer>
       <div>© {{ 'now' | date: "%Y" }} Tien-Thanh Bui</div>
+      <div class="design-credit">Design language inspired by <a href="https://ndstudio.gov/" target="_blank" rel="noopener noreferrer">National Design Studio ↗</a></div>
       <a href="#top">Back to top ↑</a>
     </footer>
   </div>
