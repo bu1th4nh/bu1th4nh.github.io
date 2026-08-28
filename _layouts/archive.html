@@ -2,6 +2,42 @@
 layout: default
 ---
 
+<style>
+  .archive-content > p,
+  .archive-content > ul,
+  .archive-content > ol {
+    max-width: 760px;
+    font-size: clamp(17px, 1.35vw, 20px);
+    line-height: 1.58;
+  }
+  .archive-content > p { margin: 0 0 1.25em; }
+  .archive-content h2 {
+    margin: 72px 0 24px;
+    font-size: clamp(30px, 4vw, 54px);
+    line-height: 1;
+    letter-spacing: -.04em;
+    font-weight: 400;
+  }
+  .archive-content h2:first-child { margin-top: 0; }
+  .archive-content a:not(.archive-row-link) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .archive-content iframe { max-width: 100%; }
+  .archive-content .btn,
+  .archive-content .cv-download-links a {
+    display: inline-block;
+    margin: 10px 14px 10px 0;
+    padding: 11px 0 8px;
+    border-bottom: 1px solid var(--fg);
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+</style>
+
 <section class="page-hero" id="top">
   <p class="page-kicker">Archive</p>
   <h1>{{ page.title }}</h1>
@@ -10,5 +46,7 @@ layout: default
 
 <section class="section-block">
   <div class="section-head"><span>I</span><span>{{ page.section_label | default: "Index" }}</span></div>
-  {{ content }}
+  <div class="archive-content">
+    {{ content }}
+  </div>
 </section>
