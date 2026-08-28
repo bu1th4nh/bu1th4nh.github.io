@@ -57,7 +57,7 @@ redirect_from:
       <p class="about-copy">Tien-Thanh Bui is a Ph.D. student in Computer Science at the University of Central Florida. His research focuses on data mining, computational biology, multi-omics integration, machine learning, and mathematical optimization.</p>
       <div class="about-small">
         <p><strong>Current</strong><br>University of Central Florida<br>Orlando, Florida</p>
-        <p><strong>Teaching</strong><br>Computer Science I — Summer 2026<br>Introduction to Discrete Structures — Fall 2026</p>
+        <p><strong>Teaching</strong><br>Introduction to Discrete Structures — Fall 2024–present (Fall/Spring semesters)<br>Computer Science I — Summer 2026</p>
         <p><strong>Previously</strong><br>CMC Research Institute for Applied Technology</p>
         <p><strong>Education</strong><br>Hanoi University of Science and Technology<br>Honours B.Sc., Mathematics &amp; Informatics</p>
       </div>
