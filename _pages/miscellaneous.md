@@ -1,64 +1,43 @@
 ---
+layout: single
 permalink: /miscellaneous/
 title: "Miscellaneous"
+excerpt: "Non-academic experiences, communities, technical production work, and the hobbies that occupy the rest of the bandwidth."
 redirect_from:
-- /miscellaneous
+  - /miscellaneous
 ---
 
+## 01 / Networking
 
-I use this webpage to keep track of some non-academic experiences/achievements.
+Beyond academic work, I am part of communities that have shaped my education and professional network.
 
-## Networking
+### The VEF 2.0 Program
 
-I'm also a proud member of:
-- [**The VEF 2.0 Program**](https://vef2.org/page/directory.aspx#:~:text=Cohort%202023-,Cohort%202024,-COPYRIGHT%20%C2%A9%202024%20VEF) 
-The VEF 2.0 Program is developed on the success of the Vietnam Education Foundation (VEF) Fellowship Program – a program created by the U.S. Congress from 2003-2016 to strengthen the bilateral relationship between the United States and Vietnam through educational exchange activities. More information about the VEF 2.0 Program can be found [here](https://vef2.org/page/about-us.aspx).
-- **Talent Nurturing Program**
-Talent Nurturing Program is established based on the idea of Dr. Tran Thanh Hai and the contribution of prominent figures such as entrepreneurs and experts across Vietnam. With the motto "Talent goes hand in hand with humanity", the community not only raises funds to award scholarships to outstanding students of high schools but also organizes monthly exchange sessions in Hanoi between students, students and members, guests, sponsors of the program. In addition, the community also organizes useful extracurricular activities such as English Club, Career Orientation Club... to help students develop comprehensively in the future. All aim to build a solid, extensive network with all talents in all fields, so that you can support each other in the future and together build a rich and beautiful country.
+I am a member of [The VEF 2.0 Program](https://vef2.org/page/directory.aspx#:~:text=Cohort%202023-,Cohort%202024,-COPYRIGHT%20%C2%A9%202024%20VEF). The program builds on the legacy of the Vietnam Education Foundation Fellowship Program, which was created by the U.S. Congress and operated from 2003 to 2016 to strengthen educational exchange between the United States and Vietnam. More information is available on the [VEF 2.0 website](https://vef2.org/page/about-us.aspx).
 
+### Talent Nurturing Program
 
+The Talent Nurturing Program was established from an initiative by Dr. Tran Thanh Hai with contributions from entrepreneurs and experts across Vietnam. With the motto “Talent goes hand in hand with humanity,” the community supports scholarships, exchange sessions, extracurricular programs, English activities, and career-orientation initiatives for students.
 
-## Campus Experience
+## 02 / Campus Experience
 
-I was the show and AV techncal leader for numerous events in my undergraduate years, including:
-  - SVBK 2023 and 2024
-  - Public Lecture Series in STEM and Environment
+During my undergraduate years, I served as show and AV technical lead for multiple events, including:
 
+- SVBK 2023 and 2024
+- Public Lecture Series in STEM and Environment
 
+## 03 / Hobbies
 
-## Hobbies
+### Games and eSports
 
-Besides academic work, I'm also into numerous hobbies:
+I am an avid fan of FPS games including Counter-Strike 2, Call of Duty, and the Half-Life series. I also enjoy open-world games such as GTA Online, Fallout 76, Minecraft, and Disney Dreamlight Valley. I follow competitive Counter-Strike, particularly the Major Championships, ESL Pro Tour, and BLAST Premier series.
 
-**Games and eSports**
+![Steam profile statistics](https://steam-stat.vercel.app/api?profileName=bu1th4nh)
 
-I am an avid fan of FPS games, such as Counter-Strike 2, Call of Duty, and Half-Life Series. Additionally, I also enjoy playing open-world games, such as GTA Online, Fallout 76, Minecraft, and Disney Dreamlight Valley. I also follow eSports tournaments, especially the CS:GO Major Championships, ESL Pro Tour CS and BLAST Premier Series.
+### Music
 
-![bu1th4nh](https://steam-stat.vercel.app/api?profileName=bu1th4nh)
+Electronic dance music is the center of my listening, especially high-energy styles such as Hardstyle, Big Room and its Techno variants, and Psytrance. Artists I follow include [Hardwell](https://www.youtube.com/watch?v=oMq7E3iPzbc), [Martin Garrix](https://www.youtube.com/watch?v=M-mT5E7Ol2A), [Sub Zero Project](https://youtu.be/7m0n8h8b89M?list=RDEMVH-ERLqovGfAq_V_iM1nrA&t=106), [Da Tweekaz](https://www.youtube.com/watch?v=lTTvpCBExGY), and [Ran-D](https://www.youtube.com/watch?v=-5VLA4tEnV8).
 
+EDM is not the entire playlist. I also listen to Disney music, particularly songs associated with the Disney Princesses, Anna and Elsa, along with Disney Parks background music.
 
-**Music**
-
-I can't live without music. My primary genres is Electronic Dance Music (EDM) with concentration on high-energy subgenres such as Hardstyle, Big Room (with its Techno variant), and Psytrance. My favorite artists including, but not limited to:
-- [Hardwell](https://www.youtube.com/watch?v=oMq7E3iPzbc)
-- [Martin Garrix](https://www.youtube.com/watch?v=M-mT5E7Ol2A)
-- [Sub Zero Project](https://youtu.be/7m0n8h8b89M?list=RDEMVH-ERLqovGfAq_V_iM1nrA&t=106)
-- [Da Tweekaz](https://www.youtube.com/watch?v=lTTvpCBExGY)
-- [Ran-D](https://www.youtube.com/watch?v=-5VLA4tEnV8)
-
-However, EDM alone is not enough to balance my music taste. I also enjoy listening to Disney songs, primarily from the Disney Princesses (including Anna & Elsa), and Disney Parks' background music. This combination has created a unique playlist that I listen to daily:
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7IxqFWRiUxv7FhFfGKntZU?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-
-**Disney (Princesses)**
-
-
-
-**Sport**
-
-
-
-
-
-
-
