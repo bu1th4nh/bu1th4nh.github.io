@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural Collapse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    macros: {
+      R: '\\mathbb{R}',
+      bmu: '\\boldsymbol{\\mu}',
+      bSigma: '\\boldsymbol{\\Sigma}',
+      bh: '\\boldsymbol{h}',
+      bw: '\\boldsymbol{w}',
+      bb: '\\boldsymbol{b}',
+      bz: '\\boldsymbol{z}',
+      bW: '\\mathbf{W}',
+      bM: '\\mathbf{M}',
+      bU: '\\mathbf{U}',
+      bV: '\\mathbf{V}',
+      bI: '\\mathbf{I}',
+      one: '\\mathbf{1}',
+      mean: '\\operatorname*{mean}',
+      Tr: '\\operatorname{Tr}',
+      Std: '\\operatorname{Std}'
+    }
+  },
+  chtml: { scale: 1.0, matchFontHeight: false },
+  options: { enableMenu: false },
+  startup: {
+    pageReady: () => MathJax.startup.defaultPageReady().then(() => document.dispatchEvent(new Event('mathjax-ready')))
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+/* ── Type ─────────────────────────────────────────────── */
+@font-face{font-family:"NC Sans";font-weight:300;src:local("Helvetica Neue LT Pro 45 Light"),local("HelveticaNeueLTPro-Lt"),local("Helvetica Neue Light"),local("HelveticaNeue-Light")}
+@font-face{font-family:"NC Sans";font-weight:400;src:local("Helvetica Neue LT Pro 55 Roman"),local("HelveticaNeueLTPro-Roman"),local("HelveticaNeueLTPro-Rm"),local("Helvetica Neue"),local("HelveticaNeue")}
+@font-face{font-family:"NC Sans";font-weight:500;src:local("Helvetica Neue LT Pro 65 Medium"),local("HelveticaNeueLTPro-Md"),local("Helvetica Neue Medium"),local("HelveticaNeue-Medium")}
+@font-face{font-family:"NC Sans";font-weight:700;src:local("Helvetica Neue LT Pro 75 Bold"),local("HelveticaNeueLTPro-Bd"),local("Helvetica Neue Bold"),local("HelveticaNeue-Bold")}
+
+/* ── Tokens (after ndstudio.gov) ──────────────────────── */
+/* Dark is the default theme; html.light swaps in the light tokens. Canvas code reads these via readColors(), so keep them hex. */
+:root{
+  --font:"Helvetica Neue LT Pro","NC Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --bg:#010101; --card:#0d0d0d; --white:#161616; --body:#d4d4d4;
+  --ink:#f2f2f2; --muted:#9b9b9b; --faint:#5e5e5e;
+  --rule:rgba(242,242,242,.14); --rule-strong:rgba(242,242,242,.3);
+  /* figure colors: Princess Colour Schemes, leahsmyth.github.io/Princess-Colour-Schemes */
+  --blue:#3B8BBD; --orange:#DA9740; --red:#E34B62;
+  --c0:#53B288; --c1:#A06BAF; --c2:#F8D562; --c3:#E387B8;
+  --c4:#65C5C8; --c5:#DFE46E; --c6:#E0B896; --c7:#A42384; --c8:#9C8CBD; --c9:#8AAC66;
+  --fig-filter:invert(1) hue-rotate(180deg); --fig-bg:#000;
+  --ease:cubic-bezier(.33,1,.68,1); --ease-cubic:cubic-bezier(.215,.61,.355,1);
+  --pad:72px;
+}
+:root.light{
+  --bg:#f2f2f2; --card:#fafafa; --white:#fff; --body:#2b2b2b;
+  --ink:#010101; --muted:#6b6b6b; --faint:#a3a3a3;
+  --rule:rgba(1,1,1,.12); --rule-strong:rgba(1,1,1,.28);
+  --blue:#286287; --orange:#DA9740; --red:#D7473A;
+  --c0:#378D68; --c1:#8550A0; --c2:#7C404A; --c3:#D2487A;
+  --c4:#16A39E; --c5:#758B42; --c6:#6C3B27; --c7:#A42384; --c8:#9C8CBD; --c9:#45767B;
+  --fig-filter:none; --fig-bg:#fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#010101;overflow:hidden}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button{font:inherit;color:inherit}
+
+/* ── Stage ────────────────────────────────────────────── */
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;
+  background:var(--bg);color:var(--ink);overflow:hidden;transform-origin:50% 50%;
+  font-size:22px;line-height:1.45;letter-spacing:-.01em;transition:background .6s var(--ease-cubic),color .6s var(--ease-cubic)}
+#stage.dark{background:#010101;color:#fff}
+
+/* chrome */
+.chrome{position:absolute;left:0;right:0;z-index:20;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:0 var(--pad);pointer-events:none}
+.chrome>*{pointer-events:auto}
+#top{top:0;height:92px;align-items:center;font-size:17px}
+#top .mark{grid-column:1/4;display:flex;align-items:center;gap:12px;font-weight:500;letter-spacing:-.02em;cursor:pointer;white-space:nowrap}
+#top .mark svg{width:26px;height:26px}
+#top nav{grid-column:5/11;display:flex;gap:30px;white-space:nowrap}
+#top nav a{color:inherit;text-decoration:none;opacity:.42;cursor:pointer;transition:opacity .6s var(--ease-cubic)}
+#top nav a.on,#top nav a:hover{opacity:1}
+#top .meta{grid-column:11/13;justify-self:end;display:flex;gap:22px;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+#top .theme{width:34px;height:34px;border-radius:999px;border:1px solid var(--rule-strong);background:none;cursor:pointer;display:grid;place-items:center;padding:0;transition:background .2s,color .2s}
+#top .theme:hover{background:var(--ink);color:var(--bg)}
+#stage.dark #top .theme{border-color:rgba(255,255,255,.3)}
+#stage.dark #top .theme:hover{background:#fff;color:#010101}
+#top .theme .sun{display:block}#top .theme .moon{display:none}
+:root.light #top .theme .sun{display:none}:root.light #top .theme .moon{display:block}
+#top .meta .timer{color:var(--muted);cursor:pointer}
+#stage.dark #top .meta .timer{color:rgba(255,255,255,.55)}
+#top .meta .timer.over{color:var(--red)}
+#bottom{bottom:0;height:64px;align-items:center;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+#stage.dark #bottom{color:rgba(255,255,255,.5)}
+#bottom .l{grid-column:1/7}
+#bottom .r{grid-column:7/13;justify-self:end;display:flex;gap:18px;align-items:center}
+#bottom .r button{background:none;border:1px solid var(--rule-strong);border-radius:999px;width:38px;height:38px;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
+#stage.dark #bottom .r button{border-color:rgba(255,255,255,.3)}
+#bottom .r button:hover{background:var(--ink);color:var(--bg)}
+#stage.dark #bottom .r button:hover{background:#fff;color:#010101}
+#progress{position:absolute;left:0;bottom:0;height:3px;background:var(--ink);transition:width .6s var(--ease);z-index:21}
+#stage.dark #progress{background:#fff}
+
+/* ── Slides ───────────────────────────────────────────── */
+.slide{position:absolute;inset:0;padding:112px var(--pad) 84px;display:grid;grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto auto 1fr;column-gap:24px;align-content:start;opacity:0;visibility:hidden;
+  transition:opacity .5s var(--ease-cubic),visibility 0s linear .5s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .5s var(--ease-cubic),visibility 0s}
+.slide.dark{color:#fff}
+.notes{display:none}
+.static *,.static *::before,.static *::after{transition:none!important;animation:none!important}
+
+.kicker{grid-column:1/13;font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;gap:18px;align-items:baseline;margin-bottom:18px}
+.dark .kicker{color:rgba(255,255,255,.55)}
+.kicker b{font-weight:500;color:var(--ink)}
+.dark .kicker b{color:#fff}
+h1,h2{margin:0;font-weight:500;letter-spacing:-.035em;text-wrap:balance}
+h2.title{grid-column:1/13;font-size:70px;line-height:1.02;margin-bottom:40px}
+.mask{display:block;overflow:hidden;padding-bottom:.2em;margin-bottom:-.2em}
+.mask>span{display:block;transform:translateY(110%);transition:transform .9s var(--ease)}
+.slide.active .mask>span{transform:none;transition-delay:.08s}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-cubic),transform .8s var(--ease)}
+.slide.active .rv{opacity:1;transform:none;transition-delay:calc(.18s + var(--i,0) * 70ms)}
+.frag{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease-cubic),transform .6s var(--ease)}
+.frag.on{opacity:1;transform:none}
+
+.lede{font-size:30px;line-height:1.28;letter-spacing:-.02em;margin:0 0 26px;text-wrap:pretty}
+.body p{margin:0 0 16px;text-wrap:pretty}
+.small{font-size:17px;line-height:1.45;color:var(--muted)}
+.dark .small{color:rgba(255,255,255,.6)}
+.label{font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px}
+.rule{border-top:1px solid var(--rule)}
+.dark .rule{border-color:rgba(255,255,255,.18)}
+a.ext{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
+a.ext::after{content:" ↗"}
+.refs{list-style:none;margin:0;padding:0}
+.refs li{margin:0 0 2px}
+.refs a.ext{border-bottom-color:rgba(255,255,255,.35)}
+.refs a.ext:hover{border-bottom-color:currentColor}
+.mono{font-variant-numeric:tabular-nums}
+
+.c1-5{grid-column:1/6}.c1-6{grid-column:1/7}.c1-7{grid-column:1/8}.c1-12{grid-column:1/13}
+.c6-12{grid-column:6/13}.c7-12{grid-column:7/13}.c8-12{grid-column:8/13}.c5-12{grid-column:5/13}
+.row3{grid-row:3}
+.stack{display:flex;flex-direction:column;min-height:0}
+
+/* math blocks */
+.eq{font-size:25px;margin:6px 0 18px}
+.eq mjx-container[display="true"]{margin:.35em 0 !important;text-align:left !important}
+.eq.center mjx-container[display="true"]{text-align:center !important}
+mjx-container{color:inherit}
+.box{background:var(--card);border:1px solid var(--rule);padding:22px 26px;margin-bottom:18px}
+.box .label{margin-bottom:4px}
+
+/* NC list */
+.nclist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.nclist li{display:grid;grid-template-columns:92px 1fr;gap:4px 18px;padding:16px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.nclist .tag{font-weight:500;font-size:20px}
+.nclist .what{font-size:21px;line-height:1.35}
+.nclist .val{grid-column:2;font-size:16px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nclist .val b{color:var(--ink);font-weight:500}
+
+/* viz */
+.viz{margin:0;display:flex;flex-direction:column;gap:14px;min-height:0}
+.viz .frame{position:relative;background:var(--card);border:1px solid var(--rule);flex:1;min-height:0}
+.viz .frame canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.dark .viz .frame{background:transparent;border-color:rgba(255,255,255,.14)}
+.viz figcaption{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:15px;color:var(--muted);align-items:center}
+.chip{display:inline-flex;align-items:center;gap:8px}
+.chip i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.chip i.line{width:20px;height:3px;border-radius:0}
+.chip i.ring{background:none!important;border:2px dashed var(--ink)}
+.tagline{position:absolute;left:16px;top:12px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);pointer-events:none}
+.hint{position:absolute;right:16px;top:12px;font-size:13px;color:var(--faint);pointer-events:none}
+
+/* player */
+.player{display:flex;align-items:center;gap:14px;font-size:15px;color:var(--muted);user-select:none}
+.player .pp,.player .rs,.player .tg{flex:none;height:40px;min-width:40px;border-radius:999px;border:1px solid var(--rule-strong);background:var(--white);cursor:pointer;display:grid;place-items:center;padding:0 14px;color:var(--ink);transition:background .2s,color .2s,border-color .2s}
+.player .pp{background:var(--ink);color:var(--bg);border-color:var(--ink);padding:0}
+.player .pp:hover{opacity:.85}
+.player .rs:hover,.player .tg:hover{border-color:var(--ink)}
+.player .tg.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.player input[type=range]{flex:1;min-width:120px;-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer}
+.player input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(to right,var(--ink) var(--fill,0%),var(--rule-strong) var(--fill,0%))}
+.player input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ink);margin-top:-7px;border:3px solid var(--card)}
+.player input[type=range]::-moz-range-track{height:2px;background:var(--rule-strong)}
+.player input[type=range]::-moz-range-progress{height:2px;background:var(--ink)}
+.player input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--ink);border:2px solid var(--card)}
+.player .ep{min-width:132px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.player .ep small{color:var(--muted);font-size:13px}
+.player .spd{display:flex;border:1px solid var(--rule-strong);border-radius:999px;overflow:hidden;flex:none}
+.player .spd button{border:0;background:none;padding:0 11px;height:38px;cursor:pointer;color:var(--muted)}
+.player .spd button.on{background:var(--ink);color:var(--bg)}
+.player svg{width:14px;height:14px;display:block}
+.dark .player{color:rgba(255,255,255,.6)}
+.dark .player .pp{background:#fff;color:#010101;border-color:#fff}
+.toggles{display:flex;gap:8px;flex-wrap:wrap}
+.toggles .tg{height:34px;border-radius:999px;border:1px solid var(--rule-strong);background:var(--white);padding:0 14px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+.toggles .tg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.toggles .tg.off{opacity:.38;background:transparent}
+
+/* spark */
+.spark{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:end;margin-top:6px}
+.spark .sl{font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.spark .sv{font-size:20px;font-variant-numeric:tabular-nums;text-align:right}
+.spark .sc{grid-column:1/3;position:relative;height:118px;border-top:1px solid var(--rule)}
+.spark .sc canvas{position:absolute;inset:0;width:100%;height:100%}
+
+/* tables, cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{border-top:2px solid var(--ink);padding-top:18px}
+.card h3{margin:0 0 10px;font-size:26px;font-weight:500;letter-spacing:-.02em}
+.card p{margin:0;font-size:19px;line-height:1.42;color:var(--body)}
+.dark .card{border-color:#fff}.dark .card p{color:rgba(255,255,255,.75)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;font-size:19px;margin:0}
+.kv dt{color:var(--muted);text-transform:uppercase;font-size:14px;letter-spacing:.05em;padding-top:4px}
+.kv dd{margin:0}
+.big-num{font-size:120px;line-height:.9;font-weight:500;letter-spacing:-.05em}
+
+/* evidence */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{border:1px solid var(--rule-strong);background:transparent;border-radius:999px;padding:8px 16px;font-size:16px;cursor:pointer;color:var(--ink);transition:background .25s,color .25s}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs button span{color:var(--muted);margin-left:6px}
+.tabs button.on span{color:var(--bg);opacity:.6}
+.figstack{position:relative;background:var(--fig-bg);border:1px solid var(--rule);height:520px}
+.figstack img{filter:var(--fig-filter);position:absolute;inset:16px;width:calc(100% - 32px);height:calc(100% - 32px);object-fit:contain;opacity:0;transform:scale(.985);transition:opacity .5s var(--ease-cubic),transform .7s var(--ease)}
+.figstack img.on{opacity:1;transform:none}
+.caps>div{display:none}.caps>div.on{display:block;animation:capIn .6s var(--ease) both}
+@keyframes capIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* delta chart */
+.dchart{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;align-items:stretch}
+.dgroup{display:flex;flex-direction:column}
+.dbars{position:relative;height:215px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-bottom:0}
+.dbars::after{content:"";position:absolute;left:-6px;right:-6px;top:var(--zero);border-top:1px solid var(--ink)}
+.dbar{position:relative}
+.dbar i{position:absolute;left:0;right:0;background:var(--ink);transform-origin:bottom;transform:scaleY(0);transition:transform 1s var(--ease)}
+.dbar.neg i{background:var(--red);transform-origin:top}
+.slide.active .dbar i{transform:scaleY(1);transition-delay:calc(.35s + var(--k) * 45ms)}
+.dbar span{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap;opacity:0;transition:opacity .6s .9s}
+.slide.active .dbar span{opacity:1}
+.dname{font-size:16px;font-weight:500;margin-top:10px}
+.dnets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+
+/* gram table */
+.gram{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:20px}
+.gram td{width:86px;height:52px;text-align:center;border:1px solid var(--rule);background:var(--white);transition:background .2s}
+.gram td.d{color:var(--muted)}
+
+/* proof steps */
+.steps{counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{position:relative;padding:12px 0 12px 54px;border-top:1px solid var(--rule)}
+.steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:16px;font-size:14px;color:var(--muted);letter-spacing:.04em}
+.steps .eq{margin:2px 0 0}
+.pipe{display:flex;align-items:flex-start;margin:6px 0 26px}
+.pn{display:flex;flex-direction:column;align-items:stretch;flex:none}
+.pl{height:18px;margin-bottom:10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.pb,.pv{height:56px;display:flex;align-items:center;font-size:22px;color:var(--ink);white-space:nowrap}
+.pb{border:1.5px solid var(--ink);padding:0 20px;justify-content:center}
+.pu{align-self:stretch;margin-top:12px;padding-top:8px;border-top:3px solid var(--blue);font-size:14px;color:var(--blue);white-space:nowrap}
+.pa{position:relative;flex:1 1 40px;min-width:28px;height:56px;margin:28px 12px 0}
+.pa::before{content:"";position:absolute;left:0;right:1px;top:50%;border-top:1.5px solid var(--ink)}
+.pa::after{content:"";position:absolute;right:1px;top:50%;width:9px;height:9px;border-top:1.5px solid var(--ink);border-right:1.5px solid var(--ink);transform:translateY(-50%) rotate(45deg);transform-origin:center}
+.steps p{margin:0;font-size:19px;line-height:1.42;color:var(--body)}
+.steps p.small{font-size:16px;color:var(--muted);margin-top:4px}
+.ptab{width:100%;border-collapse:collapse;font-size:17px;margin-bottom:26px}
+.ptab th,.ptab td{padding:9px 4px;border-top:1px solid var(--rule);text-align:center;font-variant-numeric:tabular-nums}
+.ptab th{font-weight:400;color:var(--muted);font-size:12px;line-height:1.2;text-transform:uppercase;letter-spacing:.04em;vertical-align:bottom;border-top:0}
+.ptab td{color:var(--ink)}
+.ptab td:first-child{text-align:left;color:var(--muted);font-size:15px}
+.pcount{display:flex;align-items:flex-end;gap:14px;color:var(--muted)}
+.pcount div{display:flex;flex-direction:column}
+.pcount b{font-size:44px;font-weight:500;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.pcount div:last-child b{color:var(--red)}
+.pcount span{font-size:13px;text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+.pcount i{font-style:normal;font-size:26px;padding-bottom:22px}
+.lrpath{stroke-dasharray:1100;stroke-dashoffset:1100;transition:stroke-dashoffset 1.6s var(--ease) .5s}
+.slide.active .lrpath{stroke-dashoffset:0}
+
+/* roomier type on text-led slides */
+.lg .eq{font-size:31px}
+.lg .steps li{font-size:24px;padding:18px 0 18px 58px}
+.lg .steps li::before{top:23px}
+.lg .steps .small{font-size:19px}
+.lg .steps.mom li{font-size:30px;color:var(--ink)}
+.steps.mom .st{display:block;font-size:17px;color:var(--muted);margin-bottom:6px}
+.lg .box p{font-size:22px!important}
+.lg .kv{font-size:22px}
+.lg .card h3{font-size:34px}
+.lg .card p{font-size:23px}
+.lg .small{font-size:19px}
+.steps.thm li{padding:10px 0 8px 54px}
+.steps.thm li::before{top:13px}
+.steps.thm p{font-size:18px;line-height:1.38}
+.steps.thm .eq{font-size:21px;margin:2px 0 0}
+.yread{display:inline-block;font-size:15px;line-height:1.3;color:var(--ink);border:1px solid var(--rule-strong);border-radius:999px;padding:3px 12px;margin-right:10px;white-space:nowrap;vertical-align:1px}
+.yread b{font-weight:600}
+.nota{display:grid;grid-template-columns:auto 1fr;column-gap:22px;font-size:19px;line-height:1.3;color:var(--body)}
+.nota>span{padding:6px 0;border-top:1px solid var(--rule)}
+.nota>span:nth-child(odd){color:var(--ink);white-space:nowrap}
+
+/* overlays (not scaled) */
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(1,1,1,.94);color:#fff;font:16px/1.5 var(--font);padding:18px 28px;z-index:50;transform:translateY(100%);transition:transform .45s var(--ease)}
+#notes.on{transform:none}
+#notes .h{display:flex;justify-content:space-between;color:rgba(255,255,255,.55);text-transform:uppercase;font-size:12px;letter-spacing:.06em;margin-bottom:8px}
+#help{position:fixed;inset:0;display:none;place-items:center;background:rgba(1,1,1,.55);z-index:60}
+#help.on{display:grid}
+#help .p{background:#fafafa;color:#010101;font:16px/1.6 var(--font);padding:28px 34px;min-width:420px}
+#help h4{margin:0 0 12px;font-weight:500;font-size:22px;letter-spacing:-.02em}
+#help kbd{display:inline-block;min-width:28px;text-align:center;border:1px solid rgba(1,1,1,.25);border-radius:4px;padding:0 6px;margin-right:10px;font:13px/22px var(--font)}
+
+/* ── Princess mode: hidden, toggled by typing 7777; maximal pink + serif type, layered over the tokens above ── */
+:root.princess{
+  --font:"Cormorant Garamond",Garamond,Georgia,serif; --script:"Great Vibes",cursive;
+  --bg:#3d0a3b; --card:#52104d; --white:#5e1458; --body:#fff3fa;
+  --ink:#ffffff; --muted:#ffcbe7; --faint:#d98fc2;
+  --rule:rgba(255,170,216,.25); --rule-strong:rgba(255,170,216,.55);
+  --gold:#ffd166; --rose:#ff4fb2; --lav:#c77dff;
+  --glow:radial-gradient(1000px 700px at 100% 0%,rgba(255,79,178,.3),transparent 65%),
+    radial-gradient(900px 700px at 0% 100%,rgba(199,125,255,.28),transparent 65%);
+  --star:#ffc2e6; --star-op:.75;
+  --title-grad:linear-gradient(100deg,#ffd1ec 0%,#ff6ec7 45%,#ffd166 100%);
+  --fig-bg:#3d0a3b; --fig-blend:screen;
+}
+:root.princess.light{
+  --bg:#ffd9ee; --card:#ffeef8; --white:#fff6fb; --body:#3a0a35;
+  --ink:#2a0526; --muted:#8c1763; --faint:#c0558f;
+  --rule:rgba(176,48,127,.25); --rule-strong:rgba(176,48,127,.5);
+  --gold:#d99a00; --rose:#ff2d95; --lav:#9d4edd;
+  --glow:radial-gradient(1000px 700px at 100% 0%,rgba(255,45,149,.2),transparent 65%),
+    radial-gradient(900px 700px at 0% 100%,rgba(157,78,221,.16),transparent 65%);
+  --star:#ff2d95; --star-op:.55;
+  --title-grad:linear-gradient(100deg,#ff2d95 0%,#c2187f 45%,#9d4edd 100%);
+  --fig-bg:#ffeef8; --fig-blend:multiply;
+}
+:root.princess,:root.princess body{background:#3d0a3b}
+/* Cormorant: small x-height and thin strokes, so scale to a sans-like x-height, one weight heavier, lining figures; MathJax keeps its metrics */
+:root.princess body{font-weight:500;font-size-adjust:ex-height .5;font-feature-settings:"lnum" 1}
+:root.princess mjx-container{font-size-adjust:none}
+:root.princess h1,:root.princess h2,:root.princess h3,:root.princess strong,:root.princess .kicker b,:root.princess .nclist .tag,:root.princess .big-num,:root.princess .pcount b,:root.princess .dname{font-weight:600!important}
+:root.princess b{font-weight:700!important}
+:root.princess h2.title{font-size:64px;line-height:1.08}
+:root.princess .slide[data-id="title"] h1{line-height:1.06!important}
+:root.princess h1.qs{font-family:var(--script);font-weight:400!important;font-size-adjust:none;letter-spacing:0;font-size:190px!important;line-height:1.05!important;margin-top:40px!important}
+:root.princess h1.qs .mask{padding:.18em 0 .25em .12em;margin:-.18em 0 0 -.12em}
+.pr-only{display:none}
+:root.princess .pr-only{display:inline}
+
+/* stage: polka dots + glows; the always-dark slides become a hot-pink-to-violet gradient */
+:root.princess #stage{background:var(--glow),var(--bg)}
+:root.princess #stage.dark{background:radial-gradient(900px 600px at 100% 0%,rgba(255,209,102,.2),transparent 65%),
+  radial-gradient(900px 700px at 0% 100%,rgba(199,125,255,.55),transparent 65%),
+  linear-gradient(135deg,#c2187f 0%,#8e1a8a 55%,#5b1a9a 100%);--star:#fff;--star-op:.85}
+/* sparkle-and-heart field, kept out of the header/footer bands and faded toward the centre */
+:root.princess #stage::before{content:"";position:absolute;inset:96px 0 68px;pointer-events:none;opacity:var(--star-op);background-color:var(--star);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='%23000'%3E%3Cpath d='M38 300l2 7 7 2-7 2-2 7-2-7-7-2 7-2z'/%3E%3Cpath d='M520 70l1.5 5 5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5z'/%3E%3Cpath d='M330 520l2.5 8 8 2.5-8 2.5-2.5 8-2.5-8-8-2.5 8-2.5z'/%3E%3Ccircle cx='210' cy='140' r='1.4'/%3E%3Ccircle cx='440' cy='260' r='1.1'/%3E%3Ccircle cx='120' cy='470' r='1.2'/%3E%3Ccircle cx='560' cy='420' r='1'/%3E%3Ccircle cx='290' cy='30' r='1.2'/%3E%3Ccircle cx='20' cy='90' r='1'/%3E%3Ccircle cx='400' cy='380' r='.9'/%3E%3Cpath d='M150 230c-7-5-9-10-4.5-12.5 2.3-1.2 4.5.2 4.5 2.5 0-2.3 2.2-3.7 4.5-2.5 4.5 2.5 2.5 7.5-4.5 12.5z'/%3E%3Cpath d='M470 150c-7-5-9-10-4.5-12.5 2.3-1.2 4.5.2 4.5 2.5 0-2.3 2.2-3.7 4.5-2.5 4.5 2.5 2.5 7.5-4.5 12.5z'/%3E%3Cpath d='M250 400c-7-5-9-10-4.5-12.5 2.3-1.2 4.5.2 4.5 2.5 0-2.3 2.2-3.7 4.5-2.5 4.5 2.5 2.5 7.5-4.5 12.5z'/%3E%3Cpath d='M560 560c-7-5-9-10-4.5-12.5 2.3-1.2 4.5.2 4.5 2.5 0-2.3 2.2-3.7 4.5-2.5 4.5 2.5 2.5 7.5-4.5 12.5z'/%3E%3Cpath d='M80 560c-7-5-9-10-4.5-12.5 2.3-1.2 4.5.2 4.5 2.5 0-2.3 2.2-3.7 4.5-2.5 4.5 2.5 2.5 7.5-4.5 12.5z'/%3E%3C/g%3E%3C/svg%3E") 0 0/420px 420px repeat,radial-gradient(ellipse 72% 70% at 50% 50%,transparent 42%,#000 92%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+
+/* candy gradient titles */
+:root.princess h2.title .mask>span,:root.princess .big-num{background:var(--title-grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(255,79,178,.35))}
+:root.princess .slide.dark h1{text-shadow:0 0 28px rgba(255,79,178,.85),0 3px 0 #c2187f}
+
+/* chrome */
+:root.princess #top .mark{color:var(--rose);font-weight:600}
+:root.princess #top nav a{opacity:.75}
+:root.princess #top nav a.on,:root.princess #top nav a:hover{opacity:1}
+:root.princess #stage.dark #bottom,:root.princess #stage.dark #top .meta .timer{color:rgba(255,255,255,.85)}
+:root.princess .dark .kicker,:root.princess .dark .small,:root.princess .dark .player{color:rgba(255,255,255,.85)}
+:root.princess .slide.dark .label{color:rgba(255,255,255,.85)!important}
+:root.princess #stage.dark #top .mark{color:#fff}
+:root.princess #top nav a.on{background:linear-gradient(90deg,var(--rose),var(--lav)) 0 100%/100% 3px no-repeat;padding-bottom:3px;color:var(--rose)}
+:root.princess #stage.dark #top nav a.on{color:#fff}
+:root.princess #stage #progress{height:6px;background:linear-gradient(90deg,#ff4fb2,#c77dff,#ffd166)}
+:root.princess #stage #top .theme:hover,:root.princess #stage #bottom .r button:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
+
+/* hearts and pills */
+:root.princess .kicker::before{content:"";width:20px;height:20px;align-self:center;background:var(--rose);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat}
+:root.princess .kicker b{color:var(--rose)}
+:root.princess .dark .kicker b{color:#fff}
+:root.princess .dark .kicker::before{background:#fff}
+:root.princess .card{border-top-width:4px;border-image:linear-gradient(90deg,var(--rose),var(--lav),var(--gold)) 1}
+:root.princess .card .label::before{content:"";display:inline-block;width:16px;height:16px;margin-right:7px;vertical-align:-2px;background:var(--rose);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat}
+:root.princess .steps li::before{background:var(--rose);color:#fff;border-radius:999px;padding:1px 8px;top:14px;font-weight:700}
+:root.princess .lg .steps li::before{top:21px}
+:root.princess .nclist .tag,:root.princess .pcount b{color:var(--rose)}
+:root.princess .pcount div:last-child b{color:var(--red)}
+
+/* rounded, glowing frames; paper figures blend into the page */
+:root.princess .slide:not(.dark) .viz .frame,:root.princess .box,:root.princess .figstack{border-radius:22px;overflow:hidden;border:2px solid var(--rose)!important;box-shadow:0 0 0 6px rgba(255,79,178,.16),0 18px 50px rgba(255,79,178,.28)}
+:root.princess .figstack img{mix-blend-mode:var(--fig-blend)}
+
+/* controls in hot pink */
+:root.princess .player .pp{background:var(--rose);border-color:var(--rose);color:#fff}
+:root.princess .player .spd button.on,:root.princess .player .tg.on,:root.princess .tabs button.on{background:var(--rose);color:#fff;border-color:var(--rose)}
+:root.princess .tabs button.on span{color:#fff}
+:root.princess .player input[type=range]::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--rose) var(--fill,0%),var(--rule-strong) var(--fill,0%))}
+:root.princess .player input[type=range]::-webkit-slider-thumb{background:var(--rose)}
+
+/* overlays */
+:root.princess #notes{background:rgba(61,10,59,.96)}
+:root.princess #help{background:rgba(61,10,59,.55)}
+:root.princess #help .p{background:#fff0f8;color:#4a0a42;border-top:6px solid #ff4fb2;border-radius:18px}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<header class="chrome" id="top">
+  <div class="mark" data-go="0">
+    <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 L24 21 L2 21 Z"/><circle cx="13" cy="2.6" r="1.6" fill="currentColor"/><circle cx="23.4" cy="20.6" r="1.6" fill="currentColor"/><circle cx="2.6" cy="20.6" r="1.6" fill="currentColor"/><circle cx="13" cy="14.2" r="1.3" fill="currentColor"/></svg>
+    Neural Collapse
+  </div>
+  <nav>
+    <a data-sec="motivation">Motivation</a>
+    <a data-sec="collapses">Four Collapses</a>
+    <a data-sec="why">Why</a>
+    <a data-sec="expdisc">Experiment &amp; Discussion</a>
+  </nav>
+  <div class="meta"><button class="theme" id="theme" aria-label="Toggle light/dark mode" title="Light / dark (D)"><svg class="sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg><svg class="moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg></button><span class="timer" title="Click or press T to reset">00:00 / 15:00</span><span class="count">01 / 13</span></div>
+</header>
+
+<!-- ═════════════ 01 TITLE ═════════════ -->
+<section class="slide dark" data-id="title" data-sec="motivation">
+  <div class="kicker rv"><b>MAP 6197</b><span>Mathematical Introduction to Deep Learning</span><span>Paper presentation</span></div>
+  <div class="c1-7 row3 stack" style="justify-content:space-between;padding-bottom:20px">
+    <h1 style="font-size:92px;line-height:.98;margin-top:40px"><span class="mask"><span>Prevalence of Neural Collapse during the terminal phase of deep learning training</span></span></h1>
+    <div>
+      <p class="rv" style="--i:2;font-size:28px;margin:0 0 8px;letter-spacing:-.02em">Vardan Papyan, X.Y. Han, David L. Donoho</p>
+      <p class="rv small" style="--i:3;margin:0 0 40px">Proceedings of the National Academy of Sciences 117(40), 24652–24663, 2020 &nbsp;·&nbsp; <a class="ext" href="https://www.pnas.org/doi/10.1073/pnas.2015509117" target="_blank" rel="noopener">doi:10.1073/pnas.2015509117</a></p>
+      <div class="rule rv" style="--i:4;padding-top:18px;display:flex;justify-content:space-between" >
+        <span class="small">Presented by Thanh Bui &nbsp;·&nbsp; University of Central Florida &nbsp;·&nbsp; Fall 2026</span>
+        <span class="small">Press <b style="color:#fff;font-weight:500">→</b> to begin &nbsp;·&nbsp; <b style="color:#fff;font-weight:500">?</b> for controls</span>
+      </div>
+    </div>
+  </div>
+  <figure class="viz c8-12 row3 rv" style="--i:1;margin-top:-20px">
+    <div class="frame" style="border:0"><canvas id="cv-title"></canvas></div>
+    <div class="player" id="pl-title"></div>
+  </figure>
+  <aside class="notes">Introduce the paper: Papyan, Han and Donoho, PNAS 2020. One-sentence pitch: if you keep training a classifier after it reaches zero training error, the last layer settles into a very rigid, symmetric geometry, the same across networks and datasets. The animation on the right is that geometry forming. (≈0:30)</aside>
+</section>
+
+<!-- ═════════════ 02 SETTING ═════════════ -->
+<section class="slide lg" data-id="setup" data-sec="motivation">
+  <div class="kicker rv"><b>01</b><span>Motivation</span><span>Assumptions</span></div>
+  <h2 class="title"><span class="mask"><span>Assumption: Deep net = feature map + linear classifier.</span></span></h2>
+  <div class="c1-6 row3 body">
+    <div class="pipe frag" data-f="1">
+      <div class="pn"><span class="pl"></span><div class="pv"><span>image&nbsp;\(x\in\R^d\)</span></div></div>
+      <i class="pa"></i>
+      <div class="pn"><span class="pl">Feature engineering</span><div class="pb">\(\bh=\bh_\theta(x)\)</div><span class="pu">last-layer activations \(\in\R^p\)</span></div>
+      <i class="pa"></i>
+      <div class="pn"><span class="pl">Classifier</span><div class="pb" style="border-color:var(--orange)">\(\bW\bh+\bb\)</div></div>
+      <i class="pa"></i>
+      <div class="pn"><span class="pl"></span><div class="pv">\(\hat y=\arg\max_c\)</div></div>
+    </div>
+    <div class="eq frag" data-f="1">\[ \hat y(\bh)=\arg\max_{c}\;\langle \bw_c,\bh\rangle + b_c, \text{ where } \bW\in\R^{C\times p},\;\bb\in\R^{C} \]</div>
+    <div class="label frag" data-f="2">Training objective (balanced data, \(N\) examples per class)</div>
+    <div class="eq frag" data-f="2">\[ \min_{\theta,\bW,\bb}\;\sum_{c=1}^{C}\sum_{i=1}^{N} \mathcal{L}\big(\bW\bh_\theta(x_{i,c})+\bb,\;\boldsymbol{y}_c\big) \]</div>
+    <div class="nota frag" data-f="2" style="margin-top:10px">
+      <span>\(C,\ N\)</span><span>number of classes; training examples per class</span>
+      <span>\(x_{i,c}\)</span><span>the \(i\)-th training input of class \(c\), with one-hot label \(\boldsymbol y_c\)</span>
+      <span>\(\bh_{i,c}\in\R^p\)</span><span>its last-layer feature \(\bh_\theta(x_{i,c})\)</span>
+      <span>\(\bw_c,\ b_c\)</span><span>classifier and bias of class \(c\) (row \(c\) of \(\bW\), entry \(c\) of \(\bb\))</span>
+    </div>
+    <p class="small frag" data-f="2" style="margin-top:10px">\(\mathcal L\) is cross-entropy.</p>
+  </div>
+  <div class="c8-12 row3">
+    <div class="label frag" data-f="3">Observed Statistics</div>
+    <ol class="steps mom">
+      <li class="frag" data-f="3"><span class="st">Global mean, class-means</span>\(\bmu_G=\mean_{i,c}\bh_{i,c},\quad \bmu_c=\mean_{i}\bh_{i,c}\)</li>
+      <li class="frag" data-f="4"><span class="st">Between-class spread</span>\(\bSigma_B=\mean_{c}(\bmu_c-\bmu_G)(\bmu_c-\bmu_G)^{\top}\)</li>
+      <li class="frag" data-f="5"><span class="st">Within-class spread</span>\(\bSigma_W=\mean_{i,c}(\bh_{i,c}-\bmu_c)(\bh_{i,c}-\bmu_c)^{\top}\)</li>
+      <li class="frag" data-f="6"><span class="st">Centered class-means</span>\(\bM=[\bmu_c-\bmu_G]_{c=1}^{C}\in\R^{p\times C}\)</li>
+    </ol>
+  </div>
+  <aside class="notes">Notation. h is the penultimate-layer feature vector in R^p, and W, b is the last linear layer. Everything is measured on last-layer activations of the TRAINING set at snapshot epochs. On the right are the four objects used throughout: global mean, class means, between-class covariance (signal) and within-class covariance (noise). M stacks the centered class means as columns. (≈1:10)</aside>
+</section>
+
+<!-- ═════════════ 02 MOTIVATION · TPT + HW 2 ═════════════ -->
+<section class="slide" data-id="toy" data-sec="motivation">
+  <div class="kicker rv"><b>01</b><span>Motivation</span><span>The terminal phase of training · HW 2, Exercise 2.3</span></div>
+  <h2 class="title"><span class="mask"><span>Training doesn’t stop at zero error.</span></span></h2>
+  <div class="c1-5 row3 body">
+    <p class="rv" style="--i:1;font-size:24px;line-height:1.32;margin-top:0">Standard practice keeps minimizing cross-entropy after every training example is classified correctly. The paper calls this the <b style="font-weight:500">Terminal Phase of Training (TPT)</b>.</p>
+    <div class="label rv" style="--i:2;margin-top:8px">Warm-up · HW 2, Exercise 2.3 · data \((-1,0),\,(1,1)\), no bias</div>
+    <div class="eq rv" style="--i:2">\[ F(\theta)=\log\!\big(1+e^{-\theta}\big),\qquad F'(\theta)=-\tfrac{1}{1+e^{\theta}}<0 \]</div>
+    <ol class="steps rv" style="--i:3">
+      <li>Zero training error \(\iff\theta>0\), yet the loss keeps falling: \(\inf F=0\) is never attained and \(\theta_k\to\infty\).</li>
+      <li>Weight decay \(\tfrac{\lambda}{2}\theta^2\) gives a finite minimizer \(\theta^\star\). The paper trains with exactly this recipe.</li>
+    </ol>
+    <div class="box frag" data-f="1" style="border-color:var(--ink);margin-top:18px">
+      <div class="label" style="color:var(--ink)">The question</div>
+      <p style="margin:0 0 8px;font-size:26px;line-height:1.25;letter-spacing:-.02em;color:var(--ink)">A deep net keeps training after zero error. What happens to its <em>features</em>?</p>
+      <p class="small" style="margin:0">Here only \(|\theta|\) can grow. A deep net can also reshape its features, and the paper finds they settle into one rigid, symmetric shape: <em>Neural Collapse</em>.</p>
+    </div>
+  </div>
+  <figure class="viz c6-12 row3 rv" style="--i:2">
+    <div class="frame"><canvas id="cv-toy"></canvas></div>
+    <div class="player" id="pl-toy"></div>
+    <div class="player"><span>Weight decay</span><div class="spd" id="lam-toy"><button data-l="0" class="on">λ = 0</button><button data-l="0.01">λ = 0.01</button><button data-l="0.05">λ = 0.05</button></div><span style="margin-left:auto">Gradient descent from θ₀ = −1.5, η = 0.5 (≤ 1/L = 4, Ex. 2.3c)</span></div>
+    <figcaption id="toy-stats" class="mono" style="display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:6px 24px;font-size:16px;color:var(--ink)"></figcaption>
+  </figure>
+  <aside class="notes">Define TPT: keep minimizing cross-entropy after training error hits zero (the paper uses 99.9% train accuracy, 99.6% for ImageNet, because of mislabels). Then the HW 2, Exercise 2.3(e) warm-up: any θ greater than 0 classifies both points, but F′ is negative everywhere, so gradient descent never stops; θ grows like log k and the loss creeps toward 0. The red line is zero error and everything to its right is TPT. Switch λ to 0.05: by Exercise 2.3(f), θ settles at θ* ≈ 2.1, and the paper trains with this weight decay. Reveal the question: logistic regression can only grow |θ|, a deep net can also move its features. Neural Collapse is what happens to them. (≈1:20)</aside>
+</section>
+
+<!-- ═════════════ 04 AT A GLANCE ═════════════ -->
+<section class="slide" data-id="lab" data-sec="collapses">
+  <div class="kicker rv"><b>02</b><span>Four collapses</span><span>Overview</span></div>
+  <h2 class="title"><span class="mask"><span>Four events emerge during TPT.</span></span></h2>
+  <div class="c1-5 row3 stack">
+    <ul class="nclist rv" style="--i:1">
+      <li class="frag" data-f="1"><span class="tag">NC1</span><span class="what">Within-class variability collapses: \(\bSigma_W\to\mathbf 0\)</span><span class="val">\(\tfrac1C\Tr(\bSigma_W\bSigma_B^\dagger)\) = <b data-m="nc1">–</b></span></li>
+      <li class="frag" data-f="2"><span class="tag">NC2</span><span class="what">Class-means converge to a <b style="font-weight:500">Simplex ETF</b></span><span class="val">\(\mean|\cos+\tfrac{1}{C-1}|\) = <b data-m="cosShift">–</b></span></li>
+      <li class="frag" data-f="3"><span class="tag">NC3</span><span class="what">Classifiers converge to the class-means (self-duality)</span><span class="val">\(\|\tilde\bW^\top-\tilde\bM\|_F^2\) = <b data-m="nc3">–</b></span></li>
+      <li class="frag" data-f="4"><span class="tag">NC4</span><span class="what">Decision rule becomes <b style="font-weight:500">nearest class-center</b></span><span class="val">mismatch with NCC = <b data-m="nc4">–</b></span></li>
+    </ul>
+  </div>
+  <figure class="viz c6-12 row3 rv" style="--i:2">
+    <div class="frame"><canvas id="cv-lab"></canvas><span class="tagline">Train error = <b data-m="trainErr" style="color:var(--ink);font-weight:500">–</b> &nbsp;·&nbsp; TPT starts at epoch <b data-m="tpt" style="color:var(--red);font-weight:500">–</b></span><span class="hint">drag to rotate</span></div>
+    <p class="small" style="margin:0">An illustrative simulation in \(\R^3\) with \(C=4\), where the Simplex ETF is a regular tetrahedron. The geometry is scripted to follow NC1–NC4; every number on the left is computed live from the simulated points. The real measurements come later.</p>
+    <div class="toggles" id="tg-lab"></div>
+    <div class="player" id="pl-lab"></div>
+  </figure>
+  <aside class="notes">The headline slide. Press → to reveal NC1 to NC4 one at a time; the first → also starts the animation at 0.5×. Watch the small dots (train activations) shrink onto their means (NC1); the blue sticks (means) become equal length with equal angles, the tetrahedron (NC2); the orange sticks (classifiers) swing onto the means (NC3); so the classifier is just picking the closest mean (NC4). Point out that the red TPT epoch comes early: most of the collapse happens AFTER zero error. Drag to rotate. (≈1:30)</aside>
+</section>
+
+<!-- ═════════════ 05 SIMPLEX ETF ═════════════ -->
+<section class="slide" data-id="etf" data-sec="collapses">
+  <div class="kicker rv"><b>02</b><span>Four collapses</span><span>Definition · Simplex equiangular tight frame</span></div>
+  <h2 class="title"><span class="mask"><span>The Simplex ETF: \(C\) vectors as far apart as possible.</span></span></h2>
+  <div class="c1-5 row3 body">
+    <div class="box rv" style="--i:1">
+      <div class="label">Definition 1 (standard Simplex ETF)</div>
+      <div class="eq" style="margin-bottom:6px">\[ \bM^\star=\sqrt{\tfrac{C}{C-1}}\Big(\bI_C-\tfrac1C\one_C\one_C^\top\Big)\in\R^{C\times C} \]</div>
+      <p class="small" style="margin:0">General Simplex ETF: \(\bM=\alpha\,\bU\bM^\star\) with \(\alpha>0\) and \(\bU\in\R^{p\times C}\), \(\bU^\top\bU=\bI\) (rotation + scale).</p>
+    </div>
+    <div class="eq rv" style="--i:2">\[ \langle\tilde\bmu_c,\tilde\bmu_{c'}\rangle=\tfrac{C}{C-1}\,\delta_{c,c'}-\tfrac{1}{C-1} \]</div>
+    <p class="rv" style="--i:3">Equal norms and equal pairwise angles. Why \(-\tfrac1{C-1}\) is the extreme value:</p>
+    <div class="eq rv" style="--i:4">\[ 0=\Big\|\sum_c\tilde\bmu_c\Big\|^2=C+\sum_{c\ne c'}\cos\angle(\bmu_c,\bmu_{c'}) \;\Rightarrow\; \overline{\cos}=-\tfrac{1}{C-1} \]</div>
+    <p class="small rv" style="--i:5">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
+  </div>
+  <figure class="viz c6-12 row3 rv" style="--i:2">
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;flex:1;min-height:0">
+      <div class="frame"><canvas id="cv-etf"></canvas><span class="tagline" id="etf-phase">Standard basis \(e_1,e_2,e_3\)</span><span class="hint">drag to rotate</span></div>
+      <div>
+        <div class="label">Gram matrix \(\langle v_c, v_{c'}\rangle\), live</div>
+        <table class="gram" id="gram"></table>
+        <div class="rule" style="margin-top:22px;padding-top:14px">
+          <div class="label">Pairwise angle</div>
+          <div id="etf-angle" class="mono" style="font-size:44px;letter-spacing:-.03em;font-weight:500">90.0°</div>
+          <div class="label" style="margin-top:12px">Column norm</div>
+          <div id="etf-norm" class="mono" style="font-size:28px">1.000</div>
+        </div>
+      </div>
+    </div>
+    <div class="toggles" id="tg-etf"></div>
+    <div class="player" id="pl-etf"></div>
+    <figcaption><span>Construction for \(C=3\): center the basis vectors (project onto \(\one^\perp\)), then rescale by \(\sqrt{C/(C-1)}\).</span></figcaption>
+  </figure>
+  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. The one-line proof: the vectors sum to zero, so the average cosine is forced to be −1/(C−1); equiangularity means every pair reaches that extreme. (≈1:00)</aside>
+</section>
+
+<!-- ═════════════ 06 NC1 + NC2 ═════════════ -->
+<section class="slide" data-id="nc12" data-sec="collapses">
+  <div class="kicker rv"><b>02</b><span>Four collapses</span><span>NC1 + NC2</span></div>
+  <h2 class="title"><span class="mask"><span>Activations collapse onto a Simplex ETF.</span></span></h2>
+  <div class="c1-5 row3 stack">
+    <div class="label frag" data-f="1" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC1</b> · Variability collapse</div>
+    <div class="eq frag" data-f="1">\[ \bSigma_W\to\mathbf 0,\qquad\text{measured by }\ \tfrac1C\Tr\!\big(\bSigma_W\bSigma_B^\dagger\big)\ \text{(Fig. 6)} \]</div>
+    <div class="spark frag" data-f="1"><span class="sl">NC1 metric (log scale)</span><span class="sv" data-v="nc1">–</span><div class="sc" style="height:110px"><canvas data-s="nc1"></canvas></div></div>
+    <div class="label frag" data-f="2" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC2</b> · Convergence to a Simplex ETF</div>
+    <div class="eq frag" data-f="2">\[ \|\bmu_c-\bmu_G\|\ \text{equal},\qquad \langle\tilde\bmu_c,\tilde\bmu_{c'}\rangle\to\tfrac{C}{C-1}\delta_{c,c'}-\tfrac{1}{C-1} \]</div>
+    <div class="spark frag" data-f="2"><span class="sl">Max-angle · mean |cos + 1/(C−1)| (Fig. 4)</span><span class="sv" data-v="cosShift">–</span><div class="sc" style="height:110px"><canvas data-s="cos"></canvas></div></div>
+  </div>
+  <figure class="viz c6-12 row3 rv" style="--i:2">
+    <div class="frame"><canvas id="cv-nc12"></canvas><span class="tagline">Simulation · C = 3 in ℝ² · target angle 120°</span></div>
+    <div class="player"><span>Classes</span><div class="spd cpick"><button data-c="3" class="on">C = 3</button><button data-c="4">4</button><button data-c="5">5</button><button data-c="6">6</button><button data-c="8">8</button><button data-c="10">10</button></div><span class="cdesc" style="margin-left:auto"></span></div>
+    <div class="player" id="pl-nc12"></div>
+    <figcaption><span class="chip"><i style="background:var(--c0)"></i><i style="background:var(--c1);margin-left:-4px"></i><i style="background:var(--c2);margin-left:-4px"></i>Train activations</span><span class="chip"><i class="ring" style="border-radius:50%;border-style:dashed"></i>2-σ within-class ellipse</span><span class="chip"><i class="line" style="background:var(--blue)"></i>Centered class-means</span><span class="chip"><i class="ring" style="border-radius:50%"></i>Simplex ETF at the same scale</span></figcaption>
+  </figure>
+  <aside class="notes">NC1 and NC2 together. Press → for NC1 (this also starts the animation at 0.5×), then → for NC2. Watch: the dashed 2-σ ellipses (within-class covariance) shrink to points, which is NC1, and the paper's Fig. 6 metric on the left falls by orders of magnitude on a log scale. At the same time the bars equalize (equal norms) and the three angles go to 120°, the Simplex ETF for C = 3, which is NC2. Both keep improving after the red TPT line. Optional: the Classes buttons switch to more classes. For C > 3 the simulation runs in R^(C−1), the smallest space that holds a Simplex ETF, and the plot is a projection, so read the true pairwise angles at top right (C = 10, as in CIFAR10: 96.4°). (≈1:20)</aside>
+</section>
+
+<!-- ═════════════ 07 NC3 + NC4 ═════════════ -->
+<section class="slide" data-id="nc34" data-sec="collapses">
+  <div class="kicker rv"><b>02</b><span>Four collapses</span><span>NC3 + NC4</span></div>
+  <h2 class="title"><span class="mask"><span>The classifier becomes nearest "neighbor".</span></span></h2>
+  <div class="c1-5 row3 stack">
+    <div class="label frag" data-f="1" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC3</b> · Self-duality: classifiers converge to the means</div>
+    <div class="eq frag" data-f="1">\[ \left\|\frac{\bW^\top}{\|\bW\|_F}-\frac{\bM}{\|\bM\|_F}\right\|_F\to0\quad\text{(Fig. 5)} \]</div>
+    <div class="spark frag" data-f="1"><span class="sl">NC3 metric</span><span class="sv" data-v="nc3">–</span><div class="sc" style="height:110px"><canvas data-s="nc3"></canvas></div></div>
+    <div class="label frag" data-f="2" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC4</b> · Decisions simplify to nearest class-center</div>
+    <div class="eq frag" data-f="2">\[ \arg\max_{c}\,\langle\bw_c,\bh\rangle+b_c\;\to\;\arg\min_{c}\,\|\bh-\bmu_c\|_2\quad\text{(Fig. 7)} \]</div>
+    <div class="spark frag" data-f="2"><span class="sl">Test mismatch: net vs. NCC</span><span class="sv" data-v="nc4">–</span><div class="sc" style="height:110px"><canvas data-s="nc4"></canvas></div></div>
+  </div>
+  <figure class="viz c6-12 row3 rv" style="--i:2">
+    <div class="frame"><canvas id="cv-nc34"></canvas><span class="tagline">Simulation · decision regions</span></div>
+    <div class="player"><span>Classes</span><div class="spd cpick"><button data-c="3" class="on">C = 3</button><button data-c="4">4</button><button data-c="5">5</button><button data-c="6">6</button><button data-c="8">8</button><button data-c="10">10</button></div><span class="cdesc" style="margin-left:auto"></span></div>
+    <div class="player" id="pl-nc34"></div>
+    <figcaption><span class="chip"><i class="line" style="background:var(--blue)"></i>Class-means</span><span class="chip"><i class="line" style="background:var(--orange)"></i>Classifiers \(\bw_c\) (rescaled)</span><span class="chip frag" data-f="2"><i class="ring" style="border-radius:50%"></i>Test activations</span><span class="chip frag" data-f="2"><i style="background:var(--c0);opacity:.35;border-radius:2px"></i>Network decision</span><span class="chip frag" data-f="2"><i class="line" style="background:var(--ink);height:2px"></i>NCC boundary</span><span class="chip frag" data-f="2"><i style="background:var(--red);opacity:.45;border-radius:2px"></i>Disagreement</span></figcaption>
+  </figure>
+  <aside class="notes">NC3 and NC4 together. Press → for NC3 (this also starts the animation at 0.5×, from epoch 127, just before TPT), then → for NC4, which also brings in the decision regions and the hollow test points. The orange classifier vectors swing onto the blue class-means: weights and features end up as the same frame (self-duality, Fig. 5). Shaded regions are the network's actual linear decision, the dotted lines are the nearest-class-center (Voronoi) boundaries of the train means, and red marks where they disagree. Play: the red wedges vanish, so the network decides like NCC. The hollow test points are not collapsed, yet the two rules still agree, which is the held-out claim of Fig. 7. The Classes buttons apply here too; for C > 3 the shaded regions are a plane slice through the global mean, while red test points are judged in the full space. (≈1:20)</aside>
+</section>
+
+<!-- ═════════════ 08 WHY ═════════════ -->
+<section class="slide" data-id="why" data-sec="why">
+  <div class="kicker rv"><b>03</b><span>Why</span><span>Three theorems</span></div>
+  <h2 class="title" style="margin-bottom:28px"><span class="mask"><span>Collapse is the safest place for training to end.</span></span></h2>
+  <div class="c1-6 row3">
+    <ol class="steps thm">
+      <li class="frag" data-f="1"><div class="label" style="color:var(--ink)">Theorem 2 · squared-error loss</div>
+        <p>With features held fixed, the best last layer is a modified LDA (Webb &amp; Lowe, 1990). Add NC1 + NC2 and it is forced to match the means (NC3) and to decide by the nearest mean (NC4).</p>
+        <div class="eq">\[ \bW=\tfrac1C\bM^{\top}\bSigma_T^{\dagger}\;\xrightarrow{\ \text{NC1, NC2}\ }\;\bW\propto\bM^{\top},\quad \hat y(\bh)=\arg\min_c\|\bh-\bmu_c\|_2 \]</div></li>
+      <li class="frag" data-f="2"><div class="label" style="color:var(--ink)">Theorem 4 · cross-entropy loss</div>
+        <p>On separable features, gradient descent on cross-entropy heads to the max-margin classifier (Soudry et al., 2018). Add NC1 + NC2 and, again, NC3 + NC4 follow.</p>
+        <div class="eq">\[ \min_{\bW}\ \tfrac12\textstyle\sum_c\|\bw_c\|_2^2\ \ \text{s.t.}\ \ \langle\bw_c-\bw_{c'},\bh_{i,c}\rangle\ge1\;\xrightarrow{\ \text{NC1, NC2}\ }\;\bW\propto\bM^{\top} \]</div></li>
+      <li class="frag" data-f="3"><div class="label" style="color:var(--ink)">Theorem 5 · information theory</div>
+        <p>Treat the class-means as codewords sent through small noise, \(\bh=\bmu_y+\bz\), \(\bz\sim\mathcal N(0,\sigma^2\bI)\), \(\|\bmu_c\|_2\le1\). The slowest-vanishing error is reached only by a Simplex ETF, read out by \(\bW=\bM^{\top},\ \bb=0\).</p>
+        <div class="eq">\[ \max_{\bM,\bW,\bb}\;-\lim_{\sigma\to0}\sigma^2\log P\{\hat y(\bh)\ne y\}=\frac{C}{C-1}\cdot\frac14 \]</div></li>
+    </ol>
+    <p class="small frag" data-f="3" style="margin-top:10px">Demo (Theorem 5): same noise on both. Left is a Simplex ETF, right is uneven; red × are mistakes. Lower σ and the uneven one falls further behind.</p>
+  </div>
+  <figure class="viz c7-12 row3 frag" data-f="3">
+    <div class="frame"><canvas id="cv-code"></canvas></div>
+    <div class="player" id="pl-code"></div>
+    <figcaption id="code-stats" class="mono" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 40px;font-size:16px;color:var(--ink)"></figcaption>
+  </figure>
+  <aside class="notes">The paper's three theorems, one per →; the third → also brings in the noise demo. Theorem 2: take Webb and Lowe's 1990 result (with fixed features and squared-error loss, the optimal last layer is a modified LDA, W = (1/C) Mᵀ Σ_T†); add NC1 and NC2, so Σ_T = Σ_B and M has equal singular values, and W becomes proportional to Mᵀ (NC3) while argmax ⟨w_c, h⟩ + b_c turns into argmin ‖h − μ_c‖ (NC4). Theorem 4: the same conclusion for cross-entropy, starting from Soudry et al. 2018 (gradient descent on separable data goes to the max-margin classifier). So NC1 + NC2 force NC3 + NC4 under either loss. Theorem 5 explains NC2 itself: treat the class-means as codewords sent through vanishing Gaussian noise (which is what NC1 does to the features); among all codebooks with unit-norm codewords and linear decoders, the best large-deviations error exponent, C/(C−1) · 1/4, is achieved only by a Simplex ETF with W = Mᵀ, b = 0. Demo: same noise on both sides; lower σ and the uneven layout falls further behind. (Script note: the information-theory result is Theorem 5 in the paper.) (≈1:50)</aside>
+</section>
+
+<!-- ═════════════ 09 HOW THE EXPERIMENTS WERE RUN ═════════════ -->
+<section class="slide" data-id="protocol" data-sec="expdisc">
+  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>How the experiments were run</span></div>
+  <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>480 networks, trained past zero error, then measured.</span></span></h2>
+  <div class="c1-6 row3">
+    <ol class="steps">
+      <li class="frag" data-f="1"><div class="label" style="color:var(--ink)">Data</div>
+        <p>Seven image datasets, all class-balanced: MNIST, SVHN and ImageNet are subsampled to 5000, 4600 and 600 images per class. Pixels are standardized; <b style="font-weight:500">no data augmentation</b>.</p></li>
+      <li class="frag" data-f="2"><div class="label" style="color:var(--ink)">Networks</div>
+        <p>VGG, ResNet and DenseNet, with depth matched to each dataset (table →). Dropout is removed: batch norm in VGG, rate 0 in DenseNet.</p></li>
+      <li class="frag" data-f="3"><div class="label" style="color:var(--ink)">Training</div>
+        <p>Cross-entropy, SGD with momentum 0.9, weight decay 5·10⁻⁴, batch 128, 350 epochs. Each net is trained at 25 learning rates and the one with the best final test error is kept.</p>
+        <p class="small">ImageNet: 300 epochs, batch 256, weight decay 10⁻⁴, 10 learning rates.</p></li>
+      <li class="frag" data-f="4"><div class="label" style="color:var(--ink)">Measurement</div>
+        <p>Weights are saved at selected epochs. The <b style="font-weight:500">training</b> images are passed through each saved net to record last-layer activations, giving the means, covariances and classifier. NC4 is checked on the <b style="font-weight:500">test</b> set.</p>
+        <p class="small">TPT starts at 99.9% train accuracy (99.6% for ImageNet), allowing for mislabeled images.</p></li>
+    </ol>
+  </div>
+  <div class="c8-12 row3">
+    <div class="label rv" style="--i:1">Depth per dataset, ordered by difficulty as in the figures</div>
+    <table class="ptab rv" style="--i:1">
+      <tr><th></th><th>MNIST</th><th>Fashion-<br>MNIST</th><th>SVHN</th><th>CIFAR<br>10</th><th>CIFAR<br>100</th><th>STL<br>10</th><th>Image-<br>Net</th></tr>
+      <tr><td>VGG</td><td>11</td><td>11</td><td>11</td><td>13</td><td>13</td><td>13</td><td>19</td></tr>
+      <tr><td>ResNet</td><td>18</td><td>18</td><td>18</td><td>18</td><td>50</td><td>50</td><td>152</td></tr>
+      <tr><td>DenseNet</td><td>40</td><td>250</td><td>40</td><td>40</td><td>250</td><td>250</td><td>201</td></tr>
+    </table>
+    <div class="pcount rv" style="--i:2"><div><b>6</b><span>datasets</span></div><i>×</i><div><b>3</b><span>nets</span></div><i>×</i><div><b>25</b><span>learning rates</span></div><i>+</i><div><b>30</b><span>ImageNet runs</span></div><i>=</i><div><b>480</b><span>models</span></div></div>
+    <div class="label rv" style="--i:3;margin-top:30px">Learning-rate schedule (ImageNet: drops at 1/2 and 3/4)</div>
+    <svg class="rv" style="--i:3;width:100%;height:150px" viewBox="0 0 720 150" fill="none" font-family="inherit">
+      <g stroke="var(--rule-strong)" stroke-width="1"><path d="M60 120 H700"/><path d="M273 116 V124 M487 116 V124 M700 116 V124"/></g>
+      <path class="lrpath" d="M60 24 H273 V62 H487 V100 H700" stroke="var(--ink)" stroke-width="3"/>
+      <g fill="var(--muted)" font-size="15" stroke="none">
+        <text x="0" y="29">η</text><text x="0" y="67">η/10</text><text x="0" y="105">η/100</text>
+        <text x="56" y="144">0</text><text x="262" y="144">117</text><text x="476" y="144">233</text><text x="672" y="144">350</text>
+      </g>
+      <text x="700" y="30" text-anchor="end" fill="var(--red)" font-size="14" stroke="none">training keeps going after train error hits 0: the TPT</text>
+    </svg>
+  </div>
+  <aside class="notes">How the 480 models were made; press → to reveal the four steps. Data: seven balanced datasets, three subsampled to equal class sizes, no augmentation. Networks: three standard families, deeper for harder datasets. Training: a standard recipe, but long, 350 epochs, and the learning rate is swept with the best final test error kept, so these are well-tuned nets, not nets picked for collapse. Measurement: save checkpoints, push the TRAINING set through, compute means and covariances of the last-layer features; only NC4 uses test data. The TPT threshold is 99.9% rather than 100% because some datasets contain mislabels. (≈1:15)</aside>
+</section>
+
+<!-- ═════════════ 10 EVIDENCE ═════════════ -->
+<section class="slide" data-id="evidence" data-sec="expdisc">
+  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>7 datasets × 3 architectures · 480 trained models</span></div>
+  <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>The collapse is everywhere, and continues long after zero error.</span></span></h2>
+  <div class="c1-12 row3">
+    <div class="tabs rv" style="--i:1" id="ev-tabs">
+      <button data-k="0">NC1 <span>Fig. 6</span></button>
+      <button data-k="1">NC2 equinorm <span>Fig. 2</span></button>
+      <button data-k="2">NC2 equiangular <span>Fig. 3</span></button>
+      <button data-k="3">NC2 max-angle <span>Fig. 4</span></button>
+      <button data-k="4">NC3 self-duality <span>Fig. 5</span></button>
+      <button data-k="5">NC4 NCC mismatch <span>Fig. 7</span></button>
+    </div>
+    <div class="figstack rv" style="--i:2">
+      <img src="assets/fig6.png" alt="Fig. 6: Tr(Sigma_W Sigma_B^+)/C vs epoch, decreasing on log scale">
+      <img src="assets/fig2.png" alt="Fig. 2: coefficient of variation of class-mean and classifier norms vs epoch">
+      <img src="assets/fig3.png" alt="Fig. 3: standard deviation of pairwise cosines vs epoch">
+      <img src="assets/fig4.png" alt="Fig. 4: average |cos + 1/(C-1)| vs epoch">
+      <img src="assets/fig5.png" alt="Fig. 5: distance between normalized classifier and class-means vs epoch">
+      <img src="assets/fig7.png" alt="Fig. 7: test-set disagreement between network and NCC vs epoch">
+    </div>
+    <div style="display:grid;grid-template-columns:7fr 5fr;gap:24px;margin-top:18px">
+      <div class="caps">
+        <div><span class="yread">↓ <b>Lower</b> = tighter classes</span>\(\tfrac1C\Tr(\bSigma_W\bSigma_B^\dagger)\) on a log axis falls by several orders of magnitude for nearly every dataset–net pair. Within-class variability collapses.</div>
+        <div><span class="yread">↓ <b>Lower</b> = more equal lengths</span>\(\Std_c\|\bmu_c-\bmu_G\|/\mean_c\|\bmu_c-\bmu_G\|\) (blue) and the same for \(\|\bw_c\|\) (orange) decrease. Means and classifiers become equinorm.</div>
+        <div><span class="yread">↓ <b>Lower</b> = more equal angles</span>\(\Std_{c\ne c'}\cos_{\bmu}(c,c')\) and \(\Std_{c\ne c'}\cos_{\bw}(c,c')\) go to zero. All pairs form equal angles.</div>
+        <div><span class="yread">↓ <b>Lower</b> = closer to the Simplex ETF angle</span>\(\mean_{c\ne c'}|\cos+\tfrac{1}{C-1}|\to0\). The common angle is the <em>largest possible</em>, so it is a Simplex ETF.</div>
+        <div><span class="yread">↓ <b>Lower</b> = classifier closer to the means</span>\(\|\bW^\top/\|\bW\|_F-\bM/\|\bM\|_F\|_F^2\) decreases. The classifier and the means converge to the <em>same</em> ETF.</div>
+        <div><span class="yread">↓ <b>Lower</b> = net agrees with nearest class-center</span>The proportion of <em>test</em> points where \(\arg\max_c\langle\bw_c,\bh\rangle+b_c\ne\arg\min_c\|\bh-\bmu_c\|\) tends to zero.</div>
+      </div>
+      <p class="small" style="margin:0"><b style="color:var(--ink);font-weight:500">How to read:</b> rows are nets, columns are datasets ordered by difficulty. <span style="color:var(--red)">Red line</span> = start of TPT (99.9% train acc.; 99.6% ImageNet). Blue = class-means, orange = classifiers. Press → to step through the figures.</p>
+    </div>
+  </div>
+  <aside class="notes">Real data from the 480 models of the previous slide. Step through with the arrow key. Main things to point out: (1) every curve trends to zero; (2) the red TPT line usually sits early, and much of the decrease happens to its right, so training past zero error is what produces the collapse; (3) ImageNet and STL10 are the noisiest and collapse least, the honest weak spots. (≈1:25)</aside>
+</section>
+
+<!-- ═════════════ 11 BENEFITS ═════════════ -->
+<section class="slide" data-id="benefits" data-sec="expdisc">
+  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>Benefits · Table 1 &amp; Fig. 8</span></div>
+  <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>TPT also brings modest gains in accuracy and robustness.</span></span></h2>
+  <div class="c1-12 row3">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px">
+      <div style="grid-column:1/10">
+        <div class="label rv" style="--i:1">Table 1 · test accuracy, last epoch − first zero-error epoch (percentage points)</div>
+        <div class="dchart rv" style="--i:1" id="dchart"></div>
+      </div>
+      <div style="grid-column:10/13;align-self:center">
+        <div class="rv" style="--i:2"><span class="yread" style="margin-bottom:12px">↑ <b>Above 0</b> = TPT helped · <span style="color:var(--red)">below 0</span> = it hurt</span><div class="big-num" style="font-size:96px">+0.35</div><div class="small">median gain (pp) over 21 pairs; mean +0.50</div></div>
+        <p class="small rv" style="--i:3;margin-top:16px">3 of 21 decrease (<span style="color:var(--red)">red</span>), so the gains are not universal.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;margin-top:22px">
+      <div class="figstack rv" style="--i:3;grid-column:1/9;height:372px"><img class="on" src="assets/fig8.png" alt="Fig. 8: robustness vs epoch increasing during TPT"></div>
+      <div style="grid-column:9/13">
+        <div class="label rv" style="--i:4">Fig. 8 · adversarial robustness (DeepFool, 100 test images)</div>
+        <div class="rv" style="--i:4;margin:2px 0 4px"><span class="yread">↑ <b>Higher</b> = harder to fool (more robust)</span></div>
+        <div class="eq rv" style="--i:4;margin-top:0">\[ \mean_i\,\|r(x_i)\|_2/\|x_i\|_2 \]</div>
+        <p class="small rv" style="--i:5">\(r(x_i)\) is the smallest perturbation that flips the prediction. Most of the gain happens <em>during</em> TPT. The median improvement is 0.0252 and the mean is 0.2452, so the mean is dominated by a few cells such as MNIST.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Table 1 as a chart: the gain in test accuracy from the first zero-error epoch to the last. The median is +0.35 points. Be fair: ImageNet ResNet and DenseNet and CIFAR100 DenseNet get worse. Fig. 8: the minimal perturbation needed to flip a prediction grows during TPT. The paper's claim is co-occurrence, not proof that the collapse causes these gains. (≈1:00)</aside>
+</section>
+
+<!-- ═════════════ 12 WHAT CAME NEXT ═════════════ -->
+<section class="slide" data-id="disc" data-sec="expdisc">
+  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span> Discussion </span></div>
+  <h2 class="title" style="margin-bottom:30px"><span class="mask"><span> My perspective &amp; what came next.</span></span></h2>
+  <div class="row3" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:34px 24px;align-content:start">
+    <div class="card frag" data-f="1" style="grid-column:1/-1">
+      <div class="label">My perspective</div>
+      <h3>Not every task wants collapse</h3>
+      <p class="small" style="margin:0 0 14px">One representation of multimodal biological data, used for several tasks</p>
+      <ol class="steps" style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:24px">
+        <li><p>For clustering it looks good: clustering works like classification, so <b style="font-weight:500">tight, well-separated groups</b> help.</p></li>
+        <li><p>But the same representation also feeds <b style="font-weight:500">other biological tasks</b>.</p></li>
+        <li><p>There we never want <b style="font-weight:500">different cells to share one representation</b>: collapse erases the cell-to-cell differences those tasks need.</p></li>
+      </ol>
+    </div>
+    <div class="card frag" data-f="2">
+      <div class="label">The next paper</div>
+      <h3>Neural Collapse Under MSE Loss</h3>
+      <p class="small" style="margin:0 0 14px">Han, Papyan &amp; Donoho · ICLR 2022 · Outstanding Paper Award</p>
+      <ol class="steps">
+        <li><p>Swap cross-entropy for squared error: <b style="font-weight:500">the same four collapses appear</b>.</p></li>
+        <li><p>It explains <b style="font-weight:500">how</b> training gets there: at every moment the last layer is already the best fit to the current features, so only the features need to be followed.</p>
+          <p class="small">They call this path the “central path”.</p></li>
+      </ol>
+    </div>
+    <div class="card frag" data-f="3">
+      <div class="label">What if the last layer is not linear?</div>
+      <h3>Collapse spreads backwards</h3>
+      <p class="small" style="margin:0 0 14px">Súkeník, Mondelli &amp; Lampert · NeurIPS 2023</p>
+      <ol class="steps">
+        <li><p>Put ReLU layers before the classifier: the earlier layers collapse too. This is <b style="font-weight:500">deep neural collapse</b>, and it is provably the best solution.</p>
+          <p class="small">Proved for 2 classes.</p></li>
+        <li><p>The shape changes: after a ReLU every feature is ≥ 0, so the class-means end up <b style="font-weight:500">at right angles</b> instead of at the ETF angle.</p></li>
+      </ol>
+    </div>
+  </div>
+  <p class="frag" data-f="4" style="grid-column:1/-1;align-self:end;margin:0;padding-top:16px;border-top:1px solid var(--rule);font-size:22px;color:var(--ink)"><span class="label" style="margin-right:14px">Takeaway</span>Keep training after zero error, and the last layer settles into the simplest, most noise-robust shape there is.</p>
+  <aside class="notes">Press → to reveal each card, then the takeaway. My own view first, then two follow-ups. Top, my perspective: in my work one representation integrates multimodal biological data and serves several tasks. For clustering, collapse is fine, since clustering behaves like classification and tight, well-separated groups help. But the same embedding feeds other biological tasks, and there we never want different cells to end up with the same representation; collapse erases exactly the cell-to-cell differences those tasks rely on. Bottom left, the next paper by the same authors (ICLR 2022 Outstanding Paper): with squared-error loss the same four collapses appear, and they explain the route: at each moment the classifier is already the best least-squares fit to the current features, the "central path", so the dynamics reduce to the features alone. Bottom right, what changes if the last layers are not linear, from one paper (Súkeník, Mondelli & Lampert, NeurIPS 2023): with ReLU layers before the classifier, the earlier layers collapse too ("deep neural collapse"), and they prove this is the optimal solution for two classes. Because ReLU outputs are non-negative, the class-means end up orthogonal (right angles) rather than at the Simplex ETF angle. Close with the one-line takeaway. (≈1:40)</aside>
+</section>
+
+<!-- ═════════════ 13 END ═════════════ -->
+<section class="slide dark" data-id="end" data-sec="expdisc">
+  <div class="kicker rv"><b>Thank you</b><span>Questions &amp; discussion</span></div>
+  <div class="c1-6 row3 stack" style="justify-content:space-between;padding-bottom:20px">
+    <h1 class="qs" style="font-size:150px;line-height:.9;margin-top:30px"><span class="mask"><span>Questions?</span></span></h1>
+    <div class="small rv" style="--i:2;font-size:15px;line-height:1.6">
+      <div class="label" style="color:rgba(255,255,255,.55)">References</div>
+      <ol class="refs">
+        <li>Papyan, Han, Donoho. <a class="ext" href="https://www.pnas.org/doi/10.1073/pnas.2015509117" target="_blank" rel="noopener">Prevalence of neural collapse during the terminal phase of deep learning training</a>. <i>PNAS</i> 117(40), 2020.</li>
+        <li>Webb, Lowe. <a class="ext" href="https://doi.org/10.1016/0893-6080(90)90019-H" target="_blank" rel="noopener">The optimised internal representation of multilayer classifier networks performs nonlinear discriminant analysis</a>. <i>Neural Networks</i> 3, 1990.</li>
+        <li>Soudry, Hoffer, Nacson, Gunasekar, Srebro. <a class="ext" href="https://jmlr.org/papers/v19/18-188.html" target="_blank" rel="noopener">The implicit bias of gradient descent on separable data</a>. <i>JMLR</i> 19, 2018.</li>
+        <li>Han, Papyan, Donoho. <a class="ext" href="https://arxiv.org/abs/2106.02073" target="_blank" rel="noopener">Neural collapse under MSE loss: proximity to and dynamics on the central path</a>. <i>ICLR</i> 2022.</li>
+        <li>Súkeník, Mondelli, Lampert. <a class="ext" href="https://arxiv.org/abs/2305.13165" target="_blank" rel="noopener">Deep neural collapse is provably optimal for the deep unconstrained features model</a>. <i>NeurIPS</i> 2023.</li>
+      </ol>
+      <div class="label" style="color:rgba(255,255,255,.55);margin-top:18px">Credits</div>
+      Design inspiration: National Design Studio, <a class="ext" href="https://ndstudio.gov/" target="_blank" rel="noopener">ndstudio.gov</a><br>
+      <span class="pr-only">Typefaces: Cormorant Garamond and Great Vibes (Google Fonts)<br></span>
+      Figure colors: Princess Colour Schemes, <a class="ext" href="https://leahsmyth.github.io/Princess-Colour-Schemes/index.html" target="_blank" rel="noopener">leahsmyth.github.io</a>
+    </div>
+  </div>
+  <figure class="viz c8-12 row3 rv" style="--i:1">
+    <div class="frame" style="border:0"><canvas id="cv-end"></canvas></div>
+  </figure>
+  <aside class="notes">Open for questions. A good backup question to pose: if NC4 says the net is just nearest-class-center on train means, why does test accuracy not drop to whatever NCC on raw features would give? (Because the features themselves are learned.) (≈0:20)</aside>
+</section>
+
+<footer class="chrome" id="bottom">
+  <div class="l"><a class="ext" href="https://www.pnas.org/doi/10.1073/pnas.2015509117" target="_blank" rel="noopener">Papyan, Han &amp; Donoho · PNAS 2020</a></div>
+  <div class="r"><span>← → navigate · P play · D theme · N notes · ? help</span>
+    <button id="prev" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2 L4 7 L9 12"/></svg></button>
+    <button id="next" aria-label="Next"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2 L10 7 L5 12"/></svg></button>
+  </div>
+</footer>
+<div id="progress"></div>
+</div>
+
+<div id="notes"><div class="h"><span id="notes-title">Speaker notes</span><span>N to hide</span></div><div id="notes-body"></div></div>
+<div id="help"><div class="p">
+  <h4>Controls</h4>
+  <div><kbd>→</kbd><kbd>Space</kbd>next step / slide</div>
+  <div><kbd>←</kbd>previous</div>
+  <div><kbd>P</kbd>play / pause animation</div>
+  <div><kbd>R</kbd>reset animation to epoch 0</div>
+  <div><kbd>[</kbd><kbd>]</kbd>scrub animation back / forward</div>
+  <div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>speed 0.5× / 1× / 2×</div>
+  <div><kbd>N</kbd>speaker notes &nbsp; <kbd>T</kbd>reset timer</div>
+  <div><kbd>D</kbd>light / dark mode (dark is default)</div>
+  <div><kbd>F</kbd>fullscreen &nbsp; <kbd>Home</kbd><kbd>End</kbd>first / last</div>
+  <div style="margin-top:10px;color:#6b6b6b">Drag 3-D views to rotate. Click outside to close.</div>
+</div></div>
+
+<script>
+/*SIM-START*/
+// ───────────────────────── math utilities ─────────────────────────
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x); return x * x * (3 - 2 * x); };
+const V = {
+  dot: (a, b) => { let s = 0; for (let i = 0; i < a.length; i++) s += a[i] * b[i]; return s; },
+  norm: a => Math.sqrt(V.dot(a, a)),
+  sub: (a, b) => a.map((x, i) => x - b[i]),
+  add: (a, b) => a.map((x, i) => x + b[i]),
+  scale: (a, k) => a.map(x => x * k),
+  lerp: (a, b, t) => a.map((x, i) => x + (b[i] - x) * t),
+  mean: arr => { const m = new Array(arr[0].length).fill(0); for (const v of arr) for (let i = 0; i < v.length; i++) m[i] += v[i]; return m.map(x => x / arr.length); }
+};
+const avg = xs => xs.reduce((a, b) => a + b, 0) / xs.length;
+const std = xs => { const m = avg(xs); return Math.sqrt(avg(xs.map(x => (x - m) ** 2))); };
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function gauss(r) { let u = 0; while (!u) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+
+// symmetric eigendecomposition (cyclic Jacobi); returns {vals, vecs} with vecs[k] the k-th eigenvector
+function eigSym(A) {
+  const n = A.length, a = A.map(r => r.slice()), Q = [...Array(n)].map((_, i) => [...Array(n)].map((_, j) => +(i === j)));
+  for (let sweep = 0; sweep < 60; sweep++) {
+    let off = 0; for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) off += a[p][q] * a[p][q];
+    if (off < 1e-30) break;
+    for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) {
+      const apq = a[p][q]; if (Math.abs(apq) < 1e-300) continue;
+      const th = (a[q][q] - a[p][p]) / (2 * apq);
+      const t = (th >= 0 ? 1 : -1) / (Math.abs(th) + Math.sqrt(th * th + 1));
+      const c = 1 / Math.sqrt(t * t + 1), s = t * c;
+      for (let k = 0; k < n; k++) { const x = a[k][p], y = a[k][q]; a[k][p] = c * x - s * y; a[k][q] = s * x + c * y; }
+      for (let k = 0; k < n; k++) { const x = a[p][k], y = a[q][k]; a[p][k] = c * x - s * y; a[q][k] = s * x + c * y; }
+      for (let k = 0; k < n; k++) { const x = Q[k][p], y = Q[k][q]; Q[k][p] = c * x - s * y; Q[k][q] = s * x + c * y; }
+    }
+  }
+  return { vals: a.map((r, i) => r[i]), vecs: [...Array(n)].map((_, k) => Q.map(r => r[k])) };
+}
+function pinvSym(A) {
+  const { vals, vecs } = eigSym(A), n = A.length, mx = Math.max(...vals.map(Math.abs)), P = [...Array(n)].map(() => new Array(n).fill(0));
+  vals.forEach((l, k) => { if (Math.abs(l) > 1e-9 * mx) for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) P[i][j] += vecs[k][i] * vecs[k][j] / l; });
+  return P;
+}
+const outerAcc = (S, v, w = 1) => { for (let i = 0; i < v.length; i++) for (let j = 0; j < v.length; j++) S[i][j] += w * v[i] * v[j]; };
+const zeros = p => [...Array(p)].map(() => new Array(p).fill(0));
+
+function etf(p, C) {
+  if (p === 2 && C === 3) return [90, 210, 330].map(d => [Math.cos(d * Math.PI / 180), Math.sin(d * Math.PI / 180)]);
+  if (p === 3 && C === 4) { const s = 1 / Math.sqrt(3); return [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]].map(v => V.scale(v, s)); }
+  // General case (p ≥ C−1): the ETF written in a real Fourier basis of 𝟏⊥, so the first two coordinates
+  // show it as a regular C-gon (vertex 0 on top) and every vertex has the same projected radius √(2/(C−1)).
+  if (p >= C - 1) {
+    const B = [];
+    for (let j = 1; 2 * j < C; j++) { const ph = j === 1 ? Math.PI / 2 : 0; B.push(c => Math.sqrt(2 / C) * Math.cos(2 * Math.PI * j * c / C + ph), c => Math.sqrt(2 / C) * Math.sin(2 * Math.PI * j * c / C + ph)); }
+    if (C % 2 === 0) B.push(c => (c % 2 ? -1 : 1) / Math.sqrt(C));
+    return [...Array(C)].map((_, c) => [...Array(p)].map((_, i) => i < B.length ? Math.sqrt(C / (C - 1)) * B[i](c) : 0));
+  }
+  throw new Error('etf: unsupported');
+}
+function randRot(p, r) {
+  const Q = [];
+  for (let k = 0; k < p; k++) { let v = [...Array(p)].map(() => gauss(r)); for (const q of Q) v = V.sub(v, V.scale(q, V.dot(v, q))); Q.push(V.scale(v, 1 / V.norm(v))); }
+  return Q;
+}
+
+// ───────────────────────── Neural-Collapse toy simulation ─────────────────────────
+// The geometry is scripted (means → ETF, Σ_W → 0, W → M^T, b → 0); all metrics are computed from the simulated points.
+class NCSim {
+  constructor({ p, C, n = 60, nTest = 60, seed = 7, spread, scale = 1 }) {
+    const r = rng(seed); this.p = p; this.C = C; this.V = etf(p, C);
+    // `scale` < 1 keeps the initial means/classifiers at the same full-dimension norm as the C = 3 case when p grows
+    let m0 = [...Array(C)].map(() => [...Array(p)].map(() => gauss(r) * 0.42 * scale));
+    const g = V.mean(m0); this.m0 = m0.map(m => V.sub(m, g));
+    this.w0 = [...Array(C)].map(() => [...Array(p)].map(() => gauss(r) * 0.55 * scale));
+    this.b0 = [...Array(C)].map(() => gauss(r) * 0.25);
+    const sc = spread || (p === 2 ? [0.2, 0.075] : [0.2, 0.11, ...Array(p - 2).fill(0.065)]);
+    this.z = []; this.zt = [];
+    for (let c = 0; c < C; c++) {
+      const Q = randRot(p, r);
+      for (let i = 0; i < n; i++) { let z = new Array(p).fill(0); Q.forEach((q, k) => { z = V.add(z, V.scale(q, sc[k] * gauss(r))); }); this.z.push({ c, z }); }
+      for (let i = 0; i < nTest; i++) this.zt.push({ c, z: [...Array(p)].map(() => gauss(r) * 0.17) });
+    }
+    this.cache = new Map();
+    this.N = 141; this.curve = []; for (let k = 0; k < this.N; k++) this.curve.push(this.snapshot(k / (this.N - 1)).m);
+    let last = -1; for (let k = 0; k < this.N; k++) if (this.curve[k].trainErr > 0) last = k;
+    this.tpt = Math.min(1, (last + 1) / (this.N - 1));
+  }
+  snapshot(t) {
+    const key = Math.round(t * 2000); if (this.cache.has(key)) return this.cache.get(key);
+    const { C, p } = this;
+    const a = ease((t - 0.03) / 0.8), bt = ease(t / 0.97), s = 0.6 + 0.4 * ease(t), sig = Math.exp(-5.4 * t), tsig = 0.55 + 0.45 * sig;
+    const ctr = [...Array(C)].map((_, c) => V.scale(V.lerp(this.m0[c], this.V[c], a), s));
+    const pts = this.z.map(({ c, z }) => ({ c, h: V.add(ctr[c], V.scale(z, sig)) }));
+    const test = this.zt.map(({ c, z }) => ({ c, h: V.add(ctr[c], V.scale(z, tsig)) }));
+    const W = [...Array(C)].map((_, c) => V.lerp(this.w0[c], V.scale(this.V[c], 1.6 * s), bt));
+    const b = this.b0.map(x => x * (1 - bt));
+    // empirical moments
+    const mu = [...Array(C)].map((_, c) => V.mean(pts.filter(q => q.c === c).map(q => q.h)));
+    const muG = V.mean(pts.map(q => q.h));
+    const Mc = mu.map(m => V.sub(m, muG));
+    const SW = zeros(p), SB = zeros(p);
+    pts.forEach(q => outerAcc(SW, V.sub(q.h, mu[q.c]), 1 / pts.length));
+    Mc.forEach(m => outerAcc(SB, m, 1 / C));
+    const P = pinvSym(SB); let tr = 0; for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) tr += SW[i][j] * P[j][i];
+    const pred = h => { let bi = 0, bv = -Infinity; for (let c = 0; c < C; c++) { const v = V.dot(W[c], h) + b[c]; if (v > bv) { bv = v; bi = c; } } return bi; };
+    const ncc = h => { let bi = 0, bv = Infinity; for (let c = 0; c < C; c++) { let d = 0; for (let i = 0; i < p; i++) { const e = h[i] - mu[c][i]; d += e * e; } if (d < bv) { bv = d; bi = c; } } return bi; };
+    const cosPairs = vs => { const out = []; for (let i = 0; i < vs.length; i++) for (let j = i + 1; j < vs.length; j++) out.push(V.dot(vs[i], vs[j]) / (V.norm(vs[i]) * V.norm(vs[j]))); return out; };
+    const cm = cosPairs(Mc), cw = cosPairs(W), sh = 1 / (C - 1);
+    const nM = Math.sqrt(Mc.reduce((s2, m) => s2 + V.dot(m, m), 0)), nW = Math.sqrt(W.reduce((s2, w) => s2 + V.dot(w, w), 0));
+    let nc3 = 0; for (let c = 0; c < C; c++) { const d = V.sub(V.scale(W[c], 1 / nW), V.scale(Mc[c], 1 / nM)); nc3 += V.dot(d, d); }
+    const m = {
+      nc1: tr / C,
+      normCV: std(Mc.map(V.norm)) / avg(Mc.map(V.norm)), wnormCV: std(W.map(V.norm)) / avg(W.map(V.norm)),
+      cosStd: std(cm), wcosStd: std(cw),
+      cosShift: avg(cm.map(x => Math.abs(x + sh))), wcosShift: avg(cw.map(x => Math.abs(x + sh))),
+      nc3, nc4: avg(test.map(q => +(pred(q.h) !== ncc(q.h)))), trainErr: avg(pts.map(q => +(pred(q.h) !== q.c)))
+    };
+    const snap = { t, pts, test, mu, muG, Mc, W, b, SW, sig, m, pred, ncc, nM, nW };
+    if (this.cache.size > 400) this.cache.clear();
+    this.cache.set(key, snap); return snap;
+  }
+}
+/*SIM-END*/
+
+// ───────────────────────── canvas helpers ─────────────────────────
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const COL = {};
+function readColors() { ['--ink', '--muted', '--faint', '--blue', '--orange', '--red', '--card'].forEach(k => COL[k.slice(2)] = css(k)); COL.cls = [...Array(10)].map((_, c) => COL['c' + c] = css('--c' + c)); }
+function rgba(hex, a) { const h = hex.replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map(x => x + x).join('') : h, 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; }
+function fit(cv) {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  const w = cv.offsetWidth, h = cv.offsetHeight; if (!w || !h) return null;
+  const W = Math.max(1, Math.round(r.width * dpr)), H = Math.max(1, Math.round(r.height * dpr));
+  if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+  const ctx = cv.getContext('2d'); ctx.setTransform(W / w, 0, 0, H / h, 0, 0); ctx.clearRect(0, 0, w, h);
+  return { ctx, w, h };
+}
+function arrow(ctx, x0, y0, x1, y1, col, lw = 2.5, head = 10) {
+  const a = Math.atan2(y1 - y0, x1 - x0);
+  ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = lw; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 - Math.cos(a) * head * .6, y1 - Math.sin(a) * head * .6); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - head * Math.cos(a - .38), y1 - head * Math.sin(a - .38)); ctx.lineTo(x1 - head * Math.cos(a + .38), y1 - head * Math.sin(a + .38)); ctx.closePath(); ctx.fill();
+}
+const fmtSci = v => { if (!isFinite(v)) return '–'; if (v === 0) return '0'; const e = Math.floor(Math.log10(Math.abs(v))); if (e >= -2 && e < 3) return v.toFixed(e >= 0 ? 2 : 3); return (v / 10 ** e).toFixed(2) + 'e' + e; };
+const fmt3 = v => v.toFixed(3);
+const pct = v => (v * 100).toFixed(1) + '%';
+const EPOCHS = 350;
+
+// ───────────────────────── Player (animation control) ─────────────────────────
+const ICON = {
+  play: '<svg viewBox="0 0 14 14"><path d="M3 1.5 L12 7 L3 12.5 Z" fill="currentColor"/></svg>',
+  pause: '<svg viewBox="0 0 14 14"><rect x="2.5" y="1.5" width="3.2" height="11" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" fill="currentColor"/></svg>',
+  reset: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 7 A4.5 4.5 0 1 0 4 3.6"/><path d="M1.8 1.6 V4.4 H4.6"/></svg>'
+};
+class Player {
+  constructor(root, { duration = 10000, onT = () => { }, loop = false, label = t => `Epoch ${String(Math.round(t * EPOCHS)).padStart(3, '0')} <small>/ ${EPOCHS}</small>`, minimal = false, tpt = null, t0 = 0 } = {}) {
+    Object.assign(this, { duration, onT, loop, label, t: t0, playing: false, speed: 1, tpt, t0 });
+    this.root = root;
+    root.innerHTML = minimal ? `<button class="pp" aria-label="Play/pause"></button>` :
+      `<button class="pp" aria-label="Play/pause"></button><input type="range" min="0" max="1000" value="0" aria-label="Training progress"><span class="ep"></span>
+       <div class="spd"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button></div><button class="rs" aria-label="Reset">${ICON.reset}</button>`;
+    this.pp = root.querySelector('.pp'); this.range = root.querySelector('input'); this.ep = root.querySelector('.ep');
+    this.pp.onclick = () => this.toggle();
+    if (!minimal) {
+      // read the dragged value before pause(): pause() → sync() writes the old t back into the range
+      this.range.addEventListener('input', () => { const t = this.range.value / 1000; this.pause(); this.set(t); });
+      this.range.addEventListener('pointerup', () => this.range.blur());
+      this.range.addEventListener('keydown', e => e.preventDefault());
+      root.querySelectorAll('.spd button').forEach(b => b.onclick = () => this.setSpeed(+b.dataset.s));
+      root.querySelector('.rs').onclick = () => this.reset();
+    }
+    this.sync();
+  }
+  setSpeed(s) { this.speed = s; this.root.querySelectorAll('.spd button').forEach(b => b.classList.toggle('on', +b.dataset.s === s)); }
+  set(t) { this.t = clamp(t); this.onT(this.t); this.sync(); }
+  play() { if (window.STATIC) return; if (this.t >= 1) this.t = this.t0; this.playing = true; this.sync(); }
+  pause() { this.playing = false; this.sync(); }
+  toggle() { this.playing ? this.pause() : this.play(); }
+  reset() { this.pause(); this.set(this.t0); }
+  update(dt) {
+    if (!this.playing) return;
+    let t = this.t + dt * this.speed / this.duration;
+    if (t >= 1) { if (this.loop) t = t - 1; else { t = 1; this.playing = false; } }
+    this.set(t);
+  }
+  sync() {
+    this.pp.innerHTML = this.playing ? ICON.pause : ICON.play;
+    if (this.range) { this.range.value = Math.round(this.t * 1000); this.range.style.setProperty('--fill', (this.t * 100) + '%'); }
+    if (this.ep) this.ep.innerHTML = this.label(this.t);
+  }
+}
+
+// ───────────────────────── Sparkline ─────────────────────────
+class Spark {
+  constructor(cv, { series, log = false, tpt = null, N }) { Object.assign(this, { cv, series, log, tpt, N }); }
+  draw(t) {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f;
+    const pad = { l: 4, r: 4, t: 10, b: 16 };
+    const tf = v => this.log ? Math.log10(Math.max(v, 1e-12)) : v;
+    let lo = Infinity, hi = -Infinity; this.series.forEach(s => s.vals.forEach(v => { const y = tf(v); lo = Math.min(lo, y); hi = Math.max(hi, y); }));
+    if (!this.log) lo = Math.min(lo, 0); if (hi - lo < 1e-9) hi = lo + 1;
+    const X = i => pad.l + (w - pad.l - pad.r) * i / (this.N - 1), Y = v => pad.t + (h - pad.t - pad.b) * (1 - (tf(v) - lo) / (hi - lo));
+    ctx.strokeStyle = rgba(COL.ink, .08); ctx.lineWidth = 1;
+    for (let k = 0; k <= 3; k++) { const y = pad.t + (h - pad.t - pad.b) * k / 3; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); }
+    if (this.tpt != null) {
+      const x = pad.l + (w - pad.l - pad.r) * this.tpt; ctx.strokeStyle = COL.red; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x, pad.t - 6); ctx.lineTo(x, h - pad.b); ctx.stroke();
+      ctx.fillStyle = COL.red; ctx.font = '12px ' + css('--font'); ctx.fillText('TPT →', x + 5, pad.t + 4);
+    }
+    const ki = Math.round(t * (this.N - 1));
+    this.series.forEach(s => {
+      ctx.strokeStyle = rgba(s.color, .16); ctx.lineWidth = 2; ctx.beginPath(); s.vals.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))); ctx.stroke();
+      ctx.strokeStyle = s.color; ctx.lineWidth = 2.2; ctx.beginPath(); s.vals.slice(0, ki + 1).forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))); ctx.stroke();
+      ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(X(ki), Y(s.vals[ki]), 4, 0, 7); ctx.fill();
+    });
+    ctx.fillStyle = COL.muted; ctx.font = '11px ' + css('--font'); ctx.fillText('epoch 0', pad.l, h - 2); const lbl = `${EPOCHS}`; ctx.fillText(lbl, w - pad.r - ctx.measureText(lbl).width, h - 2);
+    if (this.log) { ctx.fillText('log', w - pad.r - 18, pad.t + 2); }
+  }
+}
+
+// ───────────────────────── 2-D scene ─────────────────────────
+class Scene2D {
+  constructor(cv, sim, o) { Object.assign(this, { cv, sim, o }); this.t = 0; }
+  setT(t) { this.t = t; this.draw(); }
+  draw() {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f, o = this.o, S = this.sim.snapshot(this.t), C = this.sim.C;
+    // For p > 2 the view is the projection onto the first two coordinates, zoomed so the projected ETF keeps the C = 3 size;
+    // the region map is the plane slice through μ_G (Winv fills the hidden coordinates from μ_G).
+    const r2 = Math.hypot(this.sim.V[0][0], this.sim.V[0][1]), R = 1.32 * r2, k = Math.min(w, h) / 2 / R, cx = w / 2, cy = h / 2 + 8;
+    const rest = S.muG.slice(2), P = v => [cx + k * v[0], cy - k * v[1]], Winv = (x, y) => [(x - cx) / k, (cy - y) / k, ...rest];
+    // decision regions
+    if (o.regions) {
+      const cell = C > 5 ? 6 : 4;  // coarser grid keeps the frame rate up at large C
+      for (let y = 0; y < h; y += cell) for (let x = 0; x < w; x += cell) {
+        const v = Winv(x + cell / 2, y + cell / 2), a = S.pred(v), n = S.ncc(v);
+        ctx.fillStyle = a === n ? rgba(COL.cls[a], .13) : rgba(COL.red, .26); ctx.fillRect(x, y, cell, cell);
+      }
+      ctx.fillStyle = COL.ink;
+      for (let y = 0; y < h; y += cell) for (let x = 0; x < w; x += cell) {
+        const v = Winv(x, y), n = S.ncc(v); if (n !== S.ncc(Winv(x + cell, y)) || n !== S.ncc(Winv(x, y + cell))) ctx.fillRect(x, y, 2, 2);
+      }
+    } else {
+      ctx.strokeStyle = rgba(COL.ink, .06); ctx.lineWidth = 1;
+      for (let g = -1; g <= 1; g += .5) { let [x0, y0] = P([g, -R]), [x1, y1] = P([g, R]); ctx.beginPath(); ctx.moveTo(x0, 0); ctx.lineTo(x1, h); ctx.stroke(); [x0, y0] = P([-R * 2, g]); ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(w, y0); ctx.stroke(); }
+    }
+    const G = P(S.muG), meanNorm = avg(S.Mc.map(V.norm));
+    // ETF ghost (centered at the global mean)
+    if (o.etf) {
+      // projected vertices sorted by angle, so the outline is convex for any vertex order (e.g. the tetrahedron at C = 4)
+      const ring = this.sim.V.map(v => P(V.add(S.muG, V.scale(v, meanNorm)))).sort((a, b) => Math.atan2(a[1] - G[1], a[0] - G[0]) - Math.atan2(b[1] - G[1], b[0] - G[0]));
+      ctx.setLineDash([5, 6]); ctx.strokeStyle = rgba(COL.ink, .35); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(G[0], G[1], k * meanNorm * r2, 0, 7); ctx.stroke();
+      ctx.beginPath(); ring.forEach((q, i) => i ? ctx.lineTo(...q) : ctx.moveTo(...q)); ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+      ring.forEach(q => { ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(q[0], q[1], 12, 0, 7); ctx.stroke(); });
+    }
+    // within-class ellipses
+    if (o.ellipses) for (let c = 0; c < C; c++) {
+      const pts = S.pts.filter(q => q.c === c), Sc = zeros(2); pts.forEach(q => outerAcc(Sc, V.sub(q.h, S.mu[c]).slice(0, 2), 1 / pts.length));
+      const { vals, vecs } = eigSym(Sc), [m0, m1] = P(S.mu[c]);
+      const ang = -Math.atan2(vecs[0][1], vecs[0][0]);
+      ctx.strokeStyle = COL.cls[c]; ctx.lineWidth = 1.6; ctx.setLineDash([4, 4]); ctx.beginPath();
+      ctx.ellipse(m0, m1, Math.max(.5, 2 * k * Math.sqrt(Math.max(vals[0], 0))), Math.max(.5, 2 * k * Math.sqrt(Math.max(vals[1], 0))), ang, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    }
+    // test points (NC4)
+    if (o.test) S.test.forEach(q => {
+      const [x, y] = P(q.h), bad = S.pred(q.h) !== S.ncc(q.h);
+      ctx.strokeStyle = bad ? COL.red : rgba(COL.cls[q.c], .8); ctx.lineWidth = bad ? 2.4 : 1.3; ctx.beginPath(); ctx.arc(x, y, bad ? 6 : 3.6, 0, 7); ctx.stroke();
+    });
+    // train points
+    if (o.points !== false) S.pts.forEach(q => { const [x, y] = P(q.h); ctx.fillStyle = rgba(COL.cls[q.c], o.test ? .55 : .72); ctx.beginPath(); ctx.arc(x, y, 3.2, 0, 7); ctx.fill(); });
+    // class means
+    if (o.means !== false) S.Mc.forEach((mv, c) => {
+      const tip = o.unitF ? V.add(S.muG, V.scale(mv, 1.25 / S.nM)) : S.mu[c]; const [x, y] = P(tip);
+      ctx.strokeStyle = COL.blue; ctx.lineWidth = o.cls ? 6 : 2.6; ctx.beginPath(); ctx.moveTo(...G); ctx.lineTo(x, y); ctx.stroke();
+      ctx.fillStyle = COL.cls[c]; ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fill(); ctx.stroke();
+    });
+    // classifier vectors (rescaled to match the means)
+    if (o.cls) {
+      const sc = o.unitF ? 1 : 1.22 * meanNorm / avg(S.W.map(V.norm));
+      const base = o.unitF ? 1.25 : 1;
+      S.W.forEach((wv, c) => {
+        const tip = o.unitF ? V.scale(wv, base / S.nW) : V.scale(wv, sc);
+        const [x1, y1] = P(V.add(S.muG, tip));
+        if (o.unitF) { const mt = P(V.add(S.muG, V.scale(S.Mc[c], base / S.nM))); ctx.setLineDash([3, 4]); ctx.strokeStyle = COL.red; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(...mt); ctx.stroke(); ctx.setLineDash([]); }
+        arrow(ctx, G[0], G[1], x1, y1, COL.orange, 2.4, 13);
+      });
+    }
+    ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.arc(G[0], G[1], 4.5, 0, 7); ctx.fill();
+    ctx.font = '15px ' + css('--font'); ctx.fillText('μ', G[0] + 8, G[1] + 18); ctx.font = '11px ' + css('--font'); ctx.fillText('G', G[0] + 17, G[1] + 22);
+    // angle arcs (NC2): in-plane angles are the true angles only for p = 2
+    if (o.angles && this.sim.p === 2) {
+      const th = S.Mc.map((m, c) => ({ c, a: Math.atan2(m[1], m[0]) })).sort((p, q) => p.a - q.a);
+      th.forEach((p, i) => {
+        const q = th[(i + 1) % th.length]; let a0 = p.a, a1 = q.a; if (a1 <= a0) a1 += 2 * Math.PI;
+        const deg = (a1 - a0) * 180 / Math.PI, rr = 44 + i * 0;
+        ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(G[0], G[1], rr, -a0, -a1, true); ctx.stroke();
+        const am = (a0 + a1) / 2; ctx.font = '500 17px ' + css('--font'); const txt = deg.toFixed(1) + '°', tw = ctx.measureText(txt).width;
+        const lx = G[0] + Math.cos(am) * (rr + 34) - tw / 2, ly = G[1] - Math.sin(am) * (rr + 34) + 6;
+        ctx.fillStyle = rgba(COL.card, .85); ctx.fillRect(lx - 4, ly - 16, tw + 8, 22); ctx.fillStyle = COL.ink; ctx.fillText(txt, lx, ly);
+      });
+    } else if (o.angles) {
+      // projected angles are not the real ones, so report the spread of the true pairwise angles in R^p
+      const ang = []; for (let i = 0; i < C; i++) for (let j = i + 1; j < C; j++) ang.push(Math.acos(clamp(V.dot(S.Mc[i], S.Mc[j]) / (V.norm(S.Mc[i]) * V.norm(S.Mc[j])), -1, 1)) * 180 / Math.PI);
+      const x1 = w - 18, font = css('--font'); ctx.textAlign = 'right';
+      ctx.font = '12px ' + font; ctx.fillStyle = COL.muted; ctx.fillText(`TRUE PAIRWISE ANGLES IN ℝ${'⁰¹²³⁴⁵⁶⁷⁸⁹'[this.sim.p]} · ${ang.length} PAIRS`, x1, 26);
+      ctx.font = '500 26px ' + font; ctx.fillStyle = COL.ink; ctx.fillText(`${Math.min(...ang).toFixed(1)}° – ${Math.max(...ang).toFixed(1)}°`, x1, 58);
+      ctx.font = '13px ' + font; ctx.fillStyle = COL.muted; ctx.fillText(`Simplex ETF: arccos(−1/${C - 1}) = ${(Math.acos(-1 / (C - 1)) * 180 / Math.PI).toFixed(1)}°`, x1, 80);
+      ctx.textAlign = 'left';
+    }
+    // norm bars (NC2)
+    if (o.bars) {
+      const bx = 22, by = h - 22, bw = C > 6 ? 14 : 26, gap = C > 6 ? 6 : 8, bh = 120, mx = 1.05;
+      ctx.font = '12px ' + css('--font'); ctx.fillStyle = COL.muted; ctx.fillText('‖μc − μG‖ per class', bx, by - bh - 12);
+      S.Mc.forEach((m, c) => { const v = V.norm(m) / mx; ctx.fillStyle = COL.cls[c]; ctx.fillRect(bx + c * (bw + gap), by - bh * v, bw, bh * v); });
+      ctx.strokeStyle = COL.ink; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(bx - 4, by); ctx.lineTo(bx + C * (bw + gap), by); ctx.stroke();
+    }
+  }
+}
+
+// ───────────────────────── 3-D camera & lab ─────────────────────────
+class Cam3D {
+  constructor(cv, { yaw = .7, pitch = -.38, rotate = true } = {}) {
+    Object.assign(this, { cv, yaw, pitch, rotate }); this.drag = null;
+    cv.style.cursor = 'grab';
+    cv.addEventListener('pointerdown', e => { this.drag = { x: e.clientX, y: e.clientY, yaw: this.yaw, pitch: this.pitch }; cv.setPointerCapture(e.pointerId); cv.style.cursor = 'grabbing'; });
+    cv.addEventListener('pointermove', e => { if (!this.drag) return; const s = 0.008 / stageScale; this.yaw = this.drag.yaw + (e.clientX - this.drag.x) * s; this.pitch = clamp(this.drag.pitch + (e.clientY - this.drag.y) * s, -1.4, 1.4); this.onMove && this.onMove(); });
+    cv.addEventListener('pointerup', () => { this.drag = null; cv.style.cursor = 'grab'; });
+  }
+  setup(w, h, R) { this.w = w; this.h = h; this.k = Math.min(w, h) / 2 / R; }
+  P(v) {
+    const [x, y, z] = v, cy = Math.cos(this.yaw), sy = Math.sin(this.yaw), cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
+    const x1 = cy * x + sy * z, z1 = -sy * x + cy * z, y1 = cp * y - sp * z1, z2 = sp * y + cp * z1, f = 4.2 / (4.2 - z2);
+    return { x: this.w / 2 + this.k * f * x1, y: this.h / 2 - this.k * f * y1, z: z2, f };
+  }
+}
+class Lab3D {
+  constructor(cv, sim, o = {}) {
+    this.cv = cv; this.sim = sim; this.o = Object.assign({ points: true, means: true, cls: true, etf: true, rotate: true, dark: false }, o);
+    this.cam = new Cam3D(cv, { yaw: .5, pitch: -.32 }); this.cam.onMove = () => this.draw(); this.t = 0;
+  }
+  setT(t) { this.t = t; this.draw(); }
+  tick(dt) { if (this.o.rotate && !this.cam.drag) { this.cam.yaw += dt * 0.00018; this.draw(); } }
+  draw() {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f, o = this.o, S = this.sim.snapshot(this.t), cam = this.cam;
+    cam.setup(w, h, this.o.zoom || 1.12);
+    const ink = o.dark ? '#ffffff' : COL.ink, blue = o.dark ? '#3B8BBD' : COL.blue;
+    const items = [], O = cam.P(S.muG), meanNorm = avg(S.Mc.map(V.norm));
+    if (o.etf) {
+      const verts = this.sim.V.map(v => cam.P(V.add(S.muG, V.scale(v, meanNorm))));
+      for (let i = 0; i < verts.length; i++) for (let j = i + 1; j < verts.length; j++) items.push({ z: (verts[i].z + verts[j].z) / 2 - 2, d: () => { ctx.setLineDash([4, 6]); ctx.strokeStyle = o.dark ? 'rgba(255,255,255,.28)' : rgba(COL.ink, .25); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(verts[i].x, verts[i].y); ctx.lineTo(verts[j].x, verts[j].y); ctx.stroke(); ctx.setLineDash([]); } });
+      verts.forEach(q => items.push({ z: q.z, d: () => { ctx.strokeStyle = ink; ctx.globalAlpha = .7; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(q.x, q.y, 14 * q.f, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; } }));
+    }
+    if (o.points) S.pts.forEach(p => { const q = cam.P(p.h); items.push({ z: q.z, d: () => { ctx.fillStyle = rgba(COL.cls[p.c], .78); ctx.beginPath(); ctx.arc(q.x, q.y, 2.6 * q.f, 0, 7); ctx.fill(); } }); });
+    if (o.cls) {
+      const sc = 1.22 * meanNorm / avg(S.W.map(V.norm));
+      S.W.forEach(wv => { const q = cam.P(V.add(S.muG, V.scale(wv, sc))); items.push({ z: (q.z + O.z) / 2 + .01, d: () => arrow(ctx, O.x, O.y, q.x, q.y, COL.orange, 3 * q.f, 12 * q.f) }); });
+    }
+    if (o.means) S.Mc.forEach((m, c) => {
+      const q = cam.P(S.mu[c]);
+      items.push({ z: (q.z + O.z) / 2, d: () => { ctx.strokeStyle = blue; ctx.lineWidth = 2.8 * q.f; ctx.beginPath(); ctx.moveTo(O.x, O.y); ctx.lineTo(q.x, q.y); ctx.stroke(); } });
+      items.push({ z: q.z + .02, d: () => { ctx.fillStyle = COL.cls[c]; ctx.strokeStyle = ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(q.x, q.y, 8.5 * q.f, 0, 7); ctx.fill(); ctx.stroke(); } });
+    });
+    items.sort((a, b) => a.z - b.z).forEach(it => it.d());
+    ctx.fillStyle = ink; ctx.beginPath(); ctx.arc(O.x, O.y, 4, 0, 7); ctx.fill();
+  }
+}
+
+// ───────────────────────── HW 2 Ex. 2.3 toy: 1-D logistic regression past zero error ─────────────────────────
+// Data (x, y) = (−1, 0), (1, 1); F(θ) = log(1 + e^{−θ}); GD paths are precomputed per weight-decay λ.
+class Toy1D {
+  constructor(cv, statsEl) {
+    this.cv = cv; this.stats = statsEl; this.t = 0; this.lam = 0; this.K = 5000; this.eta = 0.5;
+    this.paths = {};
+    // θ_{k+1} = (1 − ηλ) θ_k − η F'(θ_k), with F'(θ) = −1 / (1 + e^θ)
+    [0, 0.01, 0.05].forEach(l => { const th = [-1.5]; for (let k = 0; k < this.K; k++) { const x = th[k]; th.push((1 - this.eta * l) * x + this.eta / (1 + Math.exp(x))); } this.paths[l] = th; });
+  }
+  // Scrubber is logarithmic in k so the early (pre-TPT) iterations and the long tail both get screen time
+  k(t) { return Math.round(Math.expm1(t * Math.log1p(this.K))); }
+  setT(t) { this.t = t; this.draw(); }
+  setLam(l) { this.lam = l; this.draw(); }
+  draw() {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f, font = css('--font');
+    const lam = this.lam, th = this.paths[lam], k = this.k(this.t), q = th[k];
+    const sig = z => 1 / (1 + Math.exp(-z)), F = x => Math.log1p(Math.exp(-x)), Fl = x => F(x) + lam * x * x / 2;
+    const tpt = th.findIndex(x => x > 0), thStar = th[this.K];
+    const top = { x0: 64, x1: w - 28, y0: 56, y1: h * 0.42 };
+    const bl = { x0: 64, x1: w / 2 - 28, y0: h * 0.42 + 84, y1: h - 44 }, br = { x0: w / 2 + 58, x1: w - 28, y0: bl.y0, y1: bl.y1 };
+    const title = (p, s) => { ctx.fillStyle = COL.muted; ctx.font = '13px ' + font; ctx.fillText(s, p.x0, p.y0 - 24); };
+    const hline = (x0, x1, y, a, dash) => { ctx.strokeStyle = rgba(COL.ink, a); ctx.lineWidth = 1; ctx.setLineDash(dash || []); ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke(); ctx.setLineDash([]); };
+
+    // ── top: the model σ(θx) on the two training points ──
+    {
+      const p = top, X = x => p.x0 + (p.x1 - p.x0) * (x + 3) / 6, Y = v => p.y1 - (p.y1 - p.y0) * v;
+      title(p, 'MODEL σ(θx) ON THE TWO TRAINING POINTS');
+      ctx.font = '13px ' + font;
+      [0, .5, 1].forEach(v => { hline(p.x0, p.x1, Y(v), v === .5 ? .4 : .1, v === .5 ? [5, 5] : null); ctx.fillStyle = COL.muted; ctx.fillText(v === .5 ? '½' : String(v), p.x0 - 22, Y(v) + 4); });
+      ctx.fillText('decision threshold', p.x1 - ctx.measureText('decision threshold').width, Y(.5) - 8);
+      [-3, -2, -1, 0, 1, 2, 3].forEach(x => { const s = String(x); ctx.fillText(s, X(x) - ctx.measureText(s).width / 2, p.y1 + 20); });
+      ctx.fillText('x', p.x1 + 8, p.y1 + 20);
+      ctx.strokeStyle = COL.ink; ctx.lineWidth = 2.6; ctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const x = -3 + 6 * i / 240, y = Y(sig(q * x)); i ? ctx.lineTo(X(x), y) : ctx.moveTo(X(x), y); }
+      ctx.stroke();
+      // legend: probability assigned to the true class for each point
+      ctx.font = '500 14px ' + font;
+      const lg = [[-1, 0, COL.c0], [1, 1, COL.c1]].map(([x, y, c]) => [c, `(${x}, ${y})  p(true class) = ${(y ? sig(q * x) : 1 - sig(q * x)).toFixed(3)}`]);
+      let lx = p.x1; for (let i = lg.length - 1; i >= 0; i--) { const tw = ctx.measureText(lg[i][1]).width; lx -= tw; ctx.fillStyle = COL.ink; ctx.fillText(lg[i][1], lx, p.y0 - 24); lx -= 16; ctx.fillStyle = lg[i][0]; ctx.beginPath(); ctx.arc(lx + 5, p.y0 - 29, 5, 0, 7); ctx.fill(); lx -= 28; }
+      [[-1, 0, COL.c0], [1, 1, COL.c1]].forEach(([x, y, c]) => {
+        const pv = sig(q * x), pc = y ? pv : 1 - pv;
+        // red segment = the probability still missing from the true class (what cross-entropy keeps penalizing)
+        ctx.strokeStyle = COL.red; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(x), Y(pv)); ctx.lineTo(X(x), Y(y)); ctx.stroke();
+        ctx.fillStyle = c; ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(x), Y(y), 8, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle = c; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.arc(X(x), Y(pv), 5, 0, 7); ctx.stroke();
+        ctx.fillStyle = COL.ink; ctx.font = '500 14px ' + font;
+        const s = `(${x}, ${y})`, tw = ctx.measureText(s).width;
+        ctx.fillText(s, x < 0 ? X(x) - 16 - tw : X(x) + 16, y ? Y(y) + 24 : Y(y) - 12);
+      });
+    }
+
+    // ── bottom-left: the loss landscape ──
+    {
+      const p = bl, X = x => p.x0 + (p.x1 - p.x0) * (x + 2) / 11, Y = v => p.y1 - (p.y1 - p.y0) * v / 2.2;
+      title(p, lam ? 'LOSS F_λ(θ) = F(θ) + λθ²/2' : 'LOSS F(θ) = log(1 + e^(−θ))');
+      ctx.fillStyle = rgba(COL.red, .08); ctx.fillRect(p.x0, p.y0, X(0) - p.x0, p.y1 - p.y0);
+      ctx.font = '13px ' + font; ctx.fillStyle = COL.red; ctx.fillText('error > 0', p.x0 + 6, p.y0 + 16);
+      ctx.fillStyle = COL.muted; ctx.fillText('zero train error →', X(0) + 8, p.y0 + 16);
+      [0, 1, 2].forEach(v => { hline(p.x0, p.x1, Y(v), v ? .08 : .4, v ? null : [4, 4]); ctx.fillStyle = COL.muted; ctx.fillText(String(v), p.x0 - 18, Y(v) + 4); });
+      [-2, 0, 2, 4, 6, 8].forEach(x => { const s = String(x); ctx.fillText(s, X(x) - ctx.measureText(s).width / 2, p.y1 + 20); });
+      ctx.fillText('θ', p.x1 + 6, p.y1 + 20);
+      const inf = 'inf F = 0, never attained'; ctx.fillText(inf, p.x1 - ctx.measureText(inf).width, Y(.32));
+      const curve = (fn, col, lw) => { ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath(); for (let i = 0; i <= 220; i++) { const x = -2 + 11 * i / 220, y = Y(Math.min(fn(x), 2.2)); i ? ctx.lineTo(X(x), y) : ctx.moveTo(X(x), y); } ctx.stroke(); };
+      curve(F, lam ? rgba(COL.ink, .3) : COL.ink, 2.4);
+      if (lam) {
+        curve(Fl, COL.blue, 2.6);
+        ctx.setLineDash([3, 4]); ctx.strokeStyle = COL.blue; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(X(thStar), Y(Fl(thStar))); ctx.lineTo(X(thStar), p.y1); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = COL.blue; ctx.font = '500 14px ' + font; ctx.fillText(`θ* ≈ ${thStar.toFixed(2)}`, X(thStar) + 6, Y(Fl(thStar)) - 12);
+      }
+      // GD iterates so far (log-spaced subset), then the current iterate
+      const g = lam ? Fl : F;
+      for (let j = 0; j <= 40; j++) { const kk = Math.round(Math.expm1(j / 40 * Math.log1p(k))); ctx.fillStyle = rgba(COL.orange, .35); ctx.beginPath(); ctx.arc(X(th[kk]), Y(Math.min(g(th[kk]), 2.2)), 3, 0, 7); ctx.fill(); }
+      ctx.fillStyle = COL.orange; ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(X(q), Y(Math.min(g(q), 2.2)), 7, 0, 7); ctx.fill(); ctx.stroke();
+    }
+
+    // ── bottom-right: θ_k against iteration (log axis) ──
+    {
+      const p = br, LK = Math.log10(this.K + 1), X = kk => p.x0 + (p.x1 - p.x0) * Math.log10(kk + 1) / LK, Y = v => p.y1 - (p.y1 - p.y0) * (v + 2) / 11;
+      title(p, 'ITERATE θₖ VS. ITERATION k (LOG SCALE)');
+      ctx.font = '13px ' + font;
+      [-2, 0, 4, 8].forEach(v => { hline(p.x0, p.x1, Y(v), v ? .08 : .4, v ? null : [4, 4]); ctx.fillStyle = COL.muted; const s = String(v); ctx.fillText(s, p.x0 - 12 - ctx.measureText(s).width, Y(v) + 4); });
+      [0, 10, 100, 1000].forEach(kk => { const s = String(kk); ctx.fillText(s, X(kk) - ctx.measureText(s).width / 2, p.y1 + 20); });
+      ctx.fillText('k', p.x1 + 6, p.y1 + 20);
+      if (tpt > 0) {
+        ctx.strokeStyle = COL.red; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(X(tpt), p.y0 - 6); ctx.lineTo(X(tpt), p.y1); ctx.stroke();
+        ctx.fillStyle = COL.red; ctx.fillText('zero error → TPT', X(tpt) + 6, p.y0 + 8);
+      }
+      const path = (arr, upto, col, lw, dash) => { ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.setLineDash(dash || []); ctx.beginPath(); for (let kk = 0; kk <= upto; kk++) { const x = X(kk), y = Y(arr[kk]); kk ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); ctx.setLineDash([]); };
+      if (lam) {
+        path(this.paths[0], this.K, rgba(COL.ink, .35), 1.6, [5, 5]);
+        ctx.fillStyle = COL.muted; ctx.fillText('λ = 0', p.x1 - 40, Y(this.paths[0][this.K]) - 8);
+        hline(p.x0, p.x1, Y(thStar), .25, [2, 4]);
+      }
+      path(th, this.K, rgba(COL.orange, .22), 2);
+      path(th, k, COL.orange, 2.8);
+      ctx.fillStyle = COL.orange; ctx.beginPath(); ctx.arc(X(k), Y(q), 5, 0, 7); ctx.fill();
+    }
+
+    const err = [[-1, 0], [1, 1]].filter(([x, y]) => +(sig(q * x) >= .5) !== y).length / 2;
+    this.stats.innerHTML = `<span>θ<sub>k</sub> = <b>${q.toFixed(3)}</b></span><span>train error = <b style="color:${err ? 'var(--red)' : 'var(--ink)'}">${err * 100}%</b></span><span>F(θ<sub>k</sub>) = <b>${F(q).toExponential(2)}</b></span><span>F′(θ<sub>k</sub>) = <b>${(-1 / (1 + Math.exp(q))).toExponential(2)}</b></span>`;
+  }
+}
+
+// ───────────────────────── ETF construction ─────────────────────────
+class ETFBuild {
+  constructor(cv) { this.cv = cv; this.rotate = true; this.cam = new Cam3D(cv, { yaw: .78, pitch: -.42 }); this.cam.onMove = () => this.draw(); this.t = 0; this.gram = document.getElementById('gram'); this.gram.innerHTML = [0, 1, 2].map(i => `<tr>${[0, 1, 2].map(j => `<td class="${i === j ? 'd' : ''}"></td>`).join('')}</tr>`).join(''); }
+  vecs(t) { const u = ease(t / .55), sc = 1 + (Math.sqrt(1.5) - 1) * ease((t - .6) / .4); return [0, 1, 2].map(c => [0, 1, 2].map(i => ((i === c ? 1 : 0) - u / 3) * sc)); }
+  setT(t) { this.t = t; this.draw(); }
+  tick(dt) { if (this.rotate && !this.cam.drag) { this.cam.yaw += dt * 0.00012; this.draw(); } }
+  draw() {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f, cam = this.cam, font = css('--font'); cam.setup(w, h, 1.5);
+    const vs = this.vecs(this.t), O = cam.P([0, 0, 0]);
+    // plane ⟂ 1 : hexagon-ish disc
+    const n = V.scale([1, 1, 1], 1 / Math.sqrt(3)), e1 = V.scale([1, -1, 0], 1 / Math.sqrt(2)), e2 = V.scale([1, 1, -2], 1 / Math.sqrt(6));
+    const u = ease(this.t / .55);
+    ctx.fillStyle = rgba(COL.blue, .05 + .07 * u); ctx.strokeStyle = rgba(COL.blue, .25 + .3 * u); ctx.lineWidth = 1;
+    ctx.beginPath(); for (let k = 0; k <= 64; k++) { const a = k / 64 * 2 * Math.PI, q = cam.P(V.add(V.scale(e1, 1.25 * Math.cos(a)), V.scale(e2, 1.25 * Math.sin(a)))); k ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); } ctx.closePath(); ctx.fill(); ctx.stroke();
+    // axes
+    ctx.font = '15px ' + font;
+    [[1, 0, 0], [0, 1, 0], [0, 0, 1]].forEach((a, i) => { const q = cam.P(V.scale(a, 1.35)), qn = cam.P(V.scale(a, -.5)); ctx.strokeStyle = rgba(COL.ink, .22); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(qn.x, qn.y); ctx.lineTo(q.x, q.y); ctx.stroke(); ctx.fillStyle = COL.muted; ctx.fillText('e' + '₁₂₃'[i], q.x + 6, q.y); });
+    // 1 direction
+    const q1 = cam.P(V.scale(n, 1.3)); ctx.setLineDash([5, 5]); ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(O.x, O.y); ctx.lineTo(q1.x, q1.y); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = COL.ink; ctx.fillText('𝟏 direction', q1.x + 6, q1.y - 4);
+    // projection guides
+    vs.forEach((v, c) => { const e = [0, 1, 2].map(i => +(i === c)), a = cam.P(e), b = cam.P(v); if (u > .02) { ctx.setLineDash([2, 4]); ctx.strokeStyle = rgba(COL.ink, .4); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = rgba(COL.ink, .35); ctx.beginPath(); ctx.arc(a.x, a.y, 3, 0, 7); ctx.fill(); } });
+    // triangle between tips
+    if (u > .5) { ctx.strokeStyle = rgba(COL.ink, u - .5); ctx.setLineDash([4, 5]); ctx.beginPath(); vs.forEach((v, i) => { const q = cam.P(v); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.closePath(); ctx.stroke(); ctx.setLineDash([]); }
+    vs.map((v, c) => ({ v, c, q: cam.P(v) })).sort((a, b) => a.q.z - b.q.z).forEach(({ v, c, q }) => { arrow(ctx, O.x, O.y, q.x, q.y, COL.cls[c], 3.2, 14); ctx.fillStyle = COL.cls[c]; ctx.font = '500 17px ' + font; ctx.fillText('v' + '₁₂₃'[c], q.x + 10, q.y + 4); });
+    // readouts
+    const G = vs.map(a => vs.map(b => V.dot(a, b)));
+    [...this.gram.querySelectorAll('td')].forEach((td, i) => { const r = Math.floor(i / 3), c = i % 3, g = G[r][c]; td.textContent = (g >= 0 && r !== c ? '+' : '') + g.toFixed(3); td.style.background = r === c ? '' : rgba(COL.blue, Math.min(.35, -g * .6)); });
+    const cosv = G[0][1] / G[0][0]; document.getElementById('etf-angle').textContent = (Math.acos(clamp(cosv, -1, 1)) * 180 / Math.PI).toFixed(1) + '°';
+    document.getElementById('etf-norm').textContent = Math.sqrt(G[0][0]).toFixed(3);
+    const ph = document.getElementById('etf-phase'), txt = this.t < .02 ? 'Standard basis e₁, e₂, e₃' : this.t < .58 ? 'Step 1 · project onto 𝟏⊥ (I − 𝟏𝟏ᵀ/C)' : 'Step 2 · rescale by √(C/(C−1))';
+    if (ph.textContent !== txt) ph.textContent = txt;
+  }
+}
+
+// ───────────────────────── coding / large deviations demo ─────────────────────────
+class Coding {
+  constructor(cv, statsEl) {
+    this.cv = cv; this.stats = statsEl; this.r = rng(11); this.sigma = .42; this.running = true;
+    const cb = degs => degs.map(d => [Math.cos(d * Math.PI / 180), Math.sin(d * Math.PI / 180)]);
+    this.books = [{ name: 'Evenly spread (Simplex ETF)', M: cb([90, 210, 330]) }, { name: 'Uneven', M: cb([90, 160, 300]) }];
+    this.books.forEach(b => { let dmin = Infinity; for (let i = 0; i < 3; i++) for (let j = i + 1; j < 3; j++) dmin = Math.min(dmin, V.norm(V.sub(b.M[i], b.M[j]))); b.beta = dmin * dmin / 8; });
+    this.reset();
+  }
+  reset() { this.books.forEach(b => { b.n = 0; b.err = 0; b.buf = []; }); }
+  setSigma(s) { this.sigma = s; this.reset(); }
+  tick(dt) {
+    if (this.running) {
+      const K = Math.round(clamp(dt, 0, 50) * 6);
+      for (let k = 0; k < K; k++) {
+        const g = Math.floor(this.r() * 3), z = [gauss(this.r) * this.sigma, gauss(this.r) * this.sigma];
+        this.books.forEach(b => {
+          const hv = V.add(b.M[g], z); let best = 0, bv = -Infinity; b.M.forEach((m, c) => { const v = V.dot(m, hv); if (v > bv) { bv = v; best = c; } });
+          b.n++; if (best !== g) b.err++; b.buf.push({ h: hv, g, bad: best !== g }); if (b.buf.length > 900) b.buf.shift();
+        });
+      }
+    }
+    this.draw();
+  }
+  draw() {
+    const f = fit(this.cv); if (!f) return; const { ctx, w, h } = f, font = css('--font');
+    const pw = w / 2, k = Math.min(pw, h) / 2 / 1.75;
+    this.books.forEach((b, bi) => {
+      const cx = pw * bi + pw / 2, cy = h / 2 + 14, P = v => [cx + k * v[0], cy - k * v[1]];
+      if (bi) { ctx.strokeStyle = rgba(COL.ink, .12); ctx.beginPath(); ctx.moveTo(pw, 20); ctx.lineTo(pw, h - 20); ctx.stroke(); }
+      // decision boundaries (argmax <m,h>): rays along bisectors
+      for (let i = 0; i < 3; i++) for (let j = i + 1; j < 3; j++) {
+        const d = V.sub(b.M[i], b.M[j]), dir = [-d[1], d[0]];
+        [1, -1].forEach(sg => {
+          const u = V.scale(dir, sg / V.norm(dir)), probe = V.scale(u, 1);
+          const sc = b.M.map(m => V.dot(m, probe)), top = Math.max(...sc);
+          if (Math.abs(sc[i] - top) < 1e-9 || Math.abs(sc[j] - top) < 1e-9) { if (Math.abs(sc[i] - sc[j]) < 1e-9 && sc[i] >= top - 1e-9) { const [x1, y1] = P(V.scale(u, 2.2)); ctx.strokeStyle = rgba(COL.ink, .3); ctx.setLineDash([4, 5]); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x1, y1); ctx.stroke(); ctx.setLineDash([]); } }
+        });
+      }
+      ctx.strokeStyle = rgba(COL.ink, .14); ctx.beginPath(); ctx.arc(cx, cy, k, 0, 7); ctx.stroke();
+      b.buf.forEach(p => { const [x, y] = P(p.h); if (p.bad) { ctx.strokeStyle = COL.red; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); ctx.stroke(); } else { ctx.fillStyle = rgba(COL.cls[p.g], .35); ctx.beginPath(); ctx.arc(x, y, 2.2, 0, 7); ctx.fill(); } });
+      b.M.forEach((m, c) => { const [x, y] = P(m); arrow(ctx, cx, cy, x, y, COL.blue, 2.6, 12); ctx.fillStyle = COL.cls[c]; ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fill(); ctx.stroke(); });
+      ctx.fillStyle = COL.ink; ctx.font = '500 18px ' + font; ctx.fillText(b.name, pw * bi + 22, 34);
+      ctx.fillStyle = COL.muted; ctx.font = '14px ' + font; ctx.fillText(bi ? 'angles 70° / 140° / 150°' : 'angles 120° / 120° / 120°', pw * bi + 22, 56);
+    });
+    const [A, B] = this.books, pe = b => b.n ? b.err / b.n : 0, ratio = A.err ? (pe(B) / pe(A)).toFixed(1) + '×' : '—';
+    this.stats.innerHTML = `<span>Mistakes: <b>${(pe(A) * 100).toFixed(2)}%</b> <span style="color:var(--muted)">(${A.err} of ${A.n})</span></span><span>Mistakes: <b>${(pe(B) * 100).toFixed(2)}%</b> <span style="color:var(--muted)">(${B.err} of ${B.n})</span> · <b style="color:var(--red)">${ratio}</b> as many</span>`;
+  }
+}
+
+// ───────────────────────── deck ─────────────────────────
+const stage = document.getElementById('stage');
+let stageScale = 1;
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0, step = 0;
+const hooks = {};
+const players = id => hooks[id] && hooks[id].players || [];
+
+function layout() {
+  stageScale = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = `scale(${stageScale})`;
+  Object.values(hooks).forEach(hk => hk.redraw && hk.redraw());
+}
+
+function maxStep(i) { const id = slides[i].dataset.id; if (hooks[id] && hooks[id].steps != null) return hooks[id].steps; return Math.max(0, ...[...slides[i].querySelectorAll('.frag')].map(e => +e.dataset.f)); }
+function applyStep() {
+  const s = slides[cur]; s.querySelectorAll('.frag').forEach(e => e.classList.toggle('on', +e.dataset.f <= step));
+  const hk = hooks[s.dataset.id]; hk && hk.step && hk.step(step);
+}
+function go(i, st = 0) {
+  i = clamp(i, 0, slides.length - 1);
+  const prev = slides[cur], pid = prev.dataset.id;
+  if (i !== cur) { players(pid).forEach(p => p.pause()); hooks[pid] && hooks[pid].leave && hooks[pid].leave(); }
+  prev.classList.remove('active');
+  const changed = i !== cur; cur = i; step = st;
+  const s = slides[cur]; s.classList.add('active'); applyStep();
+  stage.classList.toggle('dark', s.classList.contains('dark'));
+  document.querySelector('#top .count').textContent = `${String(cur + 1).padStart(2, '0')} / ${slides.length}`;
+  document.querySelectorAll('#top nav a').forEach(a => a.classList.toggle('on', a.dataset.sec === s.dataset.sec));
+  document.getElementById('progress').style.width = `${(cur + 1) / slides.length * 100}%`;
+  const hk = hooks[s.dataset.id]; if (hk) { hk.redraw && hk.redraw(); if (changed || !hk.entered) { hk.entered = true; hk.enter && hk.enter(); } }
+  const nb = document.getElementById('notes-body'), note = s.querySelector('.notes');
+  nb.innerHTML = note ? note.innerHTML : ''; document.getElementById('notes-title').textContent = `Speaker notes · slide ${cur + 1}`;
+  try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) { }
+}
+// Theme: flip the token set on <html>, then re-read canvas colors and redraw every visualization.
+function toggleTheme() { document.documentElement.classList.toggle('light'); readColors(); layout(); }
+function next() { if (step < maxStep(cur)) { step++; applyStep(); } else if (cur < slides.length - 1) go(cur + 1, 0); }
+function prev() { if (step > 0) { step--; applyStep(); } else if (cur > 0) go(cur - 1, maxStep(cur - 1)); }
+
+// timer
+let t0 = null, timerEl = document.querySelector('#top .timer');
+function startTimer() { if (t0 == null) t0 = performance.now(); }
+setInterval(() => { const s = t0 == null ? 0 : Math.floor((performance.now() - t0) / 1000); timerEl.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')} / 15:00`; timerEl.classList.toggle('over', s > 900); }, 500);
+timerEl.onclick = () => { t0 = null; };
+let pin = '';
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key, pl = players(slides[cur].dataset.id);
+  pin = /^[0-9]$/.test(k) ? (pin + k).slice(-4) : '';
+  if (pin === '7777') { pin = ''; document.documentElement.classList.toggle('princess'); readColors(); layout(); return; }
+  if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); startTimer(); next(); }
+  else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+  else if (k === 'Home') go(0); else if (k === 'End') go(slides.length - 1);
+  else if (k === 'p' || k === 'P') { startTimer(); pl.forEach(p => p.toggle()); }
+  else if (k === 'r' || k === 'R') pl.forEach(p => p.reset());
+  else if (k === '[') pl.forEach(p => { p.pause(); p.set(p.t - .02); });
+  else if (k === ']') pl.forEach(p => { p.pause(); p.set(p.t + .02); });
+  else if (k === '1' || k === '2' || k === '3') pl.forEach(p => p.setSpeed([.5, 1, 2][+k - 1]));
+  else if (k === 'n' || k === 'N') document.getElementById('notes').classList.toggle('on');
+  else if (k === 't' || k === 'T') t0 = performance.now();
+  else if (k === 'd' || k === 'D') toggleTheme();
+  else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => { }); }
+  else if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('on');
+  else if (k === 'Escape') { document.getElementById('help').classList.remove('on'); }
+});
+document.getElementById('help').onclick = e => { if (e.target.id === 'help') e.currentTarget.classList.remove('on'); };
+document.getElementById('next').onclick = () => { startTimer(); next(); };
+document.getElementById('prev').onclick = () => prev();
+document.getElementById('theme').onclick = () => toggleTheme();
+document.querySelector('#top .mark').onclick = () => go(0);
+document.querySelectorAll('#top nav a').forEach(a => a.onclick = () => go(slides.findIndex(s => s.dataset.sec === a.dataset.sec)));
+
+// ───────────────────────── wire up slides ─────────────────────────
+function initAll() {
+  readColors();
+  const sim2 = new NCSim({ p: 2, C: 3, n: 70, nTest: 50, seed: 5 });
+  const sim3 = new NCSim({ p: 3, C: 4, n: 55, nTest: 40, seed: 3 });
+  const simT = new NCSim({ p: 3, C: 4, n: 45, nTest: 10, seed: 21 });
+  window.__sims = { sim2, sim3 };
+
+  // title
+  {
+    const lab = new Lab3D(document.getElementById('cv-title'), simT, { dark: true, etf: true });
+    const pl = new Player(document.getElementById('pl-title'), { duration: 14000, loop: true, minimal: true, onT: t => lab.setT(ease(clamp(t * 1.25))) });
+    hooks.title = { players: [pl], redraw: () => lab.draw(), enter: () => pl.play(), tick: dt => lab.tick(dt) };
+    lab.setT(0);
+  }
+  // HW 2 toy (1-D logistic regression)
+  {
+    const toy = new Toy1D(document.getElementById('cv-toy'), document.getElementById('toy-stats'));
+    const pl = new Player(document.getElementById('pl-toy'), { duration: 10000, onT: t => toy.setT(t), label: t => `Iteration ${String(toy.k(t)).padStart(4, '0')} <small>/ ${toy.K}</small>` });
+    const lb = [...document.querySelectorAll('#lam-toy button')];
+    lb.forEach(b => b.onclick = () => { lb.forEach(x => x.classList.toggle('on', x === b)); toy.setLam(+b.dataset.l); });
+    hooks.toy = { players: [pl], redraw: () => toy.draw(), enter: () => { pl.set(0); pl.play(); } };
+    toy.setT(0);
+  }
+  // lab
+  {
+    const lab = new Lab3D(document.getElementById('cv-lab'), sim3);
+    const sl = document.getElementById('slide-lab') || slides.find(s => s.dataset.id === 'lab');
+    const tptE = Math.round(sim3.tpt * EPOCHS);
+    sl.querySelector('[data-m="tpt"]').textContent = tptE;
+    const upd = t => { lab.setT(t); const m = sim3.snapshot(t).m; sl.querySelector('[data-m="nc1"]').textContent = fmtSci(m.nc1); sl.querySelector('[data-m="cosShift"]').textContent = fmt3(m.cosShift); sl.querySelector('[data-m="nc3"]').textContent = fmt3(m.nc3); sl.querySelector('[data-m="nc4"]').textContent = pct(m.nc4); const te = sl.querySelector('[data-m="trainErr"]'); te.textContent = pct(m.trainErr); te.style.color = m.trainErr === 0 ? 'var(--red)' : 'var(--ink)'; };
+    const pl = new Player(document.getElementById('pl-lab'), { duration: 14000, onT: upd });
+    const tg = document.getElementById('tg-lab');
+    [['points', 'Activations', COL.c0], ['means', 'Class-means', COL.blue], ['cls', 'Classifiers', COL.orange], ['etf', 'Simplex ETF', 'transparent'], ['rotate', 'Auto-rotate', null]].forEach(([key, name, col]) => {
+      const b = document.createElement('button'); b.className = 'tg'; b.innerHTML = (col ? `<i style="background:${col};${col === 'transparent' ? 'border:1.5px solid var(--ink)' : ''}"></i>` : '') + name;
+      b.onclick = () => { lab.o[key] = !lab.o[key]; b.classList.toggle('off', !lab.o[key]); lab.draw(); }; tg.appendChild(b);
+    });
+    hooks.lab = {
+      players: [pl], redraw: () => lab.draw(), tick: dt => lab.tick(dt),
+      enter: () => { pl.setSpeed(0.5); if (step === 0) pl.reset(); },
+      step: s => { if (s === 0) pl.reset(); else if (pl.t === 0 && !pl.playing) pl.play(); }
+    };
+    upd(0);
+  }
+  // ETF construction
+  {
+    const eb = new ETFBuild(document.getElementById('cv-etf'));
+    const pl = new Player(document.getElementById('pl-etf'), { duration: 7000, onT: t => eb.setT(t), label: t => t < .58 ? 'Step 1 <small>center</small>' : 'Step 2 <small>rescale</small>' });
+    const rb = document.createElement('button'); rb.className = 'tg'; rb.textContent = 'Auto-rotate';
+    rb.onclick = () => { eb.rotate = !eb.rotate; rb.classList.toggle('off', !eb.rotate); }; document.getElementById('tg-etf').appendChild(rb);
+    hooks.etf = { players: [pl], redraw: () => eb.draw(), tick: dt => eb.tick(dt), enter: () => { pl.set(0); setTimeout(() => pl.play(), 700); } };
+    eb.setT(0);
+  }
+  // NC1 + NC2 and NC3 + NC4 share one simulation, picked by the Classes buttons. C > 3 runs in R^(C−1),
+  // the smallest space holding a Simplex ETF, and Scene2D draws its projection; metrics use the full space.
+  const simsC = { 3: sim2 }; let simC = sim2;
+  // series are rebuilt on redraw so spark colors follow the theme and the current simulation
+  const ser = (key, col) => ({ vals: simC.curve.map(m => m[key]), color: COL[col] });
+  const ncs = {
+    nc12: { gate: true, o: { ellipses: true, etf: true, angles: true, bars: true }, sparks: { nc1: { series: () => [ser('nc1', 'ink')], log: true }, cos: { series: () => [ser('cosShift', 'blue'), ser('wcosShift', 'orange')] } }, vals: { nc1: m => fmtSci(m.nc1), cosShift: m => fmt3(m.cosShift) } },
+    nc34: { gate: true, t0: 127 / EPOCHS, late: ['regions', 'test'], o: { regions: false, test: false, cls: true, means: true }, sparks: { nc3: { series: () => [ser('nc3', 'ink')] }, nc4: { series: () => [ser('nc4', 'ink'), ser('trainErr', 'faint')] } }, vals: { nc3: m => fmt3(m.nc3), nc4: m => pct(m.nc4) } }
+  };
+  const views = Object.entries(ncs).map(([id, cfg]) => {
+    const sl = slides.find(s => s.dataset.id === id), sc = new Scene2D(document.getElementById('cv-' + id), simC, cfg.o);
+    const sparks = Object.entries(cfg.sparks).map(([k, sp]) => ({ sp, s: new Spark(sl.querySelector(`canvas[data-s="${k}"]`), { series: sp.series(), log: sp.log, tpt: simC.tpt, N: simC.N }) }));
+    const upd = t => { sc.setT(t); sparks.forEach(({ s }) => s.draw(t)); const m = simC.snapshot(t).m; Object.entries(cfg.vals).forEach(([k, fn]) => { const el = sl.querySelector(`[data-v="${k}"]`); if (el) el.textContent = fn(m); }); };
+    const pl = new Player(document.getElementById('pl-' + id), { duration: 11000, onT: upd, t0: cfg.t0 || 0 });
+    hooks[id] = { players: [pl], redraw: () => { sparks.forEach(({ sp, s }) => { s.series = sp.series(); s.tpt = simC.tpt; }); upd(pl.t); }, enter: () => { if (pl.t >= 1 || pl.t === 0) pl.set(0); setTimeout(() => pl.play(), 600); } };
+    if (cfg.gate) Object.assign(hooks[id], {
+      enter: () => { pl.setSpeed(0.5); if (step === 0) pl.reset(); },
+      step: s => {
+        if (cfg.late) { cfg.late.forEach(k => sc.o[k] = s >= 2); sc.draw(); }
+        if (s === 0) pl.reset(); else if (pl.t === pl.t0 && !pl.playing) pl.play();
+      }
+    });
+    return { id, sl, sc };
+  });
+  // per-C seeds chosen by a scan so the NC1 curve falls without spikes and TPT lands near epoch 150–190, like C = 3
+  const SEEDS = { 4: 27, 5: 4, 6: 13, 8: 19, 10: 2 };
+  const setC = C => {
+    simC = simsC[C] || (simsC[C] = window.__sims['C' + C] = new NCSim({ p: C - 1, C, n: Math.max(30, Math.round(210 / C)), nTest: Math.max(20, Math.round(150 / C)), seed: SEEDS[C], scale: Math.sqrt(2 / (C - 1)) }));
+    const Rp = 'ℝ' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[simC.p];
+    views.forEach(v => {
+      v.sc.sim = simC;
+      v.sl.querySelectorAll('.cpick button').forEach(b => b.classList.toggle('on', +b.dataset.c === C));
+      v.sl.querySelector('.cdesc').textContent = C === 3 ? `Simulated in ${Rp}, drawn as is` : `Simulated in ${Rp}, where a Simplex ETF fits · drawn projected`;
+      v.sl.querySelector('.tagline').textContent = v.id === 'nc12' ? (C === 3 ? 'Simulation · C = 3 in ℝ² · target angle 120°' : `Simulation · C = ${C} in ${Rp} · 2-D projection`) : (C === 3 ? 'Simulation · decision regions' : `Simulation · decision regions on a plane slice of ${Rp}`);
+      hooks[v.id].redraw();
+    });
+  };
+  views.forEach(v => v.sl.querySelectorAll('.cpick button').forEach(b => b.onclick = () => setC(+b.dataset.c)));
+  setC(3);
+  // evidence tabs
+  {
+    const sl = slides.find(s => s.dataset.id === 'evidence'), btns = [...sl.querySelectorAll('#ev-tabs button')], imgs = [...sl.querySelectorAll('.figstack img')], caps = [...sl.querySelectorAll('.caps>div')];
+    const show = k => { btns.forEach((b, i) => b.classList.toggle('on', i === k)); imgs.forEach((im, i) => im.classList.toggle('on', i === k)); caps.forEach((c, i) => c.classList.toggle('on', i === k)); };
+    btns.forEach((b, i) => b.onclick = () => { step = i; show(i); });
+    hooks.evidence = { steps: 5, step: s => show(s) };
+    show(0);
+  }
+  // benefits: Table 1 deltas
+  {
+    const T1 = [['MNIST', [99.40, 99.32, 99.65], [99.56, 99.71, 99.70]], ['FashionMNIST', [92.92, 93.29, 94.18], [93.31, 93.64, 94.35]], ['SVHN', [93.82, 94.64, 95.87], [94.53, 95.70, 95.93]], ['CIFAR10', [87.85, 88.72, 91.14], [88.65, 89.44, 91.19]], ['CIFAR100', [63.03, 66.19, 77.19], [63.85, 66.21, 76.56]], ['STL10', [65.15, 69.99, 67.79], [68.00, 70.24, 70.81]], ['ImageNet', [47.26, 65.41, 65.04], [50.12, 64.45, 62.38]]];
+    const H = 215, top = 3.3, bot = 3.2, zero = H * top / (top + bot), px = H / (top + bot);
+    let kk = 0;
+    document.getElementById('dchart').innerHTML = T1.map(([name, a, b]) => `<div class="dgroup"><div class="dbars" style="--zero:${zero}px">${a.map((v, i) => { const d = b[i] - v, hh = Math.max(2, Math.abs(d) * px), neg = d < 0; return `<div class="dbar${neg ? ' neg' : ''}" style="--k:${kk++}"><i style="${neg ? `top:${zero}px` : `top:${zero - hh}px`};height:${hh}px"></i><span style="${neg ? `top:${zero + hh + 4}px` : `top:${zero - hh - 20}px`};color:${neg ? 'var(--red)' : 'var(--ink)'}">${d >= 0 ? '+' : '−'}${Math.abs(d).toFixed(2)}</span></div>`; }).join('')}</div><div class="dnets"><span>VGG</span><span>Res</span><span>Dense</span></div><div class="dname">${name}</div><div class="small" style="font-size:13px">${a.map(v => v.toFixed(1)).join(' · ')} →<br>${b.map(v => v.toFixed(1)).join(' · ')}</div></div>`).join('');
+  }
+  // coding
+  {
+    const cd = new Coding(document.getElementById('cv-code'), document.getElementById('code-stats'));
+    const root = document.getElementById('pl-code');
+    root.innerHTML = `<button class="pp" aria-label="Sample / pause">${ICON.pause}</button><span class="ep" style="min-width:auto">noise σ</span><input type="range" min="15" max="80" value="42" aria-label="Noise level"><span class="ep mono" id="sig-v" style="min-width:60px">0.42</span><button class="rs" aria-label="Reset counts">${ICON.reset}</button>`;
+    const pp = root.querySelector('.pp'), rg = root.querySelector('input'), sv = root.querySelector('#sig-v');
+    const fillR = () => rg.style.setProperty('--fill', ((rg.value - 15) / 65 * 100) + '%'); fillR();
+    const ctl = { t: 0, toggle: () => { cd.running = !cd.running; pp.innerHTML = cd.running ? ICON.pause : ICON.play; }, pause: () => { }, reset: () => cd.reset(), set: () => { }, setSpeed: () => { } };
+    pp.onclick = ctl.toggle; root.querySelector('.rs').onclick = () => cd.reset();
+    rg.addEventListener('input', () => { cd.setSigma(rg.value / 100); sv.textContent = (rg.value / 100).toFixed(2); fillR(); });
+    rg.addEventListener('pointerup', () => rg.blur()); rg.addEventListener('keydown', e => e.preventDefault());
+    hooks.why = { players: [ctl], redraw: () => cd.draw(), tick: dt => cd.tick(dt), step: s => { if (s === 3) cd.reset(); } };
+  }
+  // end slide: collapsed tetrahedron, slowly rotating
+  {
+    const lab = new Lab3D(document.getElementById('cv-end'), simT, { dark: true, points: true });
+    lab.setT(1); hooks.end = { redraw: () => lab.draw(), tick: dt => lab.tick(dt) };
+  }
+}
+
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(64, now - last); last = now;
+  const hk = hooks[slides[cur].dataset.id];
+  if (hk) { (hk.players || []).forEach(p => p.update && p.update(dt)); hk.tick && hk.tick(dt); }
+  requestAnimationFrame(loop);
+}
+
+function boot() {
+  if (boot.done) return; boot.done = true;
+  window.STATIC = /[?&]static/.test(location.search);
+  if (/[?&]light/.test(location.search)) document.documentElement.classList.add('light');
+  initAll(); layout();
+  const h = parseInt(location.hash.slice(1), 10);
+  go(isFinite(h) ? h - 1 : 0);
+  requestAnimationFrame(loop);
+  if (/[?&]selftest/.test(location.search)) selfTest();
+  if (/[?&]static/.test(location.search)) { stage.classList.add('static'); step = maxStep(cur); applyStep(); players(slides[cur].dataset.id).forEach(p => { p.pause(); p.set(+(location.search.match(/t=([\d.]+)/) || [0, 1])[1]); }); }
+}
+window.addEventListener('resize', layout);
+// Start after MathJax has typeset (so layout is final), with a fallback if the CDN is unreachable.
+document.addEventListener('mathjax-ready', () => { boot(); layout(); });
+window.addEventListener('load', () => setTimeout(boot, 2500));
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (boot.done) layout(); });
+
+function selfTest() {
+  const cb = [...document.querySelectorAll('[data-id="nc12"] .cpick button')]; cb.forEach(b => b.click()); cb[0].click();
+  const out = {}; for (const [k, s] of Object.entries(window.__sims)) { const a = s.curve[0], z = s.curve[s.N - 1]; out[k] = { tptEpoch: Math.round(s.tpt * EPOCHS), start: a, end: z }; }
+  const pre = document.createElement('pre'); pre.id = 'selftest'; pre.textContent = JSON.stringify(out); document.body.appendChild(pre);
+}
+</script>
+</body>
+</html>
