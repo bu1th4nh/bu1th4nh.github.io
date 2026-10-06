@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#010101">
 <title>Neural Collapse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -412,6 +416,36 @@ mjx-container{color:inherit}
 :root.princess #notes{background:rgba(61,10,59,.96)}
 :root.princess #help{background:rgba(61,10,59,.55)}
 :root.princess #help .p{background:#fff0f8;color:#4a0a42;border-top:6px solid #ff4fb2;border-radius:18px}
+
+/* ── Touch devices (online copy): bigger targets on the scaled stage, no sticky hover, drag-safe figures ── */
+.tbtn,.touch-only,.rotate-hint{display:none}
+.touch .tbtn{display:inline-grid;place-items:center;height:44px;min-width:44px;padding:0 16px;border-radius:999px;border:1px solid var(--rule-strong);background:none;color:inherit;font-size:16px;cursor:pointer}
+#stage.dark .tbtn{border-color:rgba(255,255,255,.3)}
+.touch .tbtn svg{width:16px;height:16px}
+.touch .touch-only{display:block}
+.touch #top .meta .timer{display:none}
+.touch #top .meta{gap:12px}
+/* keyboard shortcuts mean nothing on a tablet */
+.touch #bottom .r>span{display:none}
+.touch #top .meta .count{padding:10px 4px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.touch #top .theme{width:44px;height:44px}
+.touch #bottom .r button{width:56px;height:56px}
+.touch .player .pp,.touch .player .rs{height:52px;min-width:52px}
+.touch .player .spd button{height:50px;padding:0 15px}
+.touch .player input[type=range]{height:44px}
+.touch .player input[type=range]::-webkit-slider-thumb{width:26px;height:26px;margin-top:-12px}
+.touch .tabs button{padding:12px 18px}
+.touch .toggles .tg{height:44px}
+.touch button,.touch a{touch-action:manipulation}
+.touch input[type=range],.touch canvas[style*="grab"]{touch-action:none}
+.touch #top .theme:hover,.touch #bottom .r button:hover{background:none!important;color:inherit!important}
+.touch .player .pp:hover{opacity:1}
+.touch .player .rs:hover,.touch .player .tg:hover{border-color:var(--rule-strong)}
+@media (orientation: portrait){
+  .touch .rotate-hint{display:flex;position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:70;gap:14px;align-items:center;
+    padding:10px 18px;border-radius:999px;background:rgba(1,1,1,.88);color:#fff;font:15px/1.3 var(--font);white-space:nowrap}
+  .touch .rotate-hint.gone{display:none}
+}
 </style>
 </head>
 <body>
@@ -428,7 +462,7 @@ mjx-container{color:inherit}
     <a data-sec="why">Why</a>
     <a data-sec="expdisc">Experiment &amp; Discussion</a>
   </nav>
-  <div class="meta"><button class="theme" id="theme" aria-label="Toggle light/dark mode" title="Light / dark (D)"><svg class="sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg><svg class="moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg></button><span class="timer" title="Click or press T to reset">00:00 / 15:00</span><span class="count">01 / 13</span></div>
+  <div class="meta"><button class="tbtn" id="t-notes" aria-label="Speaker notes">Notes</button><button class="tbtn" id="t-help" aria-label="Help">?</button><button class="tbtn" id="t-fs" aria-label="Full screen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button><button class="theme" id="theme" aria-label="Toggle light/dark mode" title="Light / dark (D)"><svg class="sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg><svg class="moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg></button><span class="timer" title="Click or press T to reset">00:00 / 15:00</span><span class="count">01 / 13</span></div>
 </header>
 
 <!-- ═════════════ 01 TITLE ═════════════ -->
@@ -825,6 +859,7 @@ mjx-container{color:inherit}
 <div id="progress"></div>
 </div>
 
+<div class="rotate-hint" id="rotate-hint">Rotate to landscape for the full view <span aria-hidden="true">✕</span></div>
 <div id="notes"><div class="h"><span id="notes-title">Speaker notes</span><span>N to hide</span></div><div id="notes-body"></div></div>
 <div id="help"><div class="p">
   <h4>Controls</h4>
@@ -837,6 +872,7 @@ mjx-container{color:inherit}
   <div><kbd>N</kbd>speaker notes &nbsp; <kbd>T</kbd>reset timer</div>
   <div><kbd>D</kbd>light / dark mode (dark is default)</div>
   <div><kbd>F</kbd>fullscreen &nbsp; <kbd>Home</kbd><kbd>End</kbd>first / last</div>
+  <div class="touch-only" style="margin-top:10px"><b>Touch:</b> swipe left / right to step through slides · Notes button for speaker notes</div>
   <div style="margin-top:10px;color:#6b6b6b">Drag 3-D views to rotate. Click outside to close.</div>
 </div></div>
 
@@ -1464,6 +1500,44 @@ document.getElementById('prev').onclick = () => prev();
 document.getElementById('theme').onclick = () => toggleTheme();
 document.querySelector('#top .mark').onclick = () => go(0);
 document.querySelectorAll('#top nav a').forEach(a => a.onclick = () => go(slides.findIndex(s => s.dataset.sec === a.dataset.sec)));
+
+// ───────────────────────── touch devices (online copy) ─────────────────────────
+// html.touch turns on the touch layout; set from the media query, or on the first real touch (hybrid laptops)
+if (matchMedia('(hover: none), (pointer: coarse)').matches) document.documentElement.classList.add('touch');
+addEventListener('touchstart', () => document.documentElement.classList.add('touch'), { once: true, passive: true });
+// swipe = ← / →. Touch events, not pointer events: the browser can cancel pointer streams it treats as a pan.
+// Drags that start on a 3-D view (inline cursor:grab), a slider, a control or an overlay belong to that element.
+let swipe = null;
+document.addEventListener('touchstart', e => {
+  const el = e.target, t = e.touches[0];
+  const owned = el.closest('input, button, a, .player, .tabs, .toggles, #notes, #help, #rotate-hint') || (el.tagName === 'CANVAS' && el.style.cursor) || document.getElementById('help').classList.contains('on');
+  swipe = e.touches.length === 1 && !owned ? { x: t.clientX, y: t.clientY, t: performance.now() } : null;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!swipe) return;
+  const t = e.changedTouches[0], dx = t.clientX - swipe.x, dy = t.clientY - swipe.y, quick = performance.now() - swipe.t < 800;
+  swipe = null;
+  if (quick && Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { if (dx < 0) { startTimer(); next(); } else prev(); }
+}, { passive: true });
+document.getElementById('t-notes').onclick = () => document.getElementById('notes').classList.toggle('on');
+document.getElementById('t-help').onclick = () => document.getElementById('help').classList.toggle('on');
+// Fullscreen: iPad Safari only has the webkit-prefixed API on older versions; hide the button where neither exists (iPhone)
+{
+  const root = document.documentElement, enter = root.requestFullscreen || root.webkitRequestFullscreen, fsBtn = document.getElementById('t-fs');
+  if (!enter) fsBtn.remove();
+  else fsBtn.onclick = () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else Promise.resolve(enter.call(root)).catch(() => { });
+  };
+}
+// princess mode without a keyboard: 4 taps on the slide counter within 1.5 s (the touch stand-in for typing 7777)
+let counterTaps = [];
+document.querySelector('#top .count').addEventListener('click', () => {
+  const now = performance.now();
+  counterTaps = counterTaps.filter(t => now - t < 1500).concat(now);
+  if (counterTaps.length >= 4) { counterTaps = []; document.documentElement.classList.toggle('princess'); readColors(); layout(); }
+});
+document.getElementById('rotate-hint').onclick = e => e.currentTarget.classList.add('gone');
 
 // ───────────────────────── wire up slides ─────────────────────────
 function initAll() {
