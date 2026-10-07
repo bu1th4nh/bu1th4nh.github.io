@@ -24,6 +24,7 @@ window.MathJax = {
       bw: '\\boldsymbol{w}',
       bb: '\\boldsymbol{b}',
       bz: '\\boldsymbol{z}',
+      bv: '\\boldsymbol{v}',
       bW: '\\mathbf{W}',
       bM: '\\mathbf{M}',
       bU: '\\mathbf{U}',
@@ -544,7 +545,7 @@ mjx-container{color:inherit}
   <figure class="viz c6-12 row3 rv" style="--i:2">
     <div class="frame"><canvas id="cv-toy"></canvas></div>
     <div class="player" id="pl-toy"></div>
-    <div class="player"><span>Weight decay</span><div class="spd" id="lam-toy"><button data-l="0" class="on">λ = 0</button><button data-l="0.01">λ = 0.01</button><button data-l="0.05">λ = 0.05</button></div><span style="margin-left:auto">Gradient descent from θ₀ = −1.5, η = 0.5 (≤ 1/L = 4, Ex. 2.3c)</span></div>
+    <div class="player"><span>Weight decay</span><div class="spd" id="lam-toy"><button data-l="0" class="on">λ = 0</button><button data-l="0.01">λ = 0.01</button><button data-l="0.05">λ = 0.05</button></div><span style="margin-left:auto">Gradient descent from θ₀ = −1.5, η = 0.5 ≤ 1/(L + λ), L = ¼</span></div>
     <figcaption id="toy-stats" class="mono" style="display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:6px 24px;font-size:16px;color:var(--ink)"></figcaption>
   </figure>
   <aside class="notes">Define TPT: keep minimizing cross-entropy after training error hits zero (the paper uses 99.9% train accuracy, 99.6% for ImageNet, because of mislabels). Then the HW 2, Exercise 2.3(e) warm-up: any θ greater than 0 classifies both points, but F′ is negative everywhere, so gradient descent never stops; θ grows like log k and the loss creeps toward 0. The red line is zero error and everything to its right is TPT. Switch λ to 0.05: by Exercise 2.3(f), θ settles at θ* ≈ 2.1, and the paper trains with this weight decay. Reveal the question: logistic regression can only grow |θ|, a deep net can also move its features. Neural Collapse is what happens to them. (≈1:20)</aside>
@@ -558,7 +559,7 @@ mjx-container{color:inherit}
     <ul class="nclist rv" style="--i:1">
       <li class="frag" data-f="1"><span class="tag">NC1</span><span class="what">Within-class variability collapses: \(\bSigma_W\to\mathbf 0\)</span><span class="val">\(\tfrac1C\Tr(\bSigma_W\bSigma_B^\dagger)\) = <b data-m="nc1">–</b></span></li>
       <li class="frag" data-f="2"><span class="tag">NC2</span><span class="what">Class-means converge to a <b style="font-weight:500">Simplex ETF</b></span><span class="val">\(\mean|\cos+\tfrac{1}{C-1}|\) = <b data-m="cosShift">–</b></span></li>
-      <li class="frag" data-f="3"><span class="tag">NC3</span><span class="what">Classifiers converge to the class-means (self-duality)</span><span class="val">\(\|\tilde\bW^\top-\tilde\bM\|_F^2\) = <b data-m="nc3">–</b></span></li>
+      <li class="frag" data-f="3"><span class="tag">NC3</span><span class="what">Classifiers converge to the class-means (self-duality)</span><span class="val">\(\|\bW^\top/\|\bW\|_F-\bM/\|\bM\|_F\|_F^2\) = <b data-m="nc3">–</b></span></li>
       <li class="frag" data-f="4"><span class="tag">NC4</span><span class="what">Decision rule becomes <b style="font-weight:500">nearest class-center</b></span><span class="val">mismatch with NCC = <b data-m="nc4">–</b></span></li>
     </ul>
   </div>
@@ -581,9 +582,10 @@ mjx-container{color:inherit}
       <div class="eq" style="margin-bottom:6px">\[ \bM^\star=\sqrt{\tfrac{C}{C-1}}\Big(\bI_C-\tfrac1C\one_C\one_C^\top\Big)\in\R^{C\times C} \]</div>
       <p class="small" style="margin:0">General Simplex ETF: \(\bM=\alpha\,\bU\bM^\star\) with \(\alpha>0\) and \(\bU\in\R^{p\times C}\), \(\bU^\top\bU=\bI\) (rotation + scale).</p>
     </div>
-    <div class="eq rv" style="--i:2">\[ \langle\tilde\bmu_c,\tilde\bmu_{c'}\rangle=\tfrac{C}{C-1}\,\delta_{c,c'}-\tfrac{1}{C-1} \]</div>
-    <p class="rv" style="--i:3">Equal norms and equal pairwise angles. Why \(-\tfrac1{C-1}\) is the extreme value:</p>
-    <div class="eq rv" style="--i:4">\[ 0=\Big\|\sum_c\tilde\bmu_c\Big\|^2=C+\sum_{c\ne c'}\cos\angle(\bmu_c,\bmu_{c'}) \;\Rightarrow\; \overline{\cos}=-\tfrac{1}{C-1} \]</div>
+    <div class="eq rv" style="--i:2">\[ \langle\tilde\bmu_c,\tilde\bmu_{c'}\rangle=\tfrac{C}{C-1}\,\delta_{c,c'}-\tfrac{1}{C-1},\qquad \tilde\bmu_c=\frac{\bmu_c-\bmu_G}{\|\bmu_c-\bmu_G\|_2} \]</div>
+    <p class="rv" style="--i:3">Equal norms and equal pairwise angles. Why \(-\tfrac1{C-1}\) is the extreme value, for any unit vectors \(\bv_1,\dots,\bv_C\):</p>
+    <div class="eq rv" style="--i:4">\[ 0\le\Big\|\sum_c\bv_c\Big\|_2^2=C+\sum_{c\ne c'}\langle\bv_c,\bv_{c'}\rangle \;\Rightarrow\; \overline{\cos}\ge-\tfrac{1}{C-1} \]</div>
+    <p class="small rv" style="--i:5;margin-bottom:6px">So the largest pairwise cosine is \(\ge-\tfrac{1}{C-1}\) too, with equality iff \(\sum_c\bv_c=0\) and all pairwise cosines are equal (Lemma 9 in the paper's supplement).</p>
     <p class="small rv" style="--i:5">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
   </div>
   <figure class="viz c6-12 row3 rv" style="--i:2">
@@ -604,7 +606,7 @@ mjx-container{color:inherit}
     <div class="player" id="pl-etf"></div>
     <figcaption><span>Construction for \(C=3\): center the basis vectors (project onto \(\one^\perp\)), then rescale by \(\sqrt{C/(C-1)}\).</span></figcaption>
   </figure>
-  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. The one-line proof: the vectors sum to zero, so the average cosine is forced to be −1/(C−1); equiangularity means every pair reaches that extreme. (≈1:00)</aside>
+  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. The one-line bound (Lemma 9 in the supplement): for any unit vectors, 0 ≤ ‖Σ v_c‖² = C + Σ of the pairwise cosines, so the average cosine, and therefore the largest one, is at least −1/(C−1). The Simplex ETF meets the bound exactly: its vectors sum to zero and every pair has the same cosine. (≈1:00)</aside>
 </section>
 
 <!-- ═════════════ 06 NC1 + NC2 ═════════════ -->
@@ -631,10 +633,10 @@ mjx-container{color:inherit}
 <!-- ═════════════ 07 NC3 + NC4 ═════════════ -->
 <section class="slide" data-id="nc34" data-sec="collapses">
   <div class="kicker rv"><b>02</b><span>Four collapses</span><span>NC3 + NC4</span></div>
-  <h2 class="title"><span class="mask"><span>The classifier becomes nearest "neighbor".</span></span></h2>
+  <h2 class="title"><span class="mask"><span>The classifier becomes nearest class-center.</span></span></h2>
   <div class="c1-5 row3 stack">
     <div class="label frag" data-f="1" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC3</b> · Self-duality: classifiers converge to the means</div>
-    <div class="eq frag" data-f="1">\[ \left\|\frac{\bW^\top}{\|\bW\|_F}-\frac{\bM}{\|\bM\|_F}\right\|_F\to0\quad\text{(Fig. 5)} \]</div>
+    <div class="eq frag" data-f="1">\[ \left\|\frac{\bW^\top}{\|\bW\|_F}-\frac{\bM}{\|\bM\|_F}\right\|_F^2\to0\quad\text{(Fig. 5)} \]</div>
     <div class="spark frag" data-f="1"><span class="sl">NC3 metric</span><span class="sv" data-v="nc3">–</span><div class="sc" style="height:110px"><canvas data-s="nc3"></canvas></div></div>
     <div class="label frag" data-f="2" style="color:var(--ink);font-size:15px;margin-top:22px"><b style="font-weight:500">NC4</b> · Decisions simplify to nearest class-center</div>
     <div class="eq frag" data-f="2">\[ \arg\max_{c}\,\langle\bw_c,\bh\rangle+b_c\;\to\;\arg\min_{c}\,\|\bh-\bmu_c\|_2\quad\text{(Fig. 7)} \]</div>
@@ -656,13 +658,13 @@ mjx-container{color:inherit}
   <div class="c1-6 row3">
     <ol class="steps thm">
       <li class="frag" data-f="1"><div class="label" style="color:var(--ink)">Theorem 2 · squared-error loss</div>
-        <p>With features held fixed, the best last layer is a modified LDA (Webb &amp; Lowe, 1990). Add NC1 + NC2 and it is forced to match the means (NC3) and to decide by the nearest mean (NC4).</p>
+        <p>With features held fixed, the best last layer is a modified LDA (Webb &amp; Lowe, 1990), with \(\bSigma_T=\bSigma_B+\bSigma_W\) the total covariance. Add NC1 + NC2 and it is forced to match the means (NC3) and to decide by the nearest mean (NC4).</p>
         <div class="eq">\[ \bW=\tfrac1C\bM^{\top}\bSigma_T^{\dagger}\;\xrightarrow{\ \text{NC1, NC2}\ }\;\bW\propto\bM^{\top},\quad \hat y(\bh)=\arg\min_c\|\bh-\bmu_c\|_2 \]</div></li>
       <li class="frag" data-f="2"><div class="label" style="color:var(--ink)">Theorem 4 · cross-entropy loss</div>
         <p>On separable features, gradient descent on cross-entropy heads to the max-margin classifier (Soudry et al., 2018). Add NC1 + NC2 and, again, NC3 + NC4 follow.</p>
-        <div class="eq">\[ \min_{\bW}\ \tfrac12\textstyle\sum_c\|\bw_c\|_2^2\ \ \text{s.t.}\ \ \langle\bw_c-\bw_{c'},\bh_{i,c}\rangle\ge1\;\xrightarrow{\ \text{NC1, NC2}\ }\;\bW\propto\bM^{\top} \]</div></li>
+        <div class="eq">\[ \min_{\bW}\ \tfrac12\textstyle\sum_c\|\bw_c\|_2^2\ \ \text{s.t.}\ \ \langle\bw_c-\bw_{c'},\bh_{i,c}\rangle\ge1\ (c'\ne c)\;\xrightarrow{\ \text{NC1, NC2}\ }\;\bW\propto\bM^{\top} \]</div></li>
       <li class="frag" data-f="3"><div class="label" style="color:var(--ink)">Theorem 5 · information theory</div>
-        <p>Treat the class-means as codewords sent through small noise, \(\bh=\bmu_y+\bz\), \(\bz\sim\mathcal N(0,\sigma^2\bI)\), \(\|\bmu_c\|_2\le1\). The slowest-vanishing error is reached only by a Simplex ETF, read out by \(\bW=\bM^{\top},\ \bb=0\).</p>
+        <p>Treat the class-means as codewords sent through small noise, \(\bh=\bmu_y+\bz\), \(\bz\sim\mathcal N(0,\sigma^2\bI)\), \(\|\bmu_c\|_2\le1\). The fastest-vanishing error (largest error exponent) is reached only by a Simplex ETF, read out by \(\bW=\bM^{\top},\ \bb=0\).</p>
         <div class="eq">\[ \max_{\bM,\bW,\bb}\;-\lim_{\sigma\to0}\sigma^2\log P\{\hat y(\bh)\ne y\}=\frac{C}{C-1}\cdot\frac14 \]</div></li>
     </ol>
     <p class="small frag" data-f="3" style="margin-top:10px">Demo (Theorem 5): same noise on both. Left is a Simplex ETF, right is uneven; red × are mistakes. Lower σ and the uneven one falls further behind.</p>
@@ -672,13 +674,13 @@ mjx-container{color:inherit}
     <div class="player" id="pl-code"></div>
     <figcaption id="code-stats" class="mono" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 40px;font-size:16px;color:var(--ink)"></figcaption>
   </figure>
-  <aside class="notes">The paper's three theorems, one per →; the third → also brings in the noise demo. Theorem 2: take Webb and Lowe's 1990 result (with fixed features and squared-error loss, the optimal last layer is a modified LDA, W = (1/C) Mᵀ Σ_T†); add NC1 and NC2, so Σ_T = Σ_B and M has equal singular values, and W becomes proportional to Mᵀ (NC3) while argmax ⟨w_c, h⟩ + b_c turns into argmin ‖h − μ_c‖ (NC4). Theorem 4: the same conclusion for cross-entropy, starting from Soudry et al. 2018 (gradient descent on separable data goes to the max-margin classifier). So NC1 + NC2 force NC3 + NC4 under either loss. Theorem 5 explains NC2 itself: treat the class-means as codewords sent through vanishing Gaussian noise (which is what NC1 does to the features); among all codebooks with unit-norm codewords and linear decoders, the best large-deviations error exponent, C/(C−1) · 1/4, is achieved only by a Simplex ETF with W = Mᵀ, b = 0. Demo: same noise on both sides; lower σ and the uneven layout falls further behind. (Script note: the information-theory result is Theorem 5 in the paper.) (≈1:50)</aside>
+  <aside class="notes">The paper's three theorems, one per →; the third → also brings in the noise demo. Theorem 2: take Webb and Lowe's 1990 result (with fixed features and squared-error loss, the optimal last layer is a modified LDA, W = (1/C) Mᵀ Σ_T†); add NC1 and NC2, so Σ_T = Σ_B and M has equal singular values, and W becomes proportional to Mᵀ (NC3) while argmax ⟨w_c, h⟩ + b_c turns into argmin ‖h − μ_c‖ (NC4). Theorem 4: the same conclusion for cross-entropy, starting from Soudry et al. 2018 (gradient descent on separable data goes to the max-margin classifier). So NC1 + NC2 force NC3 + NC4 under either loss. Theorem 5 explains NC2 itself: treat the class-means as codewords sent through vanishing Gaussian noise (which is what NC1 does to the features); among all codebooks with unit-norm codewords and linear decoders, the best large-deviations error exponent, C/(C−1) · 1/4, is achieved only by a Simplex ETF with W = Mᵀ, b = 0. Demo: same noise on both sides; lower σ and the uneven layout falls further behind. (Script note: the information-theory result is Theorem 5 in the paper.) (≈1:30)</aside>
 </section>
 
 <!-- ═════════════ 09 HOW THE EXPERIMENTS WERE RUN ═════════════ -->
 <section class="slide" data-id="protocol" data-sec="expdisc">
   <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>How the experiments were run</span></div>
-  <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>480 networks, trained past zero error, then measured.</span></span></h2>
+  <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>480 networks trained past zero error; the best 21 are reported.</span></span></h2>
   <div class="c1-6 row3">
     <ol class="steps">
       <li class="frag" data-f="1"><div class="label" style="color:var(--ink)">Data</div>
@@ -701,7 +703,7 @@ mjx-container{color:inherit}
       <tr><td>ResNet</td><td>18</td><td>18</td><td>18</td><td>18</td><td>50</td><td>50</td><td>152</td></tr>
       <tr><td>DenseNet</td><td>40</td><td>250</td><td>40</td><td>40</td><td>250</td><td>250</td><td>201</td></tr>
     </table>
-    <div class="pcount rv" style="--i:2"><div><b>6</b><span>datasets</span></div><i>×</i><div><b>3</b><span>nets</span></div><i>×</i><div><b>25</b><span>learning rates</span></div><i>+</i><div><b>30</b><span>ImageNet runs</span></div><i>=</i><div><b>480</b><span>models</span></div></div>
+    <div class="pcount rv" style="--i:2"><div><b>6</b><span>datasets</span></div><i>×</i><div><b>3</b><span>nets</span></div><i>×</i><div><b>25</b><span>learning rates</span></div><i>+</i><div><b>30</b><span>ImageNet runs</span></div><i>=</i><div><b>480</b><span>trained</span></div><i>→</i><div><b>21</b><span>reported</span></div></div>
     <div class="label rv" style="--i:3;margin-top:30px">Learning-rate schedule (ImageNet: drops at 1/2 and 3/4)</div>
     <svg class="rv" style="--i:3;width:100%;height:150px" viewBox="0 0 720 150" fill="none" font-family="inherit">
       <g stroke="var(--rule-strong)" stroke-width="1"><path d="M60 120 H700"/><path d="M273 116 V124 M487 116 V124 M700 116 V124"/></g>
@@ -718,7 +720,7 @@ mjx-container{color:inherit}
 
 <!-- ═════════════ 10 EVIDENCE ═════════════ -->
 <section class="slide" data-id="evidence" data-sec="expdisc">
-  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>7 datasets × 3 architectures · 480 trained models</span></div>
+  <div class="kicker rv"><b>04</b><span>Experiment &amp; discussion</span><span>7 datasets × 3 architectures · 480 trained, 21 reported (best learning rate per pair)</span></div>
   <h2 class="title" style="margin-bottom:26px"><span class="mask"><span>The collapse is everywhere, and continues long after zero error.</span></span></h2>
   <div class="c1-12 row3">
     <div class="tabs rv" style="--i:1" id="ev-tabs">
@@ -749,7 +751,7 @@ mjx-container{color:inherit}
       <p class="small" style="margin:0"><b style="color:var(--ink);font-weight:500">How to read:</b> rows are nets, columns are datasets ordered by difficulty. <span style="color:var(--red)">Red line</span> = start of TPT (99.9% train acc.; 99.6% ImageNet). Blue = class-means, orange = classifiers. Press → to step through the figures.</p>
     </div>
   </div>
-  <aside class="notes">Real data from the 480 models of the previous slide. Step through with the arrow key. Main things to point out: (1) every curve trends to zero; (2) the red TPT line usually sits early, and much of the decrease happens to its right, so training past zero error is what produces the collapse; (3) ImageNet and STL10 are the noisiest and collapse least, the honest weak spots. (≈1:25)</aside>
+  <aside class="notes">Real data from the 21 reported models of the previous slide (of the 480 trained, the best learning rate for each dataset–net pair). Step through with the arrow key. Main things to point out: (1) every curve trends to zero; (2) the red TPT line usually sits early, and much of the decrease happens to its right, so training past zero error is what produces the collapse; (3) ImageNet and STL10 are the noisiest and collapse least, the honest weak spots. (≈1:25)</aside>
 </section>
 
 <!-- ═════════════ 11 BENEFITS ═════════════ -->
@@ -817,7 +819,7 @@ mjx-container{color:inherit}
     </div>
   </div>
   <p class="frag" data-f="4" style="grid-column:1/-1;align-self:end;margin:0;padding-top:16px;border-top:1px solid var(--rule);font-size:22px;color:var(--ink)"><span class="label" style="margin-right:14px">Takeaway</span>Keep training after zero error, and the last layer settles into the simplest, most noise-robust shape there is.</p>
-  <aside class="notes">Press → to reveal each card, then the takeaway. My own view first, then two follow-ups. Top, my perspective: in my work one representation integrates multimodal biological data and serves several tasks. For clustering, collapse is fine, since clustering behaves like classification and tight, well-separated groups help. But the same embedding feeds other biological tasks, and there we never want different cells to end up with the same representation; collapse erases exactly the cell-to-cell differences those tasks rely on. Bottom left, the next paper by the same authors (ICLR 2022 Outstanding Paper): with squared-error loss the same four collapses appear, and they explain the route: at each moment the classifier is already the best least-squares fit to the current features, the "central path", so the dynamics reduce to the features alone. Bottom right, what changes if the last layers are not linear, from one paper (Súkeník, Mondelli & Lampert, NeurIPS 2023): with ReLU layers before the classifier, the earlier layers collapse too ("deep neural collapse"), and they prove this is the optimal solution for two classes. Because ReLU outputs are non-negative, the class-means end up orthogonal (right angles) rather than at the Simplex ETF angle. Close with the one-line takeaway. (≈1:40)</aside>
+  <aside class="notes">Press → to reveal each card, then the takeaway. My own view first, then two follow-ups. Top, my perspective: in my work one representation integrates multimodal biological data and serves several tasks. For clustering, collapse is fine, since clustering behaves like classification and tight, well-separated groups help. But the same embedding feeds other biological tasks, and there we never want different cells to end up with the same representation; collapse erases exactly the cell-to-cell differences those tasks rely on. Bottom left, the next paper by the same authors (ICLR 2022 Outstanding Paper): with squared-error loss the same four collapses appear, and they explain the route: at each moment the classifier is already the best least-squares fit to the current features, the "central path", so the dynamics reduce to the features alone. Bottom right, what changes if the last layers are not linear, from one paper (Súkeník, Mondelli & Lampert, NeurIPS 2023): with ReLU layers before the classifier, the earlier layers collapse too ("deep neural collapse"), and they prove this is the optimal solution for two classes. Because ReLU outputs are non-negative, the class-means end up orthogonal (right angles) rather than at the Simplex ETF angle. Close with the one-line takeaway. (≈1:20)</aside>
 </section>
 
 <!-- ═════════════ 13 END ═════════════ -->
