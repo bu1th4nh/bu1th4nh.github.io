@@ -587,7 +587,14 @@ mjx-container{color:inherit}
       <li><b>Same angle.</b> Every pair has cosine \(-\tfrac{1}{C-1}\).</li>
       <li><b>As far apart as possible.</b> The columns sum to zero; no \(C\) unit vectors can be more spread out.</li>
     </ol>
-    <p class="small rv" style="--i:3;margin-top:14px">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
+    <div class="box rv" style="--i:3;margin-top:14px">
+      <div class="label">Example · \(C=3\), the end state of the animation</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center">
+        <div class="eq" style="margin:0">\[ \bM^\star=\tfrac{1}{\sqrt6}\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix} \]</div>
+        <p class="small" style="margin:0;line-height:1.8">Length: \(\|\bv_1\|^2=(4+1+1)/6=1\)<br>Angle: \(\langle\bv_1,\bv_2\rangle=-3/6=-1/2\Rightarrow120^\circ\)<br>Spread: \(\bv_1+\bv_2+\bv_3=\mathbf 0\)</p>
+      </div>
+    </div>
+    <p class="small rv" style="--i:4;margin-top:14px">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
   </div>
   <figure class="viz c6-12 row3 rv" style="--i:2">
     <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;flex:1;min-height:0">
@@ -607,7 +614,7 @@ mjx-container{color:inherit}
     <div class="player" id="pl-etf"></div>
     <figcaption><span>Construction for \(C=3\): center the basis vectors (project onto \(\one^\perp\)), then rescale by \(\sqrt{C/(C-1)}\).</span></figcaption>
   </figure>
-  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. Three things to say: same length, same angle, as spread out as possible. If asked why −1/(C−1) is the limit (Lemma 9 in the supplement): for any unit vectors, 0 ≤ ‖Σ v_c‖² = C + Σ of the pairwise cosines, so the average cosine, and therefore the largest one, is at least −1/(C−1). The Simplex ETF meets the bound exactly: its vectors sum to zero and every pair has the same cosine. (≈1:00)</aside>
+  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. Three things to say: same length, same angle, as spread out as possible. Then point at the C = 3 example: column (2, −1, −1)/√6 has length 1, two columns have dot product −1/2 (120°), and the three columns add to zero. If asked why −1/(C−1) is the limit (Lemma 9 in the supplement): for any unit vectors, 0 ≤ ‖Σ v_c‖² = C + Σ of the pairwise cosines, so the average cosine, and therefore the largest one, is at least −1/(C−1). The Simplex ETF meets the bound exactly: its vectors sum to zero and every pair has the same cosine. (≈1:00)</aside>
 </section>
 
 <!-- ═════════════ 06 NC1 + NC2 ═════════════ -->
