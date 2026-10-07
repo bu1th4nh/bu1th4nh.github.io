@@ -580,13 +580,14 @@ mjx-container{color:inherit}
     <div class="box rv" style="--i:1">
       <div class="label">Definition 1 (standard Simplex ETF)</div>
       <div class="eq" style="margin-bottom:6px">\[ \bM^\star=\sqrt{\tfrac{C}{C-1}}\Big(\bI_C-\tfrac1C\one_C\one_C^\top\Big)\in\R^{C\times C} \]</div>
-      <p class="small" style="margin:0">General Simplex ETF: \(\bM=\alpha\,\bU\bM^\star\) with \(\alpha>0\) and \(\bU\in\R^{p\times C}\), \(\bU^\top\bU=\bI\) (rotation + scale).</p>
+      <p class="small" style="margin:0">Any rotation or rescaling of it is also a Simplex ETF.</p>
     </div>
-    <div class="eq rv" style="--i:2">\[ \langle\tilde\bmu_c,\tilde\bmu_{c'}\rangle=\tfrac{C}{C-1}\,\delta_{c,c'}-\tfrac{1}{C-1},\qquad \tilde\bmu_c=\frac{\bmu_c-\bmu_G}{\|\bmu_c-\bmu_G\|_2} \]</div>
-    <p class="rv" style="--i:3">Equal norms and equal pairwise angles. Why \(-\tfrac1{C-1}\) is the extreme value, for any unit vectors \(\bv_1,\dots,\bv_C\):</p>
-    <div class="eq rv" style="--i:4">\[ 0\le\Big\|\sum_c\bv_c\Big\|_2^2=C+\sum_{c\ne c'}\langle\bv_c,\bv_{c'}\rangle \;\Rightarrow\; \overline{\cos}\ge-\tfrac{1}{C-1} \]</div>
-    <p class="small rv" style="--i:5;margin-bottom:6px">So the largest pairwise cosine is \(\ge-\tfrac{1}{C-1}\) too, with equality iff \(\sum_c\bv_c=0\) and all pairwise cosines are equal (Lemma 9 in the paper's supplement).</p>
-    <p class="small rv" style="--i:5">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
+    <ol class="steps rv" style="--i:2">
+      <li><b>Same length.</b> Every column has norm 1.</li>
+      <li><b>Same angle.</b> Every pair has cosine \(-\tfrac{1}{C-1}\).</li>
+      <li><b>As far apart as possible.</b> The columns sum to zero; no \(C\) unit vectors can be more spread out.</li>
+    </ol>
+    <p class="small rv" style="--i:3;margin-top:14px">\(C=2\): 180° &nbsp;·&nbsp; \(C=3\): 120° &nbsp;·&nbsp; \(C=4\): 109.5° &nbsp;·&nbsp; \(C=10\): \(\cos=-\tfrac19\) &nbsp;·&nbsp; large \(C\): close to orthogonal</p>
   </div>
   <figure class="viz c6-12 row3 rv" style="--i:2">
     <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;flex:1;min-height:0">
@@ -606,7 +607,7 @@ mjx-container{color:inherit}
     <div class="player" id="pl-etf"></div>
     <figcaption><span>Construction for \(C=3\): center the basis vectors (project onto \(\one^\perp\)), then rescale by \(\sqrt{C/(C-1)}\).</span></figcaption>
   </figure>
-  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. The one-line bound (Lemma 9 in the supplement): for any unit vectors, 0 ≤ ‖Σ v_c‖² = C + Σ of the pairwise cosines, so the average cosine, and therefore the largest one, is at least −1/(C−1). The Simplex ETF meets the bound exactly: its vectors sum to zero and every pair has the same cosine. (≈1:00)</aside>
+  <aside class="notes">Define the ETF by construction: take the standard basis in R^C, subtract the mean (project away the all-ones direction), and rescale to unit norm. Play it: the Gram matrix goes from the identity to 1 on the diagonal and −1/2 off it. Three things to say: same length, same angle, as spread out as possible. If asked why −1/(C−1) is the limit (Lemma 9 in the supplement): for any unit vectors, 0 ≤ ‖Σ v_c‖² = C + Σ of the pairwise cosines, so the average cosine, and therefore the largest one, is at least −1/(C−1). The Simplex ETF meets the bound exactly: its vectors sum to zero and every pair has the same cosine. (≈1:00)</aside>
 </section>
 
 <!-- ═════════════ 06 NC1 + NC2 ═════════════ -->
