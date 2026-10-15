@@ -370,6 +370,25 @@ a.ext::after{content:" ↗"}
     padding:10px 18px;border-radius:999px;background:rgba(10,16,40,.9);color:#fff;font:15px/1.3 var(--font);white-space:nowrap}
   .touch .rotate-hint.gone{display:none}
 }
+
+/* Audit revision: larger supporting text, film context, optional quiet chrome. */
+.film{margin:0;align-self:start}
+.film img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}
+.film figcaption{font-size:18px;line-height:1.4;color:var(--muted);margin-top:10px}
+.board.side .inc{font-size:26px;line-height:1.3}
+.board.side .who{font-size:21px;margin-top:6px}
+.board.side li{padding:18px 0}
+.story .beats li{grid-template-columns:120px 1fr;font-size:29px}
+.src{font-size:21px}
+.steps .why{font-size:23px}
+.viz figcaption{font-size:18px}
+.tagline{font-size:17px}
+.hook .ax{font-size:18px}
+.hook .val{font-size:20px}
+.hook .d{font-size:19px}
+.quiet #top nav,.quiet #top .mark,.quiet #bottom .l,.quiet #bottom .r>span{visibility:hidden;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}.mask>span{transform:none}}
+
 </style>
 </head>
 <body>
@@ -394,10 +413,10 @@ a.ext::after{content:" ↗"}
 <section class="slide dark" data-id="hook" data-sec="hook">
   <div class="kicker rv"><b>Happiest Club On Earth Orlando | PowerPoint night</b><span>Fall 2026</span><span>A five-minute case for face-character meets</span></div>
   <div class="c1-7 row3 stack" style="justify-content:space-between;padding-bottom:20px">
-    <h1 style="font-size:92px;line-height:.98;margin-top:40px"><span class="mask"><span>You’re already avoiding the line.</span></span></h1>
+    <h1 style="font-size:88px;line-height:1.02;margin-top:40px"><span class="mask"><span>The conversation can be the attraction</span></span></h1>
     <div>
-      <p class="rv" style="--i:2;font-size:28px;margin:0 0 8px;letter-spacing:-.02em">Commuters told to talk to a stranger had a better ride than those told to sit alone. People asked to <em>predict</em> expected the opposite.</p>
-      <p class="rv small" style="--i:3;margin:0 0 40px">Nine field and lab experiments, trains and buses, Chicago. Same result for introverts and extraverts. &nbsp;·&nbsp; <span class="cite" style="font-size:17px">Epley &amp; Schroeder (2014)</span></p>
+      <p class="rv" style="--i:2;font-size:28px;margin:0 0 8px;letter-spacing:-.02em">A face-character meet gives you someone to talk with, in their story. That can be more fun than you expect.</p>
+      <p class="rv small" style="--i:3;margin:0 0 40px">In a commuter study, talking to a stranger felt better than sitting alone. Participants predicted the opposite. A useful analogy for meets, not a Disney experiment. &nbsp;·&nbsp; <span class="cite" style="font-size:17px">Epley &amp; Schroeder (2014)</span></p>
       <div class="rule rv" style="--i:4;padding-top:18px;display:flex;justify-content:space-between">
         <span class="small">Thanh Bui &nbsp;·&nbsp; University of Central Florida</span>
         <span class="small">Press <b style="color:#fff;font-weight:500">→</b> to begin &nbsp;·&nbsp; <b style="color:#fff;font-weight:500">?</b> for controls</span>
@@ -406,7 +425,7 @@ a.ext::after{content:" ↗"}
   </div>
   <figure class="viz hook c8-12 row3 rv" style="--i:1;margin-top:-20px">
     <div class="frame" style="border:0">
-      <span class="tagline">How good the commute felt · study scale</span>
+      <span class="tagline">Commute positivity · standardized score</span>
       <svg viewBox="0 0 760 420" aria-label="Predicted versus actual positivity of talking to a stranger or sitting alone">
         <line class="grid" x1="90" y1="120" x2="690" y2="120"/><line class="grid" x1="90" y1="180" x2="690" y2="180"/>
         <line class="grid" x1="90" y1="300" x2="690" y2="300"/><line class="grid" x1="90" y1="360" x2="690" y2="360"/>
@@ -421,152 +440,119 @@ a.ext::after{content:" ↗"}
         <text class="val" x="284" y="168" text-anchor="middle">≈ +0.16</text>
         <text class="val" x="480" y="123" text-anchor="middle">≈ +0.28</text>
         <text class="val" x="584" y="347" text-anchor="middle">≈ −0.22</text>
-        <text class="ax" x="232" y="398" text-anchor="middle">What people predicted</text>
-        <text class="ax" x="532" y="398" text-anchor="middle">What actually happened</text>
+        <text class="ax" x="232" y="398" text-anchor="middle">Predicted · 1b</text>
+        <text class="ax" x="532" y="398" text-anchor="middle">Experienced · 1a</text>
         <text class="d" x="232" y="60" text-anchor="middle">sitting alone “wins”</text>
         <text class="d" x="532" y="60" text-anchor="middle">talking wins</text>
       </svg>
     </div>
-    <figcaption><span class="chip"><i style="background:var(--orange)"></i>Talk to a stranger</span><span class="chip"><i style="background:var(--blue)"></i>Sit alone</span><span style="margin-left:auto">Values read from Fig. 1 of Epley &amp; Schroeder (2014); effect sizes d = 0.41 (predicted), 0.63 (actual).</span></figcaption>
+    <figcaption><span class="chip"><i style="background:var(--orange)"></i>Talk to a stranger</span><span class="chip"><i style="background:var(--blue)"></i>Sit alone</span><span style="margin-left:auto">Train studies 1a / 1b · approximate values from Fig. 1. Zero is the standardized reference, not “no enjoyment.”</span></figcaption>
   </figure>
-  <aside class="notes">In a series of field experiments, commuters assigned to talk to a stranger reported a happier ride than those who kept to themselves, and a separate group asked to predict got it backwards. Introverts and extraverts alike. The character line is the same prediction error: we expect it to be awkward, so we skip it. Tonight: where my evidence comes from, why it works, why it beats a ride, and the house rules. (0:35)</aside>
+  <aside class="notes">My case tonight: the conversation can be the attraction. In a commuter study, people expected talking to a stranger to be less pleasant than sitting alone. The actual experience went the other way. That is a useful analogy, not a study of Disney meets. Let me show you what this looks like in practice. Chart: approximate standardized positivity means from train Experiments 1a and 1b, Figure 1, Epley and Schroeder (2014). Effect sizes: d = 0.41 predicted, 0.63 experienced. (0:35)</aside>
 </section>
 
 <!-- ═════════════ 02 THE LOG + LEADERBOARD ═════════════ -->
 <section class="slide lg" data-id="board" data-sec="log">
-  <div class="kicker rv"><b>01</b><span>The log</span><span>Where this comes from, and what I actually say to them</span></div>
-  <h2 class="title" style="margin-bottom:22px"><span class="mask"><span>What I actually say to them.</span></span></h2>
+  <div class="kicker rv"><b>01</b><span>The log</span><span>One conversation from my park log</span></div>
+  <h2 class="title" style="margin-bottom:30px"><span class="mask"><span>I offered Anna a radar for her castle</span></span></h2>
   <div class="c1-12 row3 boardwrap">
-  <div class="src rv" style="--i:1;grid-template-columns:repeat(12,1fr)">
-    <div><b>The office</b>Magic Kingdom, 4–6 hours a day. A meet is the coffee break.</div>
-    <div><b>The sample</b><span class="n">200+</span> logged visits since Nov 2024.</div>
+    <div class="src rv" style="--i:1;grid-template-columns:repeat(12,1fr)">
+      <div><b>The office</b>I study at Magic Kingdom. A meet is my coffee break.</div>
+      <div><b>The source</b>My park log, kept since November 2024. Personal experience.</div>
+    </div>
+    <div class="story rv" style="--i:2">
+      <div class="label">A radar for Arendelle Castle</div>
+      <h3>“Technology.”</h3>
+      <p>Anna was looking for her mother’s dress in the new <em>Frozen</em> short. I had an idea.</p>
+      <ol class="beats">
+        <li><b>My pitch</b><span>A scanner to find hidden spaces. I swept an invisible one along the wall.</span></li>
+        <li><b>Anna</b><span>“Technology.” Kristoff is never getting one.</span></li>
+        <li><b>Elsa</b><span>She overheard. The conversation continued.</span></li>
+      </ol>
+      <p class="end">No photo. One of my favorite conversations.</p>
+    </div>
+    <div class="others rv" style="--i:3">
+      <div class="label">Three more openings</div>
+      <ol class="board side">
+        <li><span class="rk">01</span><span class="inc">A dragon-proof statue of Flynn’s nose</span><span class="who" style="--dot:var(--c1)"><i></i>Rapunzel</span></li>
+        <li><span class="rk">02</span><span class="inc">Artificial intelligence for the Fairy Godmother’s wand</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
+        <li><span class="rk">03</span><span class="inc">Lab computers from Ursula, paid in potion</span><span class="who" style="--dot:var(--c0)"><i></i>Ariel</span></li>
+      </ol>
+    </div>
+    <p class="punch frag" data-f="1">I brought an idea. They made it part of the story.</p>
   </div>
-  <div class="story rv" style="--i:2">
-    <div class="label">One meet, start to finish</div>
-    <h3>A radar for Arendelle Castle</h3>
-    <p>In the new <em>Frozen</em> short, Anna turns the castle upside down looking for her mother’s dress, and the castle has hidden passages even the sisters never found.</p>
-    <ol class="beats">
-      <li><b>Anna</b><span>I pitched ground-penetrating radar, a handheld scanner that sees behind walls, and swept an invisible one along the wall. Her verdict: “Technology.” Kristoff is never getting one.</span></li>
-      <li><b>Elsa</b><span>She had overheard every word, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Her catch: what she makes fits only her.</span></li>
-      <li><b>Next visit</b><span>Elsa got a refresher on the radar.</span></li>
-    </ol>
-    <p class="end">No photo. One of the best conversations I’ve had.</p>
-  </div>
-  <div class="others rv" style="--i:4">
-    <div class="label">Other things I talked about</div>
-    <ol class="board side">
-      <li class="rv" style="--i:3"><span class="rk">01</span><span class="inc">A dragon-proof superalloy statue of Flynn’s nose</span><span class="who" style="--dot:var(--c1)"><i></i>Rapunzel</span></li>
-      <li class="rv" style="--i:4"><span class="rk">02</span><span class="inc">An AI inside the Fairy Godmother’s wand</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
-      <li class="rv" style="--i:5"><span class="rk">03</span><span class="inc">Lab computers from Ursula, paid in potion</span><span class="who" style="--dot:var(--c0)"><i></i>Ariel</span></li>
-      <li class="rv" style="--i:6"><span class="rk">04</span><span class="inc">“Rapid unscheduled disassembly,” like her carriage</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
-      <li class="rv" style="--i:7"><span class="rk">05</span><span class="inc">Could Sofia survive Navy SEAL training?</span><span class="who" style="--dot:var(--red)"><i></i>Elena</span></li>
-      <li class="rv" style="--i:8"><span class="rk">06</span><span class="inc">3 + 2 = 10, counting in fives</span><span class="who" style="--dot:var(--c4)"><i></i>Elsa</span></li>
-      <li class="rv" style="--i:9"><span class="rk">07</span><span class="inc"><em>Frozen</em> as a probability lesson</span><span class="who" style="--dot:var(--c3)"><i></i>Anna</span></li>
-      <li class="rv" style="--i:10"><span class="rk">08</span><span class="inc">Her beignets vs. Mama Odie’s, in a lab</span><span class="who" style="--dot:var(--c5)"><i></i>Tiana</span></li>
-    </ol>
-  </div>
-  <p class="punch frag" data-f="1">Every single one got a yes-and. That is the format working.</p>
-  </div>
-  <aside class="notes">My office is a quick-service table in Fantasyland; a meet is three minutes out of a five-hour work day. Two hundred-plus logged visits. One meet in full: in the new Frozen short, Anna tears the castle apart looking for her mother’s dress. So I pitched her ground-penetrating radar and swept an invisible one along the wall. Her verdict: “technology.” Elsa had overheard, so I caught her up, and next visit she got a refresher. On the right, other things I’ve talked about: a dragon-proof statue of Flynn’s nose, an AI for the Fairy Godmother’s wand, computers bought from Ursula with a potion. Press →: every single one got a yes-and. (1:15)</aside>
+  <aside class="notes">I study at a quick-service table in Fantasyland. A meet is my coffee break, and these are examples from my own log, not a controlled study. Anna was searching for her mother’s dress in the new short. I pitched ground-penetrating radar as a scanner to find hidden spaces and mimed sweeping it along the wall. Her verdict: “Technology.” Kristoff is never getting one. Elsa overheard, so I brought her into the conversation. No photo, and still one of my favorite conversations. Briefly point to the other examples; do not explain all three. Reveal: I brought an idea; they made it part of the story. (1:00)</aside>
 </section>
 
 <!-- ═════════════ 03 WHY IT WORKS ═════════════ -->
 <section class="slide lg" data-id="works" data-sec="why">
-  <div class="kicker rv"><b>02</b><span>Why it works</span><span>The safest stranger on Earth, and translation practice</span></div>
-  <h2 class="title"><span class="mask"><span>Conversation is translation practice.</span></span></h2>
-  <div class="c1-6 row3 body">
-    <div class="tokens rv" style="--i:1"><span>trained</span><span>in character</span><span>guaranteed warm</span><span>3 minutes</span></div>
-    <p class="rv" style="--i:2;font-size:26px;line-height:1.3;margin-bottom:30px">Slide 1’s experiment with the downside removed: a trained conversational partner who will not reject the offer.</p>
-    <div class="rv" style="--i:3">
-      <div class="label">The opener, when the topic needs translating</div>
-      <p class="quote" style="font-size:34px">I’m trying to figure out how to explain X to you in a way you can understand.</p>
-      <p class="small" style="margin:14px 0 0;font-size:20px">It hands her the frame. She builds on it.</p>
-    </div>
+  <div class="kicker rv"><b>02</b><span>Why it works</span><span>One idea, in their world</span></div>
+  <h2 class="title"><span class="mask"><span>Their story gives us common ground</span></span></h2>
+  <figure class="film c1-6 row3 rv" style="--i:1">
+    <img src="assets/royal-fitting.jpg" width="1024" height="576" alt="Anna, Elsa, Olaf, Kristoff and Sven in Arendelle Castle, in a still from The Night Before the Royal Fitting">
+    <figcaption><em>The Night Before the Royal Fitting</em> · © Disney<br>Official still via <a class="ext" href="https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/" target="_blank" rel="noopener">D23</a></figcaption>
+    <p class="lede" style="margin-top:24px">Her story: a missing dress.<br>My opening: a way to search the castle.</p>
+  </figure>
+  <div class="c7-12 row3 body" style="padding-left:24px">
+    <div class="label rv" style="--i:2">An opener you can borrow</div>
+    <p class="quote rv" style="--i:2;font-size:40px">Something I work on reminded me of your kingdom. Can I tell you about it?</p>
+    <ol class="steps rv" style="--i:3;margin-top:30px">
+      <li>Bring one idea from your life.</li>
+      <li>Connect it to their story.</li>
+      <li>Listen. Let their reply change your plan.</li>
+    </ol>
+    <p class="rv" style="--i:4;font-size:25px;margin-top:22px;color:var(--body)">A performer helps sustain the story. You help shape the conversation.</p>
   </div>
-  <div class="c7-12 row3 stack" style="padding-left:20px">
-    <p class="lede rv" style="--i:2;margin-bottom:14px">Each character’s story decides what gets in.</p>
-    <ul class="flow rv" style="--i:3">
-      <li><div class="f"><b>Rapunzel</b><i></i>her friend Varian is an inventor<i></i>engineering gets in cheap</div></li>
-      <li><div class="f"><b>Tiana</b><i></i>kitchen<i></i>only food chemistry gets in</div></li>
-      <li><div class="f"><b>Snow White</b><i></i>mine<i></i>gems, so lasers</div></li>
-    </ul>
-    <p class="rv" style="--i:4;font-size:22px;line-height:1.4;margin:22px 0 10px">Same job as explaining my work to a biologist or a reviewer: know who you’re talking to, check the comparison fits, use their words, one idea per visit.</p>
-    <p class="rv" style="--i:5;font-size:21px;line-height:1.35;margin:0 0 6px;color:var(--body)">Playfulness, the knack for making almost any situation engaging, goes with life satisfaction in adults, and a one-week online exercise raised it.</p>
-    <span class="cite rv" style="--i:5">Proyer (2013) &nbsp;·&nbsp; Proyer, Gander, Brauer &amp; Chick (2021)</span>
-  </div>
-  <aside class="notes">Why does it work? First, Slide 1’s experiment with the downside removed: a trained conversational partner who will not reject the offer. My opener, when the topic needs translating, is that line; it hands her the frame and she builds on it. Second, it’s practice. Turning a computer purchase into a sea-witch contract is the same job as explaining my work to a biologist: know your audience, check the comparison fits, use their words, one idea per visit. Playfulness goes with life satisfaction, and a one-week exercise raised it. (1:00)</aside>
+  <aside class="notes">Here is the short that gave me the opening: The Night Before the Royal Fitting. The image is an official still published by D23, not a photo of my meet. Anna’s search gave my radar idea a purpose in her world. You can borrow this opener, but you do not need a technical topic or a clever script. Ask about something you care about and connect it to the character’s interests. Then listen and let the answer change your plan. This is practice in knowing your audience, much like explaining research to someone in another field. Performers help sustain the story, but no particular reaction or duration is guaranteed. Background reading: Proyer (2013), adult playfulness and well-being; Proyer et al. (2021), a randomized one-week playfulness intervention. These are not tests of character meets. Still source: https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/ (0:55)</aside>
 </section>
 
 <!-- ═════════════ 04 WHY IT BEATS A RIDE ═════════════ -->
 <section class="slide lg" data-id="ride" data-sec="why">
-  <div class="kicker rv"><b>02</b><span>Why it works</span><span>Why it beats a ride</span></div>
-  <h2 class="title"><span class="mask"><span>Why it beats a ride.</span></span></h2>
+  <div class="kicker rv"><b>02</b><span>Why it works</span><span>Why I keep coming back</span></div>
+  <h2 class="title"><span class="mask"><span>Your sentence changes what happens next</span></span></h2>
   <div class="c1-12 row3">
-  <div class="vs rv" style="--i:1">
-    <div class="col"><div class="label">A ride</div>
-      <p>Same track, same loop, same ending, every day.</p>
-      <p>You watch.</p>
-      <p>Fun you can predict.</p>
+    <div class="vs rv" style="--i:1">
+      <div class="col"><div class="label">A ride I love</div><p>I return for a familiar experience.</p><p>The story takes me along.</p></div>
+      <div class="col you"><div class="label">A meet I love</div><p>I bring something new each time.</p><p>My idea becomes part of the scene.</p></div>
     </div>
-    <div class="col you"><div class="label">A meet</div>
-      <p>Different performer, different reply, different day.</p>
-      <p>You take part. Your sentence changes what happens next.</p>
-      <p>Fun you can’t predict.</p>
-    </div>
+    <ul class="flow" style="margin-top:38px">
+      <li class="frag" data-f="1"><div class="f"><b>A short moment can become a highlight</b></div><div class="sub">Peaks and endings can strongly shape how we evaluate an experience. <span class="cite">Fredrickson &amp; Kahneman (1993)</span></div></li>
+      <li class="frag" data-f="1"><div class="f"><b>Then I get to tell the story here</b></div><div class="sub">Savoring positive moments is associated with daily happiness. <span class="cite">Jose, Lim &amp; Bryant (2012)</span></div></li>
+    </ul>
+    <p class="rv" style="--i:2;margin-top:26px;font-size:25px;color:var(--body)">That is what makes these meets memorable for me.</p>
   </div>
-  <ul class="flow" style="margin-top:34px">
-    <li class="frag" data-f="1">
-      <div class="f"><b>You remember</b><i></i>the best moment and the ending, not how long it took</div>
-      <div class="sub">So a three-minute meet can be the peak of a six-hour work day. &nbsp;<span class="cite">Fredrickson &amp; Kahneman (1993)</span></div>
-    </li>
-    <li class="frag" data-f="2">
-      <div class="f"><b>Nostalgia</b><i></i>feeling connected<i></i>feeling like yourself<i></i>life feels meaningful</div>
-      <div class="sub">Looking back on those moments is what raises meaning in life, and the pathway runs through connection. &nbsp;<span class="cite">Routledge et al. (2011) · van Tilburg et al. (2019)</span></div>
-    </li>
-    <li class="frag" data-f="3">
-      <div class="f"><b>Tell someone</b><i></i>it lasts</div>
-      <div class="sub">The strongest way to make a good moment last is to tell someone about it afterwards. This club is where you tell it. &nbsp;<span class="cite">Jose, Lim &amp; Bryant (2012)</span></div>
-    </li>
-  </ul>
-  </div>
-  <aside class="notes">A ride is the same every time: same track, same loop, same ending. A conversation is never the same twice: different performer, different reply, and your sentence changes what happens next. Memory rewards that. You remember the best moment and the ending, not how long it took, so a three-minute meet can be the peak of a six-hour day. Looking back on those moments makes you feel connected and like yourself; that’s where meaning comes from. The strongest way to make it last is to tell someone here. (1:00)</aside>
+  <aside class="notes">I still love rides. I return to them for an experience I already enjoy. Meets give me another kind of fun: my sentence can change the scene. A brief conversation can become a highlight of the day. Research on retrospective evaluation suggests that peaks and endings can carry substantial weight, but that does not mean duration never matters. Reveal both points. Sharing this story with the club lets me enjoy it again. The savoring paper is a daily-diary study, not proof that sharing is the single best strategy. These studies help frame my experience; they do not establish that meets outperform rides. Further background on nostalgia and meaning: Routledge et al. (2011), van Tilburg et al. (2019). (0:45)</aside>
 </section>
 
 <!-- ═════════════ 05 ETIQUETTE + GO ═════════════ -->
 <section class="slide lg" data-id="etiquette" data-sec="etq">
-  <div class="kicker rv"><b>03</b><span>Etiquette</span><span>The price of admission, then your next visit</span></div>
-  <h2 class="title"><span class="mask"><span>The price of admission.</span></span></h2>
+  <div class="kicker rv"><b>03</b><span>Etiquette &amp; go</span><span>A little room for the magic</span></div>
+  <h2 class="title"><span class="mask"><span>Bring an idea. Leave room for theirs.</span></span></h2>
   <div class="c1-7 row3">
     <ol class="steps rv" style="--i:1">
-      <li>One visit per character per day.</li>
-      <li>No posed portraits. Talk, then photo.<span class="why">Photos sharpen what you saw and blur what was said. <span class="cite">Barasch, Diehl, Silverman &amp; Zauberman (2017)</span></span></li>
-      <li>Give your spot to an excited kid.</li>
-      <li>File a Cast Compliment.</li>
-      <li>Let them start any touch.<span class="why">Cast members do emotional labor: in a UCF study of Walt Disney World on-stage employees, surface acting was common and exhaustion recurring. <span class="cite">Reyers (2011), UCF</span></span></li>
-      <li>Phone pocketed until the photo.</li>
+      <li>Follow the attendant’s directions.<span class="why">Respect boundaries. Ask or wait for an invitation before a hug.</span></li>
+      <li>Offer one idea, then listen.<span class="why">Let the character respond and follow their lead when it is time to wrap up.</span></li>
+      <li>Enjoy what happens.<span class="why">A particular reply, extra time, or special treatment is never owed.</span></li>
     </ol>
-    <p class="rv" style="--i:2;margin:22px 0 0;font-size:24px;letter-spacing:-.02em;color:var(--body)">Pixie dust is something you notice afterwards, not something you chase.</p>
+    <p class="rv" style="--i:2;margin:30px 0 0;font-size:26px;color:var(--body)">My habit: phone away for the conversation, photo afterward.</p>
+    <p class="rv" style="--i:3;margin:18px 0 0;font-size:26px;color:var(--body)">A great interaction? Send a Cast Compliment.</p>
+    <p class="rv small" style="--i:4;margin-top:30px;font-size:24px">Pixie dust is something you notice afterwards, not something you chase.</p>
   </div>
-  <div class="c8-12 row3 stack frag go" data-f="1" style="padding-left:24px">
-    <div class="label">Next visit</div>
-    <ul class="cta sm">
-      <li>Bring one real thing from your life, translated into her world.</li>
-      <li>Princess Fairytale Hall.</li>
-      <li>Phone pocketed.</li>
-      <li>Report back here.</li>
-    </ul>
-    <p class="small" style="margin:24px 0 0;font-size:21px">3 + 2 = 10 if you count in fives, and Elsa agreed.</p>
+  <div class="c8-12 row3 stack rv go" style="--i:2;padding-left:24px">
+    <div class="label">Your next visit</div>
+    <ul class="cta sm"><li>Pick one face character.</li><li>Bring one thing from your life into their story.</li><li>Come back and tell us what happened.</li></ul>
   </div>
-  <aside class="notes">One visit per character per day. Talk first, photo last: photos sharpen what you saw and blur what was said. Give your spot to an excited kid. File a Cast Compliment. Let them start any touch: cast members do emotional labor, and a UCF study found surface acting common and exhaustion recurring. Phone pocketed. Press →. Next visit: one face character, one real thing from your life, translated, then come back and tell this room. Three plus two is ten, and Elsa agreed. (1:00)</aside>
+  <aside class="notes">You do not need to copy my routine. Follow the attendant’s directions, respect boundaries, and ask or wait for an invitation before a hug. Offer one idea, listen, and follow the character’s lead when it is time to wrap up. You can enjoy a warm exchange without expecting special treatment. I keep my phone away during the conversation and take a photo afterward. That is my preference, not an official rule. Send a Cast Compliment for an interaction you loved. Next visit: pick one face character, bring one thing from your life into their story, then come back and tell us what happened. Stop here for the spoken ending; references are next if needed. Background: Barasch et al. (2017) studied photo-taking during experiences, not posed photos after a character conversation; Reyers (2011) examined emotional labor among on-stage employees, not a character-performer-only sample. (0:55)</aside>
 </section>
 
 <!-- ═════════════ 06 REFERENCES ═════════════ -->
 <section class="slide dark" data-id="refs" data-sec="refs">
-  <div class="kicker rv"><b>Thank you</b><span>References</span></div>
+  <div class="kicker rv"><b>Thank you</b><span>Questions &amp; references</span></div>
   <div class="c1-4 row3 stack" style="justify-content:space-between;padding-bottom:20px">
-    <h1 class="qs" style="font-size:110px;line-height:.95;margin-top:20px"><span class="mask"><span>Questions?</span></span></h1>
+    <div><h1 class="qs" style="font-size:90px;line-height:1.02;margin-top:20px"><span class="mask"><span>Try one meet</span></span></h1><p style="font-size:29px;line-height:1.3;margin-top:30px">One thing from your life.<br>One opening into their story.<br>Then tell us what happened.</p><p class="small" style="font-size:24px">Questions?</p></div>
     <div class="small rv" style="--i:2;font-size:15px;line-height:1.6">
       <div class="label" style="color:rgba(255,255,255,.55)">Credits</div>
+      Film still: © Disney, <a class="ext" href="https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/" target="_blank" rel="noopener">D23</a><br>
       Design inspiration: National Design Studio, <a class="ext" href="https://ndstudio.gov/" target="_blank" rel="noopener">ndstudio.gov</a><br>
       <span class="pr-only">Typefaces: Cormorant Garamond and Great Vibes (Google Fonts)<br></span>
       Figure colors: Princess Colour Schemes, <a class="ext" href="https://leahsmyth.github.io/Princess-Colour-Schemes/index.html" target="_blank" rel="noopener">leahsmyth.github.io</a><br>
@@ -588,12 +574,12 @@ a.ext::after{content:" ↗"}
       <li>Reyers, A. (2011). <a class="ext" href="https://stars.library.ucf.edu/etd/1955" target="_blank" rel="noopener">Emotional regulation at Walt Disney World: Deep acting vs. surface acting</a>. M.A. thesis, University of Central Florida, STARS.</li>
     </ol>
   </div>
-  <aside class="notes">Open for questions. Backups: “How often do you go?” Most workdays, it’s my office. “Isn’t this just nostalgia?” Nostalgia is one of three reasons, and the one with the most experimental support. “Where’s the Disney-specific study?” There isn’t a trial; the list is one person’s log, and the closest peer-reviewed theme-park work is the 2025 Leisure Sciences interaction study. “Hugs?” Only if offered; a 14-day diary of 404 adults linked a hug to a smaller mood hit on conflict days, correlational only (Murphy, Janicki-Deverts &amp; Cohen, 2018).</aside>
+  <aside class="notes">Questions and reference links. These are my experiences, interpreted using broader research; there is no Disney-specific randomized trial in this deck. If asked about frequency, explain my study-at-the-park routine. If asked about photos, taking one afterward is my preference. If asked about hugs, respect boundaries and ask or wait for an invitation. Keep the invitation visible while answering. The spoken outline totals approximately 4:10, leaving time for laughter and transitions.</aside>
 </section>
 
 <footer class="chrome" id="bottom">
   <div class="l">Happiest Club On Earth Orlando | PowerPoint night · Fall 2026 · Go meet the face characters</div>
-  <div class="r"><span>← → navigate · D theme · N notes · ? help</span>
+  <div class="r"><span>← → navigate · D theme · N notes · P quiet · ? help</span>
     <button id="prev" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2 L4 7 L9 12"/></svg></button>
     <button id="next" aria-label="Next"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2 L10 7 L5 12"/></svg></button>
   </div>
@@ -609,6 +595,7 @@ a.ext::after{content:" ↗"}
   <div><kbd>←</kbd>previous</div>
   <div><kbd>N</kbd>speaker notes &nbsp; <kbd>T</kbd>reset timer</div>
   <div><kbd>D</kbd>light / dark mode (dark is default)</div>
+  <div><kbd>P</kbd>hide navigation and footer labels</div>
   <div><kbd>F</kbd>fullscreen &nbsp; <kbd>Home</kbd><kbd>End</kbd>first / last</div>
   <div class="touch-only" style="margin-top:10px"><b>Touch:</b> swipe left / right to step through slides · Notes button for speaker notes · tap the slide counter four times for the other theme</div>
   <div style="margin-top:10px;color:#6b6b6b">Click outside to close.</div>
@@ -626,12 +613,14 @@ function layout() {
   stage.style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`;
 }
 function maxStep(i) { return Math.max(0, ...[...slides[i].querySelectorAll('.frag')].map(e => +e.dataset.f)); }
-function applyStep() { slides[cur].querySelectorAll('.frag').forEach(e => e.classList.toggle('on', +e.dataset.f <= step)); }
+function applyStep() { slides[cur].querySelectorAll('.frag').forEach(e => (e.classList.toggle('on', +e.dataset.f <= step), e.setAttribute('aria-hidden', String(+e.dataset.f > step)))); }
 function go(i, st = 0) {
   i = clamp(i, 0, slides.length - 1);
   slides[cur].classList.remove('active');
   cur = i; step = st;
-  const s = slides[cur]; s.classList.add('active'); applyStep();
+  const s = slides[cur]; s.classList.add('active');
+  slides.forEach((slide, index) => { slide.setAttribute('aria-hidden', String(index !== cur)); slide.inert = index !== cur; });
+  applyStep();
   stage.classList.toggle('dark', s.classList.contains('dark'));
   document.querySelector('#top .count').textContent = `${String(cur + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   document.querySelectorAll('#top nav a').forEach(a => a.classList.toggle('on', a.dataset.sec === s.dataset.sec));
@@ -664,6 +653,7 @@ document.addEventListener('keydown', e => {
   else if (k === 'n' || k === 'N') document.getElementById('notes').classList.toggle('on');
   else if (k === 't' || k === 'T') t0 = performance.now();
   else if (k === 'd' || k === 'D') toggleTheme();
+  else if (k === 'p' || k === 'P') document.documentElement.classList.toggle('quiet');
   else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => { }); }
   else if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('on');
   else if (k === 'Escape') { document.getElementById('help').classList.remove('on'); }
