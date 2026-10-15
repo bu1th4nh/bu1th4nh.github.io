@@ -7,26 +7,13 @@ redirect_from:
   - /miscellaneous
 ---
 
-## 01 / Networking
+## 01 / Presentation
 
-Beyond academic work, I am part of communities that have shaped my education and professional network.
+I actively introduce new technologies into every presentation I give. You can see my work here:
+- Fall 2026, Mathematical Introduction to Deep Learning: [Neural Collapse](/presentations/ucf_fall26_map6197_neuralcollapse/neural-collapse.html)
+- Fall 2026, Happiest Club On Earth Orlando \| PowerPoint night: [Go meet the face characters](/presentations/hcoe_fall26_facecharacters/face-characters.html)
 
-### The VEF 2.0 Program
-
-I am a member of [The VEF 2.0 Program](https://vef2.org/page/directory.aspx#:~:text=Cohort%202023-,Cohort%202024,-COPYRIGHT%20%C2%A9%202024%20VEF). The program builds on the legacy of the Vietnam Education Foundation Fellowship Program, which was created by the U.S. Congress and operated from 2003 to 2016 to strengthen educational exchange between the United States and Vietnam. More information is available on the [VEF 2.0 website](https://vef2.org/page/about-us.aspx).
-
-### Talent Nurturing Program
-
-The Talent Nurturing Program was established from an initiative by Dr. Tran Thanh Hai with contributions from entrepreneurs and experts across Vietnam. With the motto “Talent goes hand in hand with humanity,” the community supports scholarships, exchange sessions, extracurricular programs, English activities, and career-orientation initiatives for students.
-
-## 02 / Campus Experience
-
-During my undergraduate years, I served as show and AV technical lead for multiple events, including:
-
-- SVBK 2023 and 2024
-- Public Lecture Series in STEM and Environment
-
-## 03 / Hobbies
+## 02 / Hobbies
 
 ### Games and eSports
 
