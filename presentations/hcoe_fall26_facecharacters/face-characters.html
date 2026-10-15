@@ -170,18 +170,25 @@ a.ext::after{content:" ↗"}
 .hook .base{stroke:currentColor;stroke-width:1.2;opacity:.6}
 .hook .grid{stroke:currentColor;stroke-width:1;opacity:.1}
 
-/* highlights list */
+/* highlights list + story card */
 .board{grid-column:1/13;list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
-.board li{display:grid;grid-template-columns:54px 1fr 230px;gap:0 20px;align-items:center;padding:11px 0;border-bottom:1px solid var(--rule)}
+.board li{display:grid;grid-template-columns:54px 1fr 230px 90px;gap:0 20px;align-items:center;padding:11px 0;border-bottom:1px solid var(--rule)}
 .board .rk{font-size:15px;color:var(--muted);letter-spacing:.04em}
 .board .inc{font-size:25px;line-height:1.22;letter-spacing:-.015em}
 .board .who{font-size:19px;color:var(--body);display:flex;align-items:center;gap:10px}
 .board .who i{width:11px;height:11px;border-radius:50%;background:var(--dot,var(--ink));flex:none}
 .boardwrap{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-content:start}
-.board li.feat{padding:16px 0}
-.board li.feat .rk{color:var(--ink)}
-.board li.feat .inc{font-size:31px;letter-spacing:-.02em}
-.board .inc small{display:block;margin-top:6px;font-size:20px;line-height:1.35;letter-spacing:0;color:var(--muted)}
+.board.split{grid-column:1/8}
+.board.split li{grid-template-columns:40px 1fr 140px;gap:0 16px}
+.board.split .inc{font-size:24px;text-wrap:balance}
+.board.split .who{font-size:18px}
+.story{grid-column:8/13;grid-row:span 2;align-self:start;border-top:2px solid var(--ink);padding:12px 0 0 8px}
+.story h3{margin:0 0 10px;font-size:34px;font-weight:500;letter-spacing:-.02em;line-height:1.15}
+.story p{margin:0 0 12px;font-size:21px;line-height:1.38;color:var(--body)}
+.story .beats{list-style:none;margin:0;padding:0}
+.story .beats li{display:grid;grid-template-columns:116px 1fr;gap:0 12px;padding:10px 0;border-top:1px solid var(--rule);font-size:21px;line-height:1.38;color:var(--body)}
+.story .beats b{font-weight:500;color:var(--ink)}
+.story .end{margin:10px 0 0;color:var(--ink)}
 .punch{grid-column:1/13;font-size:30px;letter-spacing:-.02em;margin-top:22px}
 
 /* tokens + quote */
@@ -218,7 +225,7 @@ a.ext::after{content:" ↗"}
 .src b{display:block;font-weight:400;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:2px}
 .src .n{font-size:30px;font-weight:500;letter-spacing:-.03em;color:var(--ink);margin-right:6px;line-height:1}
 .board.tight li{padding:7px 0}
-.boardwrap .punch{margin-top:24px;font-size:30px}
+.boardwrap .punch{grid-column:1/8;margin-top:28px;font-size:30px}
 
 /* ride vs meet (slide 4) */
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -314,7 +321,7 @@ a.ext::after{content:" ↗"}
 :root.princess .card .label::before{content:"";display:inline-block;width:16px;height:16px;margin-right:7px;vertical-align:-2px;background:var(--rose);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat}
 :root.princess .steps li::before{background:var(--rose);color:#fff;border-radius:999px;padding:1px 8px;top:14px;font-weight:700}
 :root.princess .lg .steps li::before{top:21px}
-:root.princess .board .rk{color:var(--rose)}
+:root.princess .board .rk,:root.princess .story .beats b{color:var(--rose)}
 :root.princess .tokens span{border-color:var(--rose);box-shadow:0 0 0 4px rgba(255,79,178,.14)}
 :root.princess .cta li{border-top-color:rgba(255,255,255,.35)}
 
@@ -425,24 +432,34 @@ a.ext::after{content:" ↗"}
   <div class="kicker rv"><b>01</b><span>The log</span><span>Where this comes from, and what I actually say to them</span></div>
   <h2 class="title" style="margin-bottom:22px"><span class="mask"><span>What I actually say to them.</span></span></h2>
   <div class="c1-12 row3 boardwrap">
-  <div class="src rv" style="--i:1;grid-template-columns:repeat(2,1fr)">
+  <div class="src rv" style="--i:1;grid-template-columns:7fr 5fr">
     <div><b>The office</b>Magic Kingdom, 4–6 hours a day. A meet is the coffee break.</div>
     <div><b>The sample</b><span class="n">200+</span> logged visits since Nov 2024.</div>
   </div>
-  <ol class="board">
-    <li class="rv feat" style="--i:2"><span class="rk">01</span><span class="inc">Ground-penetrating radar, to find Arendelle Castle’s secret passages<small>Swept an invisible scanner along the wall. Anna: “Technology.” Elsa overheard, and got a refresher next visit.</small></span><span class="who" style="--dot:var(--c3)"><i></i>Anna <i style="--dot:var(--c4)"></i>Elsa</span></li>
-    <li class="rv" style="--i:3"><span class="rk">02</span><span class="inc">A dragon-proof superalloy statue of Flynn’s nose</span><span class="who" style="--dot:var(--c1)"><i></i>Rapunzel</span></li>
-    <li class="rv" style="--i:4"><span class="rk">03</span><span class="inc">An AI inside the Fairy Godmother’s wand</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
-    <li class="rv" style="--i:5"><span class="rk">04</span><span class="inc">Lab computers from Ursula, paid in potion</span><span class="who" style="--dot:var(--c0)"><i></i>Ariel</span></li>
-    <li class="rv" style="--i:6"><span class="rk">05</span><span class="inc">“Rapid unscheduled disassembly,” like her carriage</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
-    <li class="rv" style="--i:7"><span class="rk">06</span><span class="inc">Could Sofia survive Navy SEAL training?</span><span class="who" style="--dot:var(--red)"><i></i>Elena</span></li>
-    <li class="rv" style="--i:8"><span class="rk">07</span><span class="inc">3 + 2 = 10, counting in fives</span><span class="who" style="--dot:var(--c4)"><i></i>Elsa</span></li>
-    <li class="rv" style="--i:9"><span class="rk">08</span><span class="inc"><em>Frozen</em> as a probability lesson</span><span class="who" style="--dot:var(--c3)"><i></i>Anna</span></li>
-    <li class="rv" style="--i:10"><span class="rk">09</span><span class="inc">Her beignets vs. Mama Odie’s, in a lab</span><span class="who" style="--dot:var(--c5)"><i></i>Tiana</span></li>
+  <ol class="board split">
+    <li class="rv" style="--i:3"><span class="rk">01</span><span class="inc">A dragon-proof superalloy statue of Flynn’s nose</span><span class="who" style="--dot:var(--c1)"><i></i>Rapunzel</span></li>
+    <li class="rv" style="--i:4"><span class="rk">02</span><span class="inc">An AI inside the Fairy Godmother’s wand</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
+    <li class="rv" style="--i:5"><span class="rk">03</span><span class="inc">Lab computers from Ursula, paid in potion</span><span class="who" style="--dot:var(--c0)"><i></i>Ariel</span></li>
+    <li class="rv" style="--i:6"><span class="rk">04</span><span class="inc">“Rapid unscheduled disassembly,” like her carriage</span><span class="who" style="--dot:var(--blue)"><i></i>Cinderella</span></li>
+    <li class="rv" style="--i:7"><span class="rk">05</span><span class="inc">Could Sofia survive Navy SEAL training?</span><span class="who" style="--dot:var(--red)"><i></i>Elena</span></li>
+    <li class="rv" style="--i:8"><span class="rk">06</span><span class="inc">3 + 2 = 10, counting in fives</span><span class="who" style="--dot:var(--c4)"><i></i>Elsa</span></li>
+    <li class="rv" style="--i:9"><span class="rk">07</span><span class="inc"><em>Frozen</em> as a probability lesson</span><span class="who" style="--dot:var(--c3)"><i></i>Anna</span></li>
+    <li class="rv" style="--i:10"><span class="rk">08</span><span class="inc">Her beignets vs. Mama Odie’s, in a lab</span><span class="who" style="--dot:var(--c5)"><i></i>Tiana</span></li>
   </ol>
+  <div class="story rv" style="--i:4">
+    <div class="label">One meet, start to finish</div>
+    <h3>A radar for Arendelle Castle</h3>
+    <p>In the new <em>Frozen</em> short, Anna turns the castle upside down looking for her mother’s dress, and the castle has hidden passages even the sisters never found.</p>
+    <ol class="beats">
+      <li><b>Anna</b><span>I pitched ground-penetrating radar, a handheld scanner that sees behind walls, and swept an invisible one along the wall. Her verdict: “Technology.” Kristoff is never getting one.</span></li>
+      <li><b>Elsa</b><span>She had overheard every word, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Her catch: what she makes fits only her.</span></li>
+      <li><b>Next visit</b><span>Elsa got a refresher on the radar.</span></li>
+    </ol>
+    <p class="end">No photo. One of the best conversations I’ve had.</p>
+  </div>
   <p class="punch frag" data-f="1">Every single one got a yes-and. That is the format working.</p>
   </div>
-  <aside class="notes">My office is a quick-service table in Fantasyland; a meet is three minutes out of a five-hour work day. Two hundred-plus logged visits. The best one: after the new Frozen short, I pitched Anna ground-penetrating radar to find the castle’s secret passages, and swept an invisible one along the wall. Her verdict: “technology.” Elsa overheard, so I caught her up, and next visit she got a refresher. The rest are on the list: a fireproof statue of Flynn’s nose, an AI in the Fairy Godmother’s wand, Sofia in Navy SEAL training. Press →: every single one got a yes-and. (1:00)</aside>
+  <aside class="notes">My office is a quick-service table in Fantasyland; a meet is three minutes out of a five-hour work day. Two hundred-plus logged visits. Highlights: Rapunzel got a dragon-fireproof statue of Flynn’s nose. Cinderella got a tiny AI for the Fairy Godmother’s wand. Ariel got computers paid for with a potion for Ursula. One meet in full: in the new Frozen short, Anna tears the castle apart looking for her mother’s dress. So I pitched her ground-penetrating radar and swept an invisible one along the wall. Her verdict: “technology.” Elsa had overheard, so I caught her up, and next visit she got a refresher. Press →: every single one got a yes-and. (1:15)</aside>
 </section>
 
 <!-- ═════════════ 03 WHY IT WORKS ═════════════ -->
