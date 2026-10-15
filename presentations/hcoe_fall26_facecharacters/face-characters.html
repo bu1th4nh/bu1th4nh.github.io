@@ -161,6 +161,10 @@ a.ext::after{content:" ↗"}
 .hook .bar.pos{transform-origin:50% 100%}
 .hook .bar.neg{transform-origin:50% 0%}
 .slide.active .hook .bar{transform:scaleY(1);transition-delay:calc(.45s + var(--k) * 120ms)}
+/* chart build: the "experienced" half is a step; its bars grow on reveal, not on slide entry */
+.hook g.frag{transform:none;transition:opacity .5s var(--ease-cubic)}
+.hook g.frag:not(.on) .bar{transform:scaleY(0)}
+.hook g.frag.on .bar{transform:scaleY(1);transition-delay:calc(.15s + (var(--k) - 2) * 120ms)}
 .hook .val,.hook .d{opacity:0;transition:opacity .6s 1.3s}
 .slide.active .hook .val,.slide.active .hook .d{opacity:1}
 .hook text{font-family:var(--font);fill:currentColor}
@@ -421,10 +425,10 @@ a.ext::after{content:" ↗"}
 <section class="slide dark" data-id="hook" data-sec="hook">
   <div class="kicker rv"><b>Happiest Club On Earth Orlando | PowerPoint night</b><span>Fall 2026</span><span>A five-minute case for face-character meets</span></div>
   <div class="c1-7 row3 stack" style="justify-content:space-between;padding-bottom:20px">
-    <h1 style="font-size:88px;line-height:1.02;margin-top:40px"><span class="mask"><span>A hidden gem you might be walking past</span></span></h1>
+    <h1 style="font-size:88px;line-height:1.02;margin-top:40px"><span class="mask"><span>You keep walking past it.</span></span></h1>
     <div>
-      <p class="rv" style="--i:2;font-size:28px;margin:0 0 8px;letter-spacing:-.02em">Usually skip character meets on your way to the next ride? This is for you. One conversation might become a highlight of your day.</p>
-      <p class="rv small" style="--i:3;margin:0 0 32px;font-size:21px;line-height:1.4">One group expected solitude to feel better. Another group had a better commute after talking to a stranger. A useful analogy for meets. &nbsp;·&nbsp; <span class="cite" style="font-size:17px">Epley &amp; Schroeder (2014)</span></p>
+      <p class="rv" style="--i:2;font-size:28px;margin:0 0 8px;letter-spacing:-.02em">Usually skip character meets on the way to the next ride? This is for you. One conversation can be the highlight of your day.</p>
+      <p class="rv small" style="--i:3;margin:0 0 32px;font-size:21px;line-height:1.4">Commuters told to talk to a stranger had a better ride than those told to sit alone. People asked to <em>predict</em> expected the opposite. The one caveat of the night: an analogy for meets, not a Disney experiment. &nbsp;·&nbsp; <span class="cite" style="font-size:17px">Epley &amp; Schroeder (2014)</span></p>
       <div class="rule rv" style="--i:4;padding-top:18px;display:flex;justify-content:space-between">
         <span class="small">Thanh Bui &nbsp;·&nbsp; University of Central Florida</span>
         <span class="small"><b style="color:#fff;font-weight:500">T</b> start timer &nbsp;·&nbsp; <b style="color:#fff;font-weight:500">→</b> next &nbsp;·&nbsp; <b style="color:#fff;font-weight:500">?</b> controls</span>
@@ -440,23 +444,25 @@ a.ext::after{content:" ↗"}
         <!-- Predicted (Exp. 1b): talk ≈ −0.26, alone ≈ +0.16 -->
         <rect class="bar neg" style="--k:0" x="135" y="240" width="90" height="99" rx="2" fill="var(--orange)"/>
         <rect class="bar pos" style="--k:1" x="239" y="179" width="90" height="61" rx="2" fill="var(--blue)"/>
-        <!-- Actual (Exp. 1a): talk ≈ +0.28, alone ≈ −0.22 -->
-        <rect class="bar pos" style="--k:2" x="435" y="134" width="90" height="106" rx="2" fill="var(--orange)"/>
-        <rect class="bar neg" style="--k:3" x="539" y="240" width="90" height="84" rx="2" fill="var(--blue)"/>
         <line class="base" x1="90" y1="240" x2="690" y2="240"/>
         <text class="val" x="180" y="362" text-anchor="middle">≈ −0.26</text>
         <text class="val" x="284" y="168" text-anchor="middle">≈ +0.16</text>
-        <text class="val" x="480" y="123" text-anchor="middle">≈ +0.28</text>
-        <text class="val" x="584" y="347" text-anchor="middle">≈ −0.22</text>
         <text class="ax" x="232" y="398" text-anchor="middle">Predicted · 1b</text>
-        <text class="ax" x="532" y="398" text-anchor="middle">Experienced · 1a</text>
         <text class="d" x="232" y="60" text-anchor="middle">sitting alone “wins”</text>
-        <text class="d" x="532" y="60" text-anchor="middle">talking wins</text>
+        <!-- Step 1 (press →): what people actually experienced. Exp. 1a: talk ≈ +0.28, alone ≈ −0.22 -->
+        <g class="frag" data-f="1">
+          <rect class="bar pos" style="--k:2" x="435" y="134" width="90" height="106" rx="2" fill="var(--orange)"/>
+          <rect class="bar neg" style="--k:3" x="539" y="240" width="90" height="84" rx="2" fill="var(--blue)"/>
+          <text class="val" x="480" y="123" text-anchor="middle">≈ +0.28</text>
+          <text class="val" x="584" y="347" text-anchor="middle">≈ −0.22</text>
+          <text class="ax" x="532" y="398" text-anchor="middle">Experienced · 1a</text>
+          <text class="d" x="532" y="60" text-anchor="middle">talking wins</text>
+        </g>
       </svg>
     </div>
-    <figcaption><span class="chip"><i style="background:var(--orange)"></i>Talk to a stranger</span><span class="chip"><i style="background:var(--blue)"></i>Sit alone</span><span style="margin-left:auto">Train studies 1a / 1b · approximate values from Fig. 1. Zero is the standardized reference, not “no enjoyment.”</span></figcaption>
+    <figcaption><span class="chip"><i style="background:var(--orange)"></i>Talk to a stranger</span><span class="chip"><i style="background:var(--blue)"></i>Sit alone</span><span style="margin-left:auto">Train studies 1a / 1b · approximate values from Fig. 1 · press → for what they experienced</span></figcaption>
   </figure>
-  <aside class="notes"><p><b>Spoken outline · target 0:35</b></p><p>I made this for anyone who usually walks past character meets on the way to a ride. You may be walking past a hidden gem. In this study, one group expected sitting alone to feel better. Another group had a better commute when they talked to a stranger. That is a reason to question our predictions about conversation. Let me show you what happened when I offered Anna a radar for her castle.</p><details><summary>Backup &amp; references</summary><p>This is an analogy, not a Disney-attraction experiment. Separate samples supplied predictions and experiences. Chart: approximate standardized positivity means from train Experiments 1a and 1b, Figure 1, Epley &amp; Schroeder (2014), https://doi.org/10.1037/a0037323. Effect sizes: d = 0.41 predicted; d = 0.63 experienced. Press T at your first spoken sentence to start the timer.</p></details></aside>
+  <aside class="notes"><p><b>Spoken outline · target 0:35</b></p><p>This is for anyone who walks past character meets on the way to a ride. Left bars first: commuters asked to predict said sitting alone would feel better than talking to a stranger. Press →. Right bars: the commuters who actually did it reported the opposite. We expect a conversation to be awkward, so we skip it. That is the one caveat of the night, said once: a train study, not a Disney one. Everything from here on is my own log. Let me show you what happened when I offered Anna a radar for her castle.</p><details><summary>Backup &amp; references</summary><p>Separate samples supplied predictions and experiences. Zero is the standardized reference, not “no enjoyment.” Chart: approximate standardized positivity means from train Experiments 1a and 1b, Figure 1, Epley &amp; Schroeder (2014), https://doi.org/10.1037/a0037323. Effect sizes: d = 0.41 predicted; d = 0.63 experienced. Press T at your first spoken sentence to start the timer.</p></details></aside>
 </section>
 
 <!-- ═════════════ 02 THE LOG + LEADERBOARD ═════════════ -->
@@ -517,10 +523,10 @@ a.ext::after{content:" ↗"}
     <div class="rv" style="--i:4;margin-top:24px;padding-top:18px;border-top:1px solid var(--rule)">
       <p style="font-size:30px;line-height:1.2;margin-bottom:8px">“But I’m an adult.” Adults play, too.</p>
       <p style="font-size:23px;line-height:1.35;color:var(--body);margin-bottom:6px">A randomized study of 533 adults found short-term well-being benefits from one-week playfulness exercises.</p>
-      <span class="cite" style="font-size:17px;white-space:normal">Proyer et al. (2021) · Adult playfulness, not a study of Disney meets</span>
+      <span class="cite" style="font-size:17px;white-space:normal">Proyer et al. (2021)</span>
     </div>
   </div>
-  <aside class="notes"><p><b>Spoken outline · target 1:00</b></p><p>Their story gives us common ground. Anna’s search gave my radar idea a purpose in her world. But you do not need a technical topic. You could simply ask Tiana what to cook first. Curiosity is enough. Bring one idea, connect it to their story, and listen. And yes, adults play too: a randomized study of 533 adults found short-term well-being benefits from one-week playfulness exercises. You can know someone is performing and still enjoy helping build the scene.</p><details><summary>Backup &amp; references</summary><p>The cooking question is a suggested opening, not a claimed encounter from my log. Proyer et al. (2021), https://doi.org/10.1111/aphw.12220, tested adult-playfulness exercises, not Disney meets. Enjoyment is not restricted by age or disability status. No particular response or duration is guaranteed. Film still: © Disney, via https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/.</p></details></aside>
+  <aside class="notes"><p><b>Spoken outline · target 1:00</b></p><p>Their story gives us common ground. Anna’s search gave my radar idea a purpose in her world. But you do not need a technical topic. You could simply ask Tiana what to cook first. Curiosity is enough. Bring one idea, connect it to their story, and listen. And yes, adults play too: a randomized study of 533 adults found short-term well-being benefits from one-week playfulness exercises. You can know someone is performing and still enjoy helping build the scene.</p><details><summary>Backup &amp; references</summary><p>The cooking question is a suggested opening, not a claimed encounter from my log. Proyer et al. (2021), https://doi.org/10.1111/aphw.12220, tested adult-playfulness exercises, not Disney meets. Film still: © Disney, via https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/.</p></details></aside>
 </section>
 
 <!-- ═════════════ 04 WHY IT BEATS A RIDE ═════════════ -->
@@ -533,7 +539,7 @@ a.ext::after{content:" ↗"}
       <div class="col you"><div class="label">“I haven’t tried. It looks awkward.”</div><p>Give one meet a chance.</p><p>Your prediction could be wrong.</p></div>
     </div>
     <ul class="flow" style="margin-top:32px">
-      <li class="frag" data-f="1"><div class="f"><b>People can underestimate a conversation</b></div><div class="sub">One group expected solitude to feel better. Another group experienced the opposite. <span class="cite">Epley &amp; Schroeder (2014)</span><br>An analogy for meets; the study did not compare Disney attractions.</div></li>
+      <li class="frag" data-f="1"><div class="f"><b>People can underestimate a conversation</b></div><div class="sub">One group expected solitude to feel better. Another group experienced the opposite. <span class="cite">Epley &amp; Schroeder (2014)</span></div></li>
     </ul>
     <p class="rv" style="--i:2;margin-top:24px;font-size:32px;line-height:1.25;color:var(--ink)">My case: a meet deserves a place among your options.</p>
   </div>
