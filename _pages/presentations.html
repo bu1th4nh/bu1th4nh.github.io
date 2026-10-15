@@ -1,0 +1,24 @@
+---
+layout: archive
+title: "Presentations"
+permalink: /presentations/
+description: "Slide decks from class paper presentations and club talks. Each one runs right in the browser."
+section_label: "Slide decks"
+---
+
+<p style="margin:0 0 36px; font-size:14px; color:var(--muted);">Use the arrow keys or swipe to move through the slides. Press F for full screen.</p>
+
+<div class="archive-list">
+  {% for deck in site.data.presentations %}
+  <article class="archive-row">
+    <a class="archive-row-link" href="{{ deck.url | relative_url }}">
+      <div class="archive-date">{{ deck.when }}</div>
+      <div>
+        <h2 class="archive-title">{{ deck.title }}</h2>
+        <div class="archive-excerpt">{{ deck.description }}</div>
+      </div>
+      <div class="archive-meta">{{ deck.venue }} ↗</div>
+    </a>
+  </article>
+  {% endfor %}
+</div>
