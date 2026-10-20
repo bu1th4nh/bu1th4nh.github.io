@@ -288,8 +288,8 @@ a.ext::after{content:" ↗"}
 :root.princess h1,:root.princess h2,:root.princess h3,:root.princess strong,:root.princess .kicker b,:root.princess .big-num,:root.princess .cta li,:root.princess .flow .f b{font-weight:600!important}
 :root.princess b{font-weight:700!important}
 :root.princess h2.title{font-size:64px;line-height:1.08}
-:root.princess .slide[data-id="hook"] h1{line-height:1.06!important}
-:root.princess h1.qs{font-family:var(--script);font-weight:400!important;font-size-adjust:none;letter-spacing:0;font-size:170px!important;line-height:1.05!important;margin-top:30px!important}
+:root.princess .slide[data-id="hook"] h1{font-size:76px!important;line-height:1.06!important}
+:root.princess h1.qs{font-family:var(--script);font-weight:400!important;font-size-adjust:none;letter-spacing:0;font-size:132px!important;line-height:1.05!important;margin-top:10px!important}
 :root.princess h1.qs .mask{padding:.18em 0 .25em .12em;margin:-.18em 0 0 -.12em}
 .pr-only{display:none}
 :root.princess .pr-only{display:inline}
@@ -333,6 +333,13 @@ a.ext::after{content:" ↗"}
 :root.princess .board .rk,:root.princess .story .beats b{color:var(--rose)}
 :root.princess .tokens span{border-color:var(--rose);box-shadow:0 0 0 4px rgba(255,79,178,.14)}
 :root.princess .cta li{border-top-color:rgba(255,255,255,.35)}
+
+/* spacing: after font-size-adjust the serif sets ~15% larger than the sans, so open up leading and trim the tallest blocks */
+:root.princess .cta li{line-height:1.2}
+:root.princess .cta.sm li{line-height:1.32}
+:root.princess .viz figcaption{font-size:16px}
+:root.princess .slide[data-id="board"] .story .beats li{grid-template-columns:150px 1fr;font-size:24px;line-height:1.5}
+:root.princess .slide[data-id="board"] .story .pics figcaption{line-height:1.4}
 
 /* rounded, glowing frames */
 :root.princess .slide:not(.dark) .viz .frame,:root.princess .box{border-radius:22px;overflow:hidden;border:2px solid var(--rose)!important;box-shadow:0 0 0 6px rgba(255,79,178,.16),0 18px 50px rgba(255,79,178,.28)}
@@ -430,7 +437,7 @@ a.ext::after{content:" ↗"}
 
 <!-- ═════════════ 01 HOOK ═════════════ -->
 <section class="slide" data-id="hook" data-sec="hook">
-  <div class="kicker rv"><b>Happiest Club On Earth Orlando | PowerPoint night</b><span>Fall 2026</span><span>A five-minute case for face-character meets</span></div>
+  <div class="kicker rv"><b>Happiest Club On Earth Orlando | PowerPoint night</b><span>Fall 2026</span><span>A five-minute pitch for face-character meets</span></div>
   <div class="c1-7 row3 stack" style="justify-content:space-between;padding-bottom:20px">
     <h1 style="font-size:88px;line-height:1.02;margin-top:40px"><span class="mask"><span>You keep walking past it.</span></span></h1>
     <div>
@@ -521,11 +528,11 @@ a.ext::after{content:" ↗"}
   </figure>
   <div class="c7-12 row3 body" style="padding-left:24px">
     <div class="label frag" data-f="2">An opener you can borrow</div>
-    <p class="quote frag" data-f="2" style="font-size:34px">Something in my life reminded me of your story. Can I tell you about it?</p>
+    <p class="quote frag" data-f="2" style="font-size:34px">I had a wild idea about your world. What if…?</p>
     <div class="frag" data-f="3" style="margin-top:22px">
       <div class="label">An everyday example you could try</div>
-      <p style="font-size:27px;line-height:1.3;margin-bottom:10px">“I’m learning to cook. Tiana, what dish should I start with?”</p>
-      <p style="font-size:25px;color:var(--body)">Curiosity is enough. You don’t need a clever script.</p>
+      <p style="font-size:27px;line-height:1.3;margin-bottom:10px">“Belle, I owe my library a month of late fees. Does the Beast charge them too?”</p>
+      <p style="font-size:25px;color:var(--body)">A real detail from your week beats a clever line.</p>
     </div>
     <ol class="steps frag" data-f="4" style="margin-top:20px">
       <li>Bring one idea from your life.</li>
@@ -538,7 +545,7 @@ a.ext::after{content:" ↗"}
       <span class="cite" style="font-size:17px;white-space:normal">Proyer et al. (2021)</span>
     </div>
   </div>
-  <aside class="notes"><p><b>Spoken outline · target 1:00</b></p><p>Their story gives us common ground. Anna’s search gave my radar idea a purpose in her world. But you do not need a technical topic. You could simply ask Tiana what to cook first. Curiosity is enough. Bring one idea, connect it to their story, and listen. And yes, adults play too: a randomized study of 533 adults found short-term well-being benefits from one-week playfulness exercises. You can know someone is performing and still enjoy helping build the scene.</p><details><summary>Backup &amp; references</summary><p>The cooking question is a suggested opening, not a claimed encounter from my log. Proyer et al. (2021), https://doi.org/10.1111/aphw.12220, tested adult-playfulness exercises, not Disney meets. Film still: © Disney, via https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/. Clicks: film still, opener, cooking example, three steps, adults play.</p></details></aside>
+  <aside class="notes"><p><b>Spoken outline · target 1:00</b></p><p>Their story gives us common ground. Anna’s search gave my radar idea a purpose in her world. But you do not need a technical topic. You could ask Belle whether the Beast charges late fees. A real detail from your week beats a clever line. Bring one idea, connect it to their story, and listen. And yes, adults play too: a randomized study of 533 adults found short-term well-being benefits from one-week playfulness exercises. You can know someone is performing and still enjoy helping build the scene.</p><details><summary>Backup &amp; references</summary><p>The late-fee question is a suggested opening, not a claimed encounter from my diary. Proyer et al. (2021), https://doi.org/10.1111/aphw.12220, tested adult-playfulness exercises, not Disney meets. Film still: © Disney, via https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/. Clicks: film still, opener, late-fee example, three steps, adults play.</p></details></aside>
 </section>
 
 <!-- ═════════════ 04 WHY IT BEATS A RIDE ═════════════ -->
@@ -593,7 +600,7 @@ a.ext::after{content:" ↗"}
     <div class="small rv" style="--i:2;font-size:15px;line-height:1.6">
       <div class="label">Credits</div>
       Film stills: <i>The Night Before the Royal Fitting</i> © Disney, via <a class="ext" href="https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/" target="_blank" rel="noopener">D23</a> and <a class="ext" href="https://www.micechat.com/445685-disneys-frozen-fan-fest-2026-brings-new-animated-short-magical-merchandise/" target="_blank" rel="noopener">MiceChat</a>. <br>
-      Radar photo: NX25 © Geophysical Survey Systems, Inc. (GSSI), via <a class="ext" href="https://www.geophysical.com/products/nx25" target="_blank" rel="noopener">geophysical.com</a>; background extended<br>
+      Radar photo: Flex NX © Geophysical Survey Systems, Inc. (GSSI), via <a class="ext" href="https://www.geophysical.com/products/flex-nx" target="_blank" rel="noopener">geophysical.com</a>; background extended<br>
       Fair use: the film stills and product photo are used under fair use (17 U.S.C. § 107) for commentary in a non-commercial student talk. Not affiliated with or endorsed by Disney or GSSI.<br>
       Design inspiration: National Design Studio, <a class="ext" href="https://ndstudio.gov/" target="_blank" rel="noopener">ndstudio.gov</a><br>
       <span class="pr-only">Typefaces: Cormorant Garamond and Great Vibes (Google Fonts)<br></span>
