@@ -137,7 +137,7 @@ a.ext::after{content:" ↗"}
 .dark .card{border-color:#fff}.dark .card p{color:rgba(255,255,255,.75)}
 .big-num{font-size:120px;line-height:.9;font-weight:500;letter-spacing:-.05em}
 
-/* steps (etiquette) */
+/* numbered steps (slides 3 and 5) */
 .steps{counter-reset:s;list-style:none;margin:0;padding:0}
 .steps li{position:relative;padding:12px 0 12px 54px;border-top:1px solid var(--rule)}
 .steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:16px;font-size:14px;color:var(--muted);letter-spacing:.04em}
@@ -244,7 +244,7 @@ a.ext::after{content:" ↗"}
 .vs .col.you p{color:var(--ink)}
 .vs .label{margin-bottom:10px}
 
-/* etiquette reasons + compact call to action (slide 5) */
+/* step reasons + compact call to action (slide 5) */
 .steps .why{display:block;font-size:17px;line-height:1.4;color:var(--muted);margin-top:4px}
 .steps .why .cite{font-size:15px;white-space:normal}
 .cta.sm li{font-size:40px;line-height:1.1;padding:16px 0;border-top-color:var(--rule)}
@@ -400,6 +400,13 @@ a.ext::after{content:" ↗"}
 .slide[data-id="board"] .story p{font-size:25px;line-height:1.32;margin-bottom:14px}
 .slide[data-id="board"] .story .beats li{grid-template-columns:120px 1fr;font-size:26px;line-height:1.32;padding:11px 0}
 .slide[data-id="board"] .story .end{margin:14px 0 0}
+/* two pictures replace the setup paragraph: text left, film still (her story) over the radar photo (my opening) right */
+.slide[data-id="board"] .story{display:grid;grid-template-columns:1fr 400px;column-gap:28px;align-items:start}
+.slide[data-id="board"] .story .pics{display:flex;flex-direction:column;gap:16px;padding-top:4px}
+.slide[data-id="board"] .story .pics figure{margin:0}
+.slide[data-id="board"] .story .pics img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover}
+.slide[data-id="board"] .story .pics figcaption{font-size:18px;line-height:1.35;color:var(--muted);margin-top:8px}
+.slide[data-id="board"] .story .pics figcaption b{color:var(--ink);font-weight:500;margin-right:6px}
 
 </style>
 </head>
@@ -413,9 +420,9 @@ a.ext::after{content:" ↗"}
   </div>
   <nav>
     <a data-sec="hook">Hook</a>
-    <a data-sec="log">The log</a>
+    <a data-sec="story">The story</a>
     <a data-sec="why">Why it works</a>
-    <a data-sec="etq">Etiquette &amp; go</a>
+    <a data-sec="turn">Your turn</a>
     <a data-sec="refs">References</a>
   </nav>
   <div class="meta"><button class="tbtn" id="t-notes" aria-label="Speaker notes">Notes</button><button class="tbtn" id="t-help" aria-label="Help">?</button><button class="tbtn" id="t-fs" aria-label="Full screen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button><button class="theme" id="theme" aria-label="Toggle light/dark mode" title="Light / dark (D)"><svg class="sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg><svg class="moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg></button><button type="button" class="timer" aria-label="Start or restart presentation timer" title="Click or press T at your first sentence">Start · 05:00</button><span class="count">01 / 06</span></div>
@@ -465,9 +472,9 @@ a.ext::after{content:" ↗"}
   <aside class="notes"><p><b>Spoken outline · target 0:35</b></p><p>This is for anyone who walks past character meets on the way to a ride. Left bars first: commuters asked to predict said sitting alone would feel better than talking to a stranger. Press →. Right bars: the commuters who actually did it reported the opposite. We expect a conversation to be awkward, so we skip it. That is the one caveat of the night, said once: a train study, not a Disney one. Everything from here on is my own log. Let me show you what happened when I offered Anna a radar for her castle.</p><details><summary>Backup &amp; references</summary><p>Separate samples supplied predictions and experiences. Zero is the standardized reference, not “no enjoyment.” Chart: approximate standardized positivity means from train Experiments 1a and 1b, Figure 1, Epley &amp; Schroeder (2014), https://doi.org/10.1037/a0037323. Effect sizes: d = 0.41 predicted; d = 0.63 experienced. Press T at your first spoken sentence to start the timer. One click: experienced bars and the caveat line.</p></details></aside>
 </section>
 
-<!-- ═════════════ 02 THE LOG + LEADERBOARD ═════════════ -->
-<section class="slide lg" data-id="board" data-sec="log">
-  <div class="kicker rv"><b>01</b><span>The log</span><span>One conversation from my park log</span></div>
+<!-- ═════════════ 02 THE STORY ═════════════ -->
+<section class="slide lg" data-id="board" data-sec="story">
+  <div class="kicker rv"><b>01</b><span>The story</span><span>One conversation from my park diary</span></div>
   <h2 class="title" style="margin-bottom:30px"><span class="mask"><span>I offered Anna a radar for her castle</span></span></h2>
   <div class="c1-12 row3 boardwrap">
     <div class="src frag" data-f="1" style="grid-template-columns:repeat(12,1fr)">
@@ -475,15 +482,20 @@ a.ext::after{content:" ↗"}
       <div><b>The source</b>My park diary, kept since November 2024. Personal experience.</div>
     </div>
     <div class="story frag" data-f="2">
-      <div class="label">A radar for Arendelle Castle</div>
-      <h3>“Technology.”</h3>
-      <p>In <em>The Night Before the Royal Fitting</em>, Anna turns the castle upside down for the dress. Hidden castle passages gave me an opening.</p>
-      <ol class="beats">
-        <li><b>Anna</b><span>I pitched ground-penetrating radar to detect hidden spaces, then mimed scanning the wall. Anna’s verdict: “Technology.” Her warning: don’t give one to Kristoff.</span></li>
-        <li><b>Elsa</b><span>She overheard, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Elsa’s catch: what she makes fits only her.</span></li>
-        <li><b>Next visit</b><span>Elsa got a refresher on the radar.</span></li>
-      </ol>
-      <p class="end">No photo. One of my favorite conversations.</p>
+      <div class="txt">
+        <div class="label">A radar for Arendelle Castle</div>
+        <h3>“Technology.”</h3>
+        <ol class="beats">
+          <li><b>Anna</b><span>I pitched ground-penetrating radar to detect hidden spaces, then mimed scanning the wall. Anna's warning: don’t give one to Kristoff.</span></li>
+          <li><b>Elsa</b><span>She overheard, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Elsa’s catch: what she makes fits only her.</span></li>
+          <li><b>Next visit</b><span>Elsa got a refresher on the radar.</span></li>
+        </ol>
+        <p class="end">No photo. One of my favorite conversations.</p>
+      </div>
+      <div class="pics">
+        <figure><img src="assets/royal-fitting-attic.jpg" width="1024" height="576" style="object-position:50% 30%" alt="Anna and Elsa lean on each other in an attic beside an open trunk, with Olaf, Kristoff and Sven, in a still from The Night Before the Royal Fitting"><figcaption><b>Her story</b> Anna turns the castle upside down for the dress. · © Disney</figcaption></figure>
+        <figure><img src="assets/gssi-nx25-wide.jpg" width="1024" height="512" alt="GSSI handheld ground-penetrating radar: an orange and black wheeled unit with a touchscreen and a side grip"><figcaption><b>My opening</b> A radar to find the hidden castle passages. · GSSI Flex NX © GSSI</figcaption></figure>
+      </div>
     </div>
     <div class="others frag" data-f="3">
       <div class="label">Three more openings</div>
@@ -495,7 +507,7 @@ a.ext::after{content:" ↗"}
     </div>
     <p class="punch frag" data-f="4">I brought an idea. They made it part of the story.</p>
   </div>
-  <aside class="notes"><p><b>Spoken outline · target 1:05</b></p><p>I study at a quick-service table in Fantasyland. A meet is my coffee break. In The Night Before the Royal Fitting, Anna searches for her mother’s dress, and the castle has hidden passages even the sisters have not found. So I pitched ground-penetrating radar as a scanner for hidden spaces and swept an invisible one along the wall. Anna’s verdict: “Technology.” Elsa had overheard, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Her catch: what she makes fits only her. On the next visit, Elsa got a radar refresher. No photo, and still one of my favorite conversations. I brought an idea. They made it part of the story.</p><details><summary>Backup &amp; references</summary><p>These are personal experiences from my park log, not independent experimental observations. The on-screen beats follow Anna, Elsa, and the next visit. Pause briefly after “Technology” and Elsa’s clothing catch. The three other openings are optional examples to point to if time permits. Clicks: office and source, the Frozen story, three more openings, final sentence. The Frozen short provides the story context; the character responses describe my own encounters.</p></details></aside>
+  <aside class="notes"><p><b>Spoken outline · target 1:05</b></p><p>I study at a quick-service table in Fantasyland. A meet is my coffee break. In The Night Before the Royal Fitting, Anna searches for her mother’s dress, and the castle has hidden passages even the sisters have not found. So I pitched ground-penetrating radar as a scanner for hidden spaces and swept an invisible one along the wall. Anna’s verdict: “Technology.” Elsa had overheard, so I caught her up. Then I suggested cold-proof clothes so Anna could ride the Nokk. Her catch: what she makes fits only her. On the next visit, Elsa got a radar refresher. No photo, and still one of my favorite conversations. I brought an idea. They made it part of the story.</p><details><summary>Backup &amp; references</summary><p>These are personal experiences from my park diary, not independent experimental observations. The on-screen beats follow Anna, Elsa, and the next visit. Pause briefly after “Technology” and Elsa’s clothing catch. The three other openings are optional examples to point to if time permits. Clicks: office and source, the Frozen story, three more openings, final sentence. The Frozen short provides the story context; the character responses describe my own encounters.</p></details></aside>
 </section>
 
 <!-- ═════════════ 03 WHY IT WORKS ═════════════ -->
@@ -532,14 +544,14 @@ a.ext::after{content:" ↗"}
 <!-- ═════════════ 04 WHY IT BEATS A RIDE ═════════════ -->
 <section class="slide lg" data-id="ride" data-sec="why">
   <div class="kicker rv"><b>02</b><span>Why it works</span><span>For the ride-first people</span></div>
-  <h2 class="title"><span class="mask"><span>You already chase variation.</span></span></h2>
+  <h2 class="title"><span class="mask"><span>You already chase the unexpected.</span></span></h2>
   <div class="c1-12 row3">
     <div class="vs frag" data-f="1">
-      <div class="col"><div class="label">What a ride gives you</div><p>Same track, same show, by design.</p><p>When Disney wants variation, they build it in: one of six songs on Cosmic Rewind, a drop profile on Tower.</p><p>Same odds for every rider.</p></div>
-      <div class="col you"><div class="label">What a meet gives you</div><p>The inputs include you.</p><p>New short this month, new conversation.</p><p>Same Elsa, two visits, two different talks.</p></div>
+      <div class="col"><div class="label">What a ride gives you</div><p>Same track, same show, by design.</p><p>When Disney wants surprises, they build it in: one of six songs on Cosmic Rewind, a drop profile on Tower.</p><p>Same odds for every rider.</p></div>
+      <div class="col you"><div class="label">What a meet gives you</div><p>Every day is different.</p><p>New short this month, new conversation.</p><p>Same Elsa, two visits, two different talks.</p></div>
     </div>
     <ul class="flow" style="margin-top:32px">
-      <li class="frag" data-f="2"><div class="f"><b>Your guess about a meet is a forecast.</b></div><div class="sub">Commuters forecast that solitude would feel better. The ones who talked reported the opposite. <span class="cite">Epley &amp; Schroeder (2014)</span></div></li>
+      <li class="frag" data-f="2"><div class="f"><b>Your guess about a meet is a forecast.</b></div><div class="sub">Commuters forecast that sitting alone would feel better. The ones who talked reported the opposite. <span class="cite">Epley &amp; Schroeder (2014)</span></div></li>
     </ul>
     <ul class="cta sm frag" data-f="3" style="margin-top:28px"><li>One meet. Five minutes. Then tell me I was wrong.</li></ul>
     <p class="frag small" data-f="3" style="margin:0;font-size:24px">I’ll ask. Slide 5 is where you report back.</p>
@@ -547,25 +559,30 @@ a.ext::after{content:" ↗"}
   <aside class="notes"><p><b>Spoken outline · target 0:50</b></p><p>You know this park. You know the single-rider line, you hope for September on Cosmic Rewind, you know Tower picks the drop. That is you chasing variation, and Disney had to engineer six songs to give it to you. Click. A meet varies for free, and part of the variation is you. New short this month, new conversation. Same Elsa, two visits, two different talks. Click. Now, your estimate that a meet isn’t worth five minutes: that’s a forecast. Commuters made the same kind of forecast about talking to a stranger, and the people who actually did it reported the opposite. Click. So, one meet. Five minutes. Then come tell me I was wrong.</p><details><summary>Backup &amp; references</summary><p>Rides stay enjoyable on repeat; O’Brien (2019) found people underestimate repeat enjoyment across seven studies: https://doi.org/10.1037/pspa0000147. I’m not saying rides get dull. I’m saying their variation is bounded and a meet’s isn’t. Clicks: the two columns, the forecast, the challenge. Epley &amp; Schroeder (2014): https://doi.org/10.1037/a0037323.</p></details></aside>
 </section>
 
-<!-- ═════════════ 05 ETIQUETTE + GO ═════════════ -->
-<section class="slide lg" data-id="etiquette" data-sec="etq">
-  <div class="kicker rv"><b>03</b><span>Etiquette &amp; go</span><span>A little room for the magic</span></div>
+<!-- ═════════════ 05 YOUR TURN ═════════════ -->
+<section class="slide lg" data-id="turn" data-sec="turn">
+  <div class="kicker rv"><b>03</b><span>How?</span><span>A little room for the magic</span></div>
   <h2 class="title"><span class="mask"><span>Bring an idea. Leave room for theirs.</span></span></h2>
   <div class="c1-7 row3">
-    <ol class="steps frag" data-f="1">
-      <li>Follow the attendant’s directions.<span class="why">Obviously, but mandatory.</span></li>
-      <li>Offer one idea, then listen.<span class="why">Give the character room to respond. A short exchange can be enough.</span></li>
-      <li>Enjoy what happens.<span class="why">Follow their lead and enjoy the encounter as it unfolds.</span></li>
+    <ol class="steps">
+        <li class="frag" data-f="1">Bring a spark into their world.
+            <span class="why">Imagine how something from your life could connect with their story. Let your curiosity lead.</span>
+        </li>
+        <li class="frag" data-f="2">Let your imaginations unfold.
+            <span class="why">Share your idea, listen to their response, and build the story together.</span>
+        </li>
+        <li class="frag" data-f="3">Enjoy what happens.
+            <span class="why">Follow their lead and enjoy the encounter as it unfolds.</span>
+        </li>
     </ol>
-    <p class="frag" data-f="2" style="margin:30px 0 0;font-size:26px;color:var(--body)">My habit: phone away for the conversation, photo optional.</p>
-    <p class="frag" data-f="2" style="margin:18px 0 0;font-size:26px;color:var(--body)">A great interaction? Send a Cast Compliment.</p>
-    <p class="frag small" data-f="2" style="margin-top:30px;font-size:24px">Pixie dust is something you notice afterwards, not something you chase.</p>
+    <p class="frag" data-f="4" style="margin:30px 0 0;font-size:26px;color:var(--body)">A great interaction? Send a Cast Compliment.</p>
+    <p class="frag small" data-f="4" style="margin-top:30px;font-size:24px">You don’t need a perfect idea. Any spark will do.</p>
   </div>
-  <div class="c8-12 row3 stack frag go" data-f="3" style="padding-left:24px">
+  <div class="c8-12 row3 stack frag go" data-f="5" style="padding-left:24px">
     <div class="label">Your next visit</div>
     <ul class="cta sm"><li>Pick one face character.</li><li>Bring one thing from your life into their story.</li><li>Come back and tell us what happened.</li></ul>
   </div>
-  <aside class="notes"><p><b>Spoken outline · target 0:55</b></p><p>Follow the attendant’s directions and respect boundaries. Offer one idea, then listen. Give the character room to respond, and follow their lead as the encounter unfolds. I keep my phone away for the conversation and take a photo afterward. That is my habit; yours can be different. If you love an interaction, send a Cast Compliment. Next visit, pick one face character. Bring one thing from your life into their story. Then come back and tell us what happened.</p><details><summary>Backup &amp; references</summary><p>Ask or wait for an invitation before a hug. Follow the character and attendant’s cues when it is time to wrap up. Clicks: the three steps, my habits, your next visit. Stop on the invitation for your spoken ending. Barasch et al. (2017) studied taking photos during experiences, not a posed photo afterward. Reyers (2011) examined emotional labor among on-stage employees, not exclusively character performers. These are background references, not requirements for enjoying a meet.</p></details></aside>
+  <aside class="notes"><p><b>Spoken outline · target 0:55</b></p><p>Bring a spark into their world: something from your life that could connect with their story. Let your curiosity lead. Then let your imaginations unfold. Share the idea, listen to their response, and build the story together. And enjoy what happens; follow their lead. If you love an interaction, send a Cast Compliment. You don’t need a perfect idea. Any spark will do. Next visit, pick one face character. Bring one thing from your life into their story. Then come back and tell us what happened.</p><details><summary>Backup &amp; references</summary><p>Clicks: step 1, step 2, step 3, compliment and closing line, your next visit. Stop on the invitation for your spoken ending. If asked about photos: phone or photo is up to you; Barasch et al. (2017) studied taking photos during experiences, not a posed photo afterward. Reyers (2011) examined emotional labor among on-stage employees, not exclusively character performers. These are background references, not requirements for enjoying a meet.</p></details></aside>
 </section>
 
 <!-- ═════════════ 06 REFERENCES ═════════════ -->
@@ -575,7 +592,9 @@ a.ext::after{content:" ↗"}
     <div><h1 class="qs" style="font-size:90px;line-height:1.02;margin-top:20px"><span class="mask"><span>Try one meet</span></span></h1><p style="font-size:29px;line-height:1.3;margin-top:30px">One thing from your life.<br>One opening into their story.<br>Then tell us what happened.</p><p class="small" style="font-size:24px">Questions?</p></div>
     <div class="small rv" style="--i:2;font-size:15px;line-height:1.6">
       <div class="label">Credits</div>
-      Film still: © Disney, <a class="ext" href="https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/" target="_blank" rel="noopener">D23</a><br>
+      Film stills: <i>The Night Before the Royal Fitting</i> © Disney, via <a class="ext" href="https://d23.com/all-the-ways-to-celebrate-the-return-of-frozen-fan-fest/" target="_blank" rel="noopener">D23</a> and <a class="ext" href="https://www.micechat.com/445685-disneys-frozen-fan-fest-2026-brings-new-animated-short-magical-merchandise/" target="_blank" rel="noopener">MiceChat</a>. <br>
+      Radar photo: NX25 © Geophysical Survey Systems, Inc. (GSSI), via <a class="ext" href="https://www.geophysical.com/products/nx25" target="_blank" rel="noopener">geophysical.com</a>; background extended<br>
+      Fair use: the film stills and product photo are used under fair use (17 U.S.C. § 107) for commentary in a non-commercial student talk. Not affiliated with or endorsed by Disney or GSSI.<br>
       Design inspiration: National Design Studio, <a class="ext" href="https://ndstudio.gov/" target="_blank" rel="noopener">ndstudio.gov</a><br>
       <span class="pr-only">Typefaces: Cormorant Garamond and Great Vibes (Google Fonts)<br></span>
       Figure colors: Princess Colour Schemes, <a class="ext" href="https://leahsmyth.github.io/Princess-Colour-Schemes/index.html" target="_blank" rel="noopener">leahsmyth.github.io</a><br>
