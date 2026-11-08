@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#010101">
+<style>
+/* Design language: the site's deck system (bu1th4nh.github.io/presentations), after ndstudio.gov. */
+/* ── Type ─────────────────────────────────────────────── */
+@font-face{font-family:"NC Sans";font-weight:300;src:local("Helvetica Neue LT Pro 45 Light"),local("HelveticaNeueLTPro-Lt"),local("Helvetica Neue Light"),local("HelveticaNeue-Light")}
+@font-face{font-family:"NC Sans";font-weight:400;src:local("Helvetica Neue LT Pro 55 Roman"),local("HelveticaNeueLTPro-Roman"),local("HelveticaNeueLTPro-Rm"),local("Helvetica Neue"),local("HelveticaNeue")}
+@font-face{font-family:"NC Sans";font-weight:500;src:local("Helvetica Neue LT Pro 65 Medium"),local("HelveticaNeueLTPro-Md"),local("Helvetica Neue Medium"),local("HelveticaNeue-Medium")}
+@font-face{font-family:"NC Sans";font-weight:700;src:local("Helvetica Neue LT Pro 75 Bold"),local("HelveticaNeueLTPro-Bd"),local("Helvetica Neue Bold"),local("HelveticaNeue-Bold")}
+/* Free Helvetica clone for machines without Helvetica (GUST Font License; files and licence in fonts/) */
+@font-face{font-family:"TeX Gyre Heros";font-weight:400;font-style:normal;src:local("TeX Gyre Heros"),local("TeXGyreHeros-Regular"),url("fonts/texgyreheros-regular.woff2") format("woff2")}
+@font-face{font-family:"TeX Gyre Heros";font-weight:400;font-style:italic;src:local("TeX Gyre Heros Italic"),local("TeXGyreHeros-Italic"),url("fonts/texgyreheros-italic.woff2") format("woff2")}
+@font-face{font-family:"TeX Gyre Heros";font-weight:700;font-style:normal;src:local("TeX Gyre Heros Bold"),local("TeXGyreHeros-Bold"),url("fonts/texgyreheros-bold.woff2") format("woff2")}
+@font-face{font-family:"TeX Gyre Heros";font-weight:700;font-style:italic;src:local("TeX Gyre Heros Bold Italic"),local("TeXGyreHeros-BoldItalic"),url("fonts/texgyreheros-bolditalic.woff2") format("woff2")}
+
+/* ── Tokens ───────────────────────────────────────────── */
+/* Dark is the default theme; html.light swaps in the light tokens. Figures read these via layout(), so keep them plain colours. */
+:root{
+  --font:"Helvetica Neue LT Pro","NC Sans","Helvetica Neue",Helvetica,"TeX Gyre Heros",Arial,sans-serif;
+  --bg:#010101; --card:#0d0d0d; --white:#161616; --body:#d4d4d4;
+  --ink:#f2f2f2; --muted:#9b9b9b; --faint:#5e5e5e;
+  --rule:rgba(242,242,242,.14); --rule-strong:rgba(242,242,242,.3);
+  /* figure colors: Princess Colour Schemes, leahsmyth.github.io/Princess-Colour-Schemes */
+  --blue:#3B8BBD; --orange:#DA9740; --red:#E34B62;
+  --c0:#53B288; --c1:#A06BAF; --c2:#F8D562; --c3:#E387B8;
+  --c4:#65C5C8; --c5:#DFE46E; --c6:#E0B896; --c7:#A42384; --c8:#9C8CBD; --c9:#8AAC66;
+  --ease:cubic-bezier(.33,1,.68,1); --ease-cubic:cubic-bezier(.215,.61,.355,1);
+  --pad:72px;
+}
+:root.light{
+  --bg:#f2f2f2; --card:#fafafa; --white:#fff; --body:#2b2b2b;
+  --ink:#010101; --muted:#6b6b6b; --faint:#a3a3a3;
+  --rule:rgba(1,1,1,.12); --rule-strong:rgba(1,1,1,.28);
+  --blue:#286287; --orange:#DA9740; --red:#D7473A;
+  --c0:#378D68; --c1:#8550A0; --c2:#7C404A; --c3:#D2487A;
+  --c4:#16A39E; --c5:#758B42; --c6:#6C3B27; --c7:#A42384; --c8:#9C8CBD; --c9:#45767B;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#010101;overflow:hidden}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button{font:inherit;color:inherit}
+
+/* ── Stage ────────────────────────────────────────────── */
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;
+  background:var(--bg);color:var(--ink);overflow:hidden;transform-origin:50% 50%;
+  font-size:22px;line-height:1.45;letter-spacing:-.01em;transition:background .6s var(--ease-cubic),color .6s var(--ease-cubic)}
+#stage.dark{background:#010101;color:#fff}
+
+/* chrome */
+.chrome{position:absolute;left:0;right:0;z-index:20;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:0 var(--pad);pointer-events:none}
+.chrome>*{pointer-events:auto}
+#top{top:0;height:92px;align-items:center;font-size:17px}
+#top .mark{grid-column:1/4;display:flex;align-items:center;gap:12px;font-weight:500;letter-spacing:-.02em;cursor:pointer;white-space:nowrap}
+#top .mark svg{width:26px;height:26px}
+#top nav{grid-column:4/11;display:flex;gap:30px;white-space:nowrap}
+#top nav a{color:inherit;text-decoration:none;opacity:.42;cursor:pointer;transition:opacity .6s var(--ease-cubic)}
+#top nav a.on,#top nav a:hover{opacity:1}
+#top .meta{grid-column:11/13;justify-self:end;display:flex;gap:22px;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+#top .theme{width:34px;height:34px;border-radius:999px;border:1px solid var(--rule-strong);background:none;cursor:pointer;display:grid;place-items:center;padding:0;transition:background .2s,color .2s}
+#top .theme:hover{background:var(--ink);color:var(--bg)}
+#stage.dark #top .theme{border-color:rgba(255,255,255,.3)}
+#stage.dark #top .theme:hover{background:#fff;color:#010101}
+#top .theme .sun{display:block}#top .theme .moon{display:none}
+:root.light #top .theme .sun{display:none}:root.light #top .theme .moon{display:block}
+#top .meta .timer{color:var(--muted);cursor:pointer}
+#stage.dark #top .meta .timer{color:rgba(255,255,255,.55)}
+#top .meta .timer.over{color:var(--red)}
+#bottom{bottom:0;height:64px;align-items:center;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+#stage.dark #bottom{color:rgba(255,255,255,.5)}
+#bottom .l{grid-column:1/7}
+#bottom .r{grid-column:7/13;justify-self:end;display:flex;gap:18px;align-items:center}
+#bottom .r button{background:none;border:1px solid var(--rule-strong);border-radius:999px;width:38px;height:38px;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
+#stage.dark #bottom .r button{border-color:rgba(255,255,255,.3)}
+#bottom .r button:hover{background:var(--ink);color:var(--bg)}
+#stage.dark #bottom .r button:hover{background:#fff;color:#010101}
+#progress{position:absolute;left:0;bottom:0;height:3px;background:var(--ink);transition:width .6s var(--ease);z-index:21}
+#stage.dark #progress{background:#fff}
+
+/* ── Slides ───────────────────────────────────────────── */
+.slide{position:absolute;inset:0;padding:112px var(--pad) 84px;display:grid;grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto auto 1fr;column-gap:24px;align-content:start;opacity:0;visibility:hidden;
+  transition:opacity .5s var(--ease-cubic),visibility 0s linear .5s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .5s var(--ease-cubic),visibility 0s}
+.slide.dark{color:#fff}
+.notes{display:none}
+.static *,.static *::before,.static *::after{transition:none!important;animation:none!important}
+
+.kicker{grid-column:1/13;font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;gap:18px;align-items:baseline;margin-bottom:18px}
+.dark .kicker{color:rgba(255,255,255,.55)}
+.kicker b{font-weight:500;color:var(--ink)}
+.dark .kicker b{color:#fff}
+h1,h2{margin:0;font-weight:500;letter-spacing:-.035em;text-wrap:balance}
+h2.title{grid-column:1/13;font-size:70px;line-height:1.02;margin-bottom:40px}
+.mask{display:block;overflow:hidden;padding-bottom:.2em;margin-bottom:-.2em}
+.mask>span{display:block;transform:translateY(110%);transition:transform .9s var(--ease)}
+.slide.active .mask>span{transform:none;transition-delay:.08s}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-cubic),transform .8s var(--ease)}
+.slide.active .rv{opacity:1;transform:none;transition-delay:calc(.18s + var(--i,0) * 70ms)}
+.frag{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease-cubic),transform .6s var(--ease)}
+.frag.on{opacity:1;transform:none}
+
+.lede{font-size:30px;line-height:1.28;letter-spacing:-.02em;margin:0 0 26px;text-wrap:pretty}
+.body p{margin:0 0 16px;text-wrap:pretty}
+.small{font-size:17px;line-height:1.45;color:var(--muted)}
+.dark .small{color:rgba(255,255,255,.6)}
+.label{font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px}
+.rule{border-top:1px solid var(--rule)}
+.dark .rule{border-color:rgba(255,255,255,.18)}
+a.ext{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
+a.ext::after{content:" ↗"}
+.refs{list-style:none;margin:0;padding:0}
+.refs li{margin:0 0 4px}
+.refs a.ext{border-bottom-color:rgba(255,255,255,.35)}
+.refs a.ext:hover{border-bottom-color:currentColor}
+.mono{font-variant-numeric:tabular-nums}
+b,strong{font-weight:500;color:var(--ink)}
+.dark b{color:#fff}
+
+.c1-5{grid-column:1/6}.c1-6{grid-column:1/7}.c1-7{grid-column:1/8}.c1-8{grid-column:1/9}.c1-12{grid-column:1/13}
+.c6-12{grid-column:6/13}.c7-12{grid-column:7/13}.c8-12{grid-column:8/13}.c9-12{grid-column:9/13}.c5-12{grid-column:5/13}
+.row3{grid-row:3;min-height:0}
+.stack{display:flex;flex-direction:column;min-height:0}
+
+/* math blocks */
+.eq{font-size:25px;margin:6px 0 18px}
+.eq mjx-container[display="true"]{margin:.35em 0 !important;text-align:left !important}
+mjx-container{color:inherit}
+.box{background:var(--card);border:1px solid var(--rule);padding:22px 26px;margin-bottom:18px}
+.box .label{margin-bottom:4px}
+.box p{margin:0}
+
+/* figures: Plotly charts drawn by layout() in the current theme; they fill their grid cell */
+.fig{margin:0;display:flex;flex-direction:column;gap:12px;min-height:0}
+.fig .frame{position:relative;flex:1;min-height:220px;background:var(--card);border:1px solid var(--rule)}
+.dark .fig .frame{background:transparent;border-color:rgba(255,255,255,.14)}
+.fig .plot{position:absolute;inset:10px}
+.fig figcaption{font-size:15px;line-height:1.4;color:var(--muted)}
+.tagline{position:absolute;right:16px;top:12px;font-size:13px;color:var(--faint);pointer-events:none;z-index:2}
+
+/* tables, cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.cards.two{grid-template-columns:repeat(2,1fr)}
+.card{border-top:2px solid var(--ink);padding-top:18px}
+.card h3{margin:0 0 10px;font-size:26px;font-weight:500;letter-spacing:-.02em}
+.card p{margin:0;font-size:19px;line-height:1.42;color:var(--body)}
+.dark .card{border-color:#fff}.dark .card p{color:rgba(255,255,255,.75)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:14px 24px;font-size:20px;line-height:1.4;margin:0}
+.kv dt{color:var(--muted);text-transform:uppercase;font-size:14px;letter-spacing:.05em;padding-top:5px}
+.kv dd{margin:0;color:var(--body)}
+.big-num{font-size:120px;line-height:.9;font-weight:500;letter-spacing:-.05em}
+.neg{color:var(--red)!important}
+.ptab{width:100%;border-collapse:collapse;font-size:21px;margin-bottom:22px}
+.ptab th,.ptab td{padding:11px 6px;border-top:1px solid var(--rule);text-align:right;font-variant-numeric:tabular-nums}
+.ptab th{font-weight:400;color:var(--muted);font-size:13px;line-height:1.2;text-transform:uppercase;letter-spacing:.04em;vertical-align:bottom;border-top:0}
+.ptab td{color:var(--ink)}
+.ptab td:first-child,.ptab th:first-child{text-align:left}
+.ptab td:first-child{color:var(--muted);font-size:17px}
+.ptab.xl{font-size:26px}
+.ptab.xl td{padding:16px 8px}
+.ptab.xl th{font-size:14px}
+.ptab.xl td:first-child{font-size:20px}
+.pcount{display:flex;align-items:flex-end;gap:14px;color:var(--muted)}
+.pcount div{display:flex;flex-direction:column}
+.pcount b{font-size:44px;font-weight:500;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.pcount span{font-size:13px;text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+.pcount i{font-style:normal;font-size:26px;padding-bottom:22px}
+
+/* numbered steps */
+.steps{counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{position:relative;padding:12px 0 12px 54px;border-top:1px solid var(--rule)}
+.steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:16px;font-size:14px;color:var(--muted);letter-spacing:.04em}
+.steps p{margin:0;font-size:20px;line-height:1.42;color:var(--body)}
+.steps p.small{font-size:16px;color:var(--muted);margin-top:4px}
+.steps .label{color:var(--ink)}
+.pipe{display:flex;align-items:flex-start;margin:6px 0 30px}
+.pn{display:flex;flex-direction:column;align-items:stretch;flex:none}
+.pl{height:18px;margin-bottom:10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.pb,.pv{height:56px;display:flex;align-items:center;font-size:21px;color:var(--ink);white-space:nowrap}
+.pb{border:1.5px solid var(--ink);padding:0 18px;justify-content:center}
+.pu{align-self:stretch;margin-top:12px;padding-top:8px;border-top:3px solid var(--blue);font-size:14px;color:var(--blue);white-space:nowrap}
+.pa{position:relative;flex:1 1 40px;min-width:28px;height:56px;margin:28px 12px 0}
+.pa::before{content:"";position:absolute;left:0;right:1px;top:50%;border-top:1.5px solid var(--ink)}
+.pa::after{content:"";position:absolute;right:1px;top:50%;width:9px;height:9px;border-top:1.5px solid var(--ink);border-right:1.5px solid var(--ink);transform:translateY(-50%) rotate(45deg);transform-origin:center}
+.yread{display:inline-block;font-size:15px;line-height:1.3;color:var(--ink);border:1px solid var(--rule-strong);border-radius:999px;padding:3px 12px;margin-right:10px;white-space:nowrap;vertical-align:1px}
+.nota{display:grid;grid-template-columns:auto 1fr;column-gap:22px;font-size:19px;line-height:1.3;color:var(--body)}
+.nota>span{padding:8px 0;border-top:1px solid var(--rule)}
+.nota>span:nth-child(odd){color:var(--ink);white-space:nowrap}
+.takeaway{grid-column:1/-1;align-self:end;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--rule);font-size:23px;line-height:1.35;color:var(--ink)}
+.takeaway .label{margin-right:14px}
+.stack .takeaway{align-self:stretch}
+
+/* roomier type on text-led slides */
+.lg .steps li{padding:16px 0 16px 58px}
+.lg .steps li::before{top:21px}
+.lg .steps p{font-size:23px}
+.lg .steps p.small{font-size:18px}
+.lg .kv{font-size:22px}
+.lg .card h3{font-size:32px}
+.lg .card p{font-size:22px}
+.lg .nota{font-size:21px}
+
+/* overlays (not scaled) */
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(1,1,1,.94);color:#fff;font:16px/1.5 var(--font);padding:18px 28px;z-index:50;transform:translateY(100%);transition:transform .45s var(--ease)}
+#notes.on{transform:none}
+#notes .h{display:flex;justify-content:space-between;color:rgba(255,255,255,.55);text-transform:uppercase;font-size:12px;letter-spacing:.06em;margin-bottom:8px}
+#help{position:fixed;inset:0;display:none;place-items:center;background:rgba(1,1,1,.55);z-index:60}
+#help.on{display:grid}
+#help .p{background:#fafafa;color:#010101;font:16px/1.6 var(--font);padding:28px 34px;min-width:420px}
+#help h4{margin:0 0 12px;font-weight:500;font-size:22px;letter-spacing:-.02em}
+#help kbd{display:inline-block;min-width:28px;text-align:center;border:1px solid rgba(1,1,1,.25);border-radius:4px;padding:0 6px;margin-right:10px;font:13px/22px var(--font)}
+
+/* ── Touch devices (online copy): bigger targets on the scaled stage, no sticky hover, drag-safe figures ── */
+.tbtn,.touch-only,.rotate-hint{display:none}
+.touch .tbtn{display:inline-grid;place-items:center;height:44px;min-width:44px;padding:0 16px;border-radius:999px;border:1px solid var(--rule-strong);background:none;color:inherit;font-size:16px;cursor:pointer}
+#stage.dark .tbtn{border-color:rgba(255,255,255,.3)}
+.touch .tbtn svg{width:16px;height:16px}
+.touch .touch-only{display:block}
+.touch #top .meta .timer{display:none}
+.touch #top .meta{gap:12px}
+/* keyboard shortcuts mean nothing on a tablet */
+.touch #bottom .r>span{display:none}
+.touch #top .meta .count{padding:10px 4px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.touch #top .theme{width:44px;height:44px}
+.touch #bottom .r button{width:56px;height:56px}
+.touch .player .pp,.touch .player .rs{height:52px;min-width:52px}
+.touch .player .spd button{height:50px;padding:0 15px}
+.touch .player input[type=range]{height:44px}
+.touch .player input[type=range]::-webkit-slider-thumb{width:26px;height:26px;margin-top:-12px}
+.touch .tabs button{padding:12px 18px}
+.touch .toggles .tg{height:44px}
+.touch button,.touch a{touch-action:manipulation}
+.touch input[type=range],.touch canvas[style*="grab"]{touch-action:none}
+.touch #top .theme:hover,.touch #bottom .r button:hover{background:none!important;color:inherit!important}
+.touch .player .pp:hover{opacity:1}
+.touch .player .rs:hover,.touch .player .tg:hover{border-color:var(--rule-strong)}
+@media (orientation: portrait){
+  .touch .rotate-hint{display:flex;position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:70;gap:14px;align-items:center;
+    padding:10px 18px;border-radius:999px;background:rgba(1,1,1,.88);color:#fff;font:15px/1.3 var(--font);white-space:nowrap}
+  .touch .rotate-hint.gone{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  #stage *,#stage *::before,#stage *::after{transition-duration:.01ms!important;transition-delay:0s!important}
+}
+/* TIANA deck additions */
+:root{--fig-filter:invert(1) hue-rotate(180deg)}
+:root.light{--fig-filter:none}
+.img{position:relative;flex:1;min-height:0;border:1px solid var(--rule);background:var(--card)}
+.img img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;filter:var(--fig-filter)}
+.cite{font-size:15px;color:var(--muted);white-space:nowrap}
+.dark .cite{color:rgba(255,255,255,.55)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.stat>div{border-top:1px solid var(--rule);padding:12px 0 14px}
+.stat b{display:block;font-size:44px;font-weight:500;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.ptab td.ok{color:var(--c0)}
+.ptab.rw td,.ptab.rw th{text-align:left;vertical-align:top;padding:14px 14px 14px 0}
+.ptab.rw td{font-size:19px;line-height:1.35}
+.ptab.rw td:first-child{font-size:17px;color:var(--ink);white-space:nowrap}
+.ptab.rw td:last-child{color:var(--muted)}
+.c1-4{grid-column:1/5}.c5-8{grid-column:5/9}.c9-12{grid-column:9/13}
+.dark .steps li{border-color:rgba(255,255,255,.18)}.dark .steps p{color:rgba(255,255,255,.8)}
+
+</style>
+</head>
+<body>
+<div id="stage">
+
+<header class="chrome" id="top">
+  <div class="mark" data-go="0">
+    <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21 L9 9 L14 15 L18 7 L23 21 Z"/><circle cx="18" cy="4" r="1.7" fill="currentColor"/></svg>
+    TIANA
+  </div>
+  <nav>
+    <a data-sec="method">How it works</a>
+    <a data-sec="results">Results</a>
+    <a data-sec="demo">Demo</a>
+  </nav>
+  <div class="meta"><button class="tbtn" id="t-notes" aria-label="Speaker notes">Notes</button><button class="tbtn" id="t-help" aria-label="Help">?</button><button class="tbtn" id="t-fs" aria-label="Full screen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button><button class="theme" id="theme" aria-label="Toggle light/dark mode" title="Light / dark (D)"><svg class="sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg><svg class="moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg></button><span class="timer" title="Click or press T to reset">00:00 / 03:00</span><span class="count">01 / 04</span></div>
+</header>
+
+<!-- ═════════════ 01 TITLE ═════════════ -->
+<section class="slide dark" data-id="title" data-sec="title">
+  <div class="kicker rv"><b>CAP 6938</b><span>AI Knowledge Systems</span><span>Final project</span></div>
+  <div class="c1-7 row3 stack" style="justify-content:space-between;padding-bottom:20px">
+    <div>
+      <h1 style="font-size:150px;line-height:.95;margin-top:40px;letter-spacing:-.05em"><span class="mask"><span>TIANA</span></span></h1>
+      <p class="rv" style="--i:1;font-size:40px;line-height:1.15;margin:18px 0 0;letter-spacing:-.03em">A Training-Informed Agent for Nutrition and Affordability.</p>
+      <p class="rv" style="--i:2;font-size:27px;line-height:1.32;margin:30px 0 0;letter-spacing:-.02em;max-width:960px;color:rgba(255,255,255,.75)">An LLM-agnostic agent for end-to-end post-exercise meal planning and grocery cart preparation.</p>
+    </div>
+    <div class="rule rv" style="--i:4;padding-top:18px;display:flex;justify-content:space-between">
+      <span class="small">Presented by Thanh Bui &nbsp;·&nbsp; University of Central Florida &nbsp;·&nbsp; Fall 2026</span>
+      <span class="small">Press <b>→</b> to begin &nbsp;·&nbsp; <b>?</b> for controls</span>
+    </div>
+  </div>
+  <div class="c9-12 row3 rv" style="--i:3;align-self:center">
+    <div class="label" style="color:rgba(255,255,255,.55)">One session</div>
+    <ol class="steps">
+      <li><p>Garmin activity data and training load</p></li>
+      <li><p>Personalized nutritional targets</p></li>
+      <li><p>USDA food composition data and real-time Walmart products</p></li>
+      <li><p>Constrained optimization of the meal and basket</p></li>
+      <li><p>Verification, with up to three repair attempts</p></li>
+      <li><p>A recovery meal and a reviewable shopping cart</p></li>
+    </ol>
+  </div>
+  <aside class="notes">(≈0:30)</aside>
+</section>
+
+<!-- ═════════════ 03 METHOD ═════════════ -->
+<section class="slide" data-id="method" data-sec="method">
+  <div class="kicker rv"><b>01</b><span>How it works</span><span>Nine tools, one ReAct agent</span></div>
+  <h2 class="title" style="margin-bottom:24px"><span class="mask"><span>The LLM orchestrates the tools, while deterministic code computes and checks every plan.</span></span></h2>
+  <div class="c1-12 row3 stack" style="gap:26px">
+    <figure class="img rv" style="--i:1;margin:0;flex:0 0 470px"><img src="figures/pipeline.png" alt="TIANA pipeline: run, day context, targets, products and nutrition, meal search, check and repair, approval, cart link"></figure>
+    <div class="cards">
+      <div class="card frag" data-f="1"><div class="label">The LLM</div><h3>Orchestrates and judges.</h3><p>The LLM orchestrates the tools through an LLM-driven loop and judges products and labels.</p></div>
+      <div class="card frag" data-f="2"><div class="label">Deterministic code</div><h3>Computes the numbers.</h3><p>Nutritional calculations, constrained optimization, and ordering constraints: the targets, quantities, and costs, over about 5.6 million meals in total.</p></div>
+      <div class="card frag" data-f="3"><div class="label">The verifier</div><h3>Checks every plan.</h3><p>Nutritional adequacy, dietary compliance, budget feasibility, and product-label consistency, triggering up to three repair attempts when necessary.</p></div>
+    </div>
+  </div>
+  <aside class="notes">(≈1:15)</aside>
+</section>
+
+<!-- ═════════════ 03 RESULTS ═════════════ -->
+<section class="slide" data-id="results" data-sec="results">
+  <div class="kicker rv"><b>02</b><span>Results</span><span>120 of the author's Garmin runs</span></div>
+  <h2 class="title"><span class="mask"><span>Two of three models produce verified cart links in 472 of 480 sessions; with web search only, none of 360 answers passes.</span></span></h2>
+  <div class="c1-4 row3">
+    <dl class="kv rv" style="--i:1;font-size:19px;gap:10px 20px">
+      <dt>Runs</dt><dd>120 of the author's runs from 2025-2026, 40 each of easy, medium, and hard runs</dd>
+      <dt>Models</dt><dd>Three self-hosted, open-weight models: Muse Glimmer 30B, Gemma 4 31B, Mistral Small 3</dd>
+      <dt>Exp. 1</dt><dd>Each model runs TIANA on two GPU types, 720 sessions in total</dd>
+      <dt>Exp. 2</dt><dd>The same models solve the same runs with web search only, graded by TIANA's check</dd>
+    </dl>
+    <div class="box frag" data-f="1" style="margin-top:22px"><div class="label">Notably</div><p style="margin:0;font-size:19px;line-height:1.4">The verifier rejects the first plan in almost every session, mainly because of items out of stock and discrepancies between USDA protein estimates and product nutrition labels.</p></div>
+  </div>
+  <figure class="fig c5-8 row3 rv" style="--i:2;margin:0 12px"><div class="frame"><div class="plot" data-fig="success"></div></div>
+    <figcaption>Experiment 1: sessions with a verified cart link, of 120 per model and GPU. Mistral Small 3 fails because of invalid tool arguments, never because of incorrect carts.</figcaption></figure>
+  <figure class="fig c9-12 row3 rv" style="--i:3;margin:0"><div class="frame"><div class="plot" data-fig="baseline"></div></div>
+    <figcaption>Experiment 2: the same 120 runs per model, graded by item ID. The answers fail for the reasons that TIANA's repair rounds fix.</figcaption></figure>
+  <p class="takeaway frag" data-f="2" style="grid-row:4"><span class="label">Overall</span>An agentic architecture that orchestrates LLM-based reasoning, external tools, existing knowledge, and deterministic algorithms succeeds where conventional LLM prompting does not.</p>
+  <aside class="notes">(≈1:15)</aside>
+</section>
+
+<!-- ═════════════ 04 DEMO ═════════════ -->
+<section class="slide dark" data-id="demo" data-sec="demo">
+  <div class="c1-12 row3" style="display:flex;align-items:center;justify-content:center">
+    <h1 style="font-size:320px;line-height:.9;letter-spacing:-.05em;margin:0"><span class="mask"><span>DEMO</span></span></h1>
+  </div>
+  <aside class="notes">Live demo of the app.</aside>
+</section>
+
+<footer class="chrome" id="bottom">
+  <div class="l">Thanh Bui · CAP 6938 final project · Fall 2026 · design language after <a class="ext" href="https://ndstudio.gov/" target="_blank" rel="noopener">National Design Studio</a></div>
+  <div class="r"><span>← → navigate · D theme · N notes · ? help</span>
+    <button id="prev" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2 L4 7 L9 12"/></svg></button>
+    <button id="next" aria-label="Next"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2 L10 7 L5 12"/></svg></button>
+  </div>
+</footer>
+
+<div id="progress"></div>
+</div>
+
+<div class="rotate-hint" id="rotate-hint">Rotate to landscape for the full view <span aria-hidden="true">✕</span></div>
+<div id="notes"><div class="h"><span id="notes-title">Speaker notes</span><span>N to hide</span></div><div id="notes-body"></div></div>
+<div id="help"><div class="p">
+  <h4>Controls</h4>
+  <div><kbd>→</kbd><kbd>Space</kbd>next step / slide</div>
+  <div><kbd>←</kbd>previous</div>
+  <div><kbd>N</kbd>speaker notes &nbsp; <kbd>T</kbd>reset timer</div>
+  <div><kbd>D</kbd>light / dark mode (dark is default)</div>
+  <div><kbd>F</kbd>fullscreen &nbsp; <kbd>Home</kbd><kbd>End</kbd>first / last</div>
+  <div class="touch-only" style="margin-top:10px"><b>Touch:</b> swipe left / right to step through slides · Notes button for speaker notes</div>
+  <div style="margin-top:10px;color:#6b6b6b">Hover a chart for values. Add ?light for light mode, ?static to show every step. Click outside to close.</div>
+</div></div>
+
+<script src="figures/plotly.min.js"></script>
+<script>
+window.DECK_FIGS = {"success": {"data": [{"type": "bar", "orientation": "h", "name": "RTX PRO 6000", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [35, 119, 116], "marker": {"color": "#286287"}, "text": [35, 119, 116], "textposition": "outside", "cliponaxis": false, "hovertemplate": "%{y}: %{x} of 120<extra>RTX PRO 6000</extra>"}, {"type": "bar", "orientation": "h", "name": "2× RTX A4500", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [49, 119, 118], "marker": {"color": "#da9740"}, "text": [49, 119, 118], "textposition": "outside", "cliponaxis": false, "hovertemplate": "%{y}: %{x} of 120<extra>2× RTX A4500</extra>"}], "layout": {"paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "font": {"size": 18, "color": "#010101"}, "hoverlabel": {"font": {"size": 16}}, "showlegend": true, "barmode": "group", "margin": {"l": 128, "r": 16, "t": 56, "b": 50}, "xaxis": {"color": "#010101", "gridcolor": "#dcdcdc", "linecolor": "#dcdcdc", "zeroline": false, "tickfont": {"size": 17}, "title": {"text": "Sessions with a cart (of 120)", "font": {"size": 16, "color": "#6b6b6b"}}, "range": [0, 132], "dtick": 20}, "yaxis": {"color": "#010101", "gridcolor": "rgba(0,0,0,0)", "linecolor": "#dcdcdc", "zeroline": false, "tickfont": {"size": 17}}, "legend": {"orientation": "h", "x": 0, "y": 1.13, "font": {"size": 15}, "traceorder": "reversed"}}}, "baseline": {"data": [{"type": "bar", "orientation": "h", "name": "Passed the check", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [0, 0, 0], "marker": {"color": "#378d68"}, "text": ["", "", ""], "textposition": "inside", "insidetextanchor": "middle", "textfont": {"color": "#ffffff", "size": 17}, "hovertemplate": "%{y}: %{x} runs<extra>Passed the check</extra>"}, {"type": "bar", "orientation": "h", "name": "No answer (time limit or error)", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [91, 0, 34], "marker": {"color": "#6b6b6b"}, "text": [91, "", 34], "textposition": "inside", "insidetextanchor": "middle", "textfont": {"color": "#ffffff", "size": 17}, "hovertemplate": "%{y}: %{x} runs<extra>No answer (time limit or error)</extra>"}, {"type": "bar", "orientation": "h", "name": "Failed only on stock or labels", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [7, 92, 29], "marker": {"color": "#da9740"}, "text": [7, 92, 29], "textposition": "inside", "insidetextanchor": "middle", "textfont": {"color": "#ffffff", "size": 17}, "hovertemplate": "%{y}: %{x} runs<extra>Failed only on stock or labels</extra>"}, {"type": "bar", "orientation": "h", "name": "Failed on amounts or item IDs", "y": ["Mistral<br>Small 3", "Gemma 4<br>31B", "Muse Glimmer<br>30B"], "x": [22, 28, 57], "marker": {"color": "#d7473a"}, "text": [22, 28, 57], "textposition": "inside", "insidetextanchor": "middle", "textfont": {"color": "#ffffff", "size": 17}, "hovertemplate": "%{y}: %{x} runs<extra>Failed on amounts or item IDs</extra>"}], "layout": {"paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "font": {"size": 18, "color": "#010101"}, "hoverlabel": {"font": {"size": 16}}, "showlegend": true, "barmode": "stack", "margin": {"l": 128, "r": 16, "t": 96, "b": 50}, "xaxis": {"color": "#010101", "gridcolor": "#dcdcdc", "linecolor": "#dcdcdc", "zeroline": false, "tickfont": {"size": 17}, "title": {"text": "Runs (of 120)", "font": {"size": 16, "color": "#6b6b6b"}}, "range": [0, 120], "dtick": 20}, "yaxis": {"color": "#010101", "gridcolor": "rgba(0,0,0,0)", "linecolor": "#dcdcdc", "zeroline": false, "tickfont": {"size": 17}}, "legend": {"orientation": "h", "x": 0, "y": 1.36, "font": {"size": 15}, "traceorder": "normal"}}}};
+// Deck engine: the site's Neural Collapse deck engine, without its animation players; Plotly figures instead.
+const stage = document.getElementById('stage');
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0, step = 0;
+// Figures are authored in the light palette (plot_style.py); each light colour is swapped for the current theme's token.
+const FIG_TOKENS = { '#010101': '--ink', '#6b6b6b': '--muted', '#a3a3a3': '--faint', '#dcdcdc': '--rule', '#286287': '--blue', '#da9740': '--orange', '#d7473a': '--red',
+  '#378d68': '--c0', '#8550a0': '--c1', '#7c404a': '--c2', '#d2487a': '--c3', '#16a39e': '--c4', '#758b42': '--c5', '#6c3b27': '--c6', '#a42384': '--c7', '#9c8cbd': '--c8', '#45767b': '--c9' };
+const FIG_RE = new RegExp(Object.keys(FIG_TOKENS).join('|'), 'g');
+
+function layout() {
+  stage.style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`;
+  // Redraw every figure in the current theme and font; layout() runs on boot, resize and every theme switch.
+  if (!window.Plotly || !window.DECK_FIGS) return;
+  const cs = getComputedStyle(document.documentElement), font = cs.getPropertyValue('--font').trim();
+  const figs = JSON.parse(JSON.stringify(window.DECK_FIGS).replace(FIG_RE, c => cs.getPropertyValue(FIG_TOKENS[c]).trim()));
+  document.querySelectorAll('.plot').forEach(el => {
+    const f = figs[el.dataset.fig];
+    if (!f) return;
+    f.layout.font = Object.assign(f.layout.font || {}, { family: font });
+    Plotly.react(el, f.data, f.layout, { displayModeBar: false, responsive: false });
+  });
+}
+
+function maxStep(i) { return Math.max(0, ...[...slides[i].querySelectorAll('.frag')].map(e => +e.dataset.f)); }
+function applyStep() { slides[cur].querySelectorAll('.frag').forEach(e => e.classList.toggle('on', +e.dataset.f <= step)); }
+function go(i, st = 0) {
+  i = Math.max(0, Math.min(slides.length - 1, i));
+  slides[cur].classList.remove('active');
+  cur = i; step = st;
+  const s = slides[cur]; s.classList.add('active'); applyStep();
+  stage.classList.toggle('dark', s.classList.contains('dark'));
+  document.querySelector('#top .count').textContent = `${String(cur + 1).padStart(2, '0')} / ${slides.length}`;
+  document.querySelectorAll('#top nav a').forEach(a => a.classList.toggle('on', a.dataset.sec === s.dataset.sec));
+  document.getElementById('progress').style.width = `${(cur + 1) / slides.length * 100}%`;
+  const nb = document.getElementById('notes-body'), note = s.querySelector('.notes');
+  nb.innerHTML = note ? note.innerHTML : ''; document.getElementById('notes-title').textContent = `Speaker notes · slide ${cur + 1}`;
+  try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) { }
+}
+// Theme: flip the token set on <html>, then redraw every figure.
+function toggleTheme() { document.documentElement.classList.toggle('light'); layout(); }
+function next() { if (step < maxStep(cur)) { step++; applyStep(); } else if (cur < slides.length - 1) go(cur + 1, 0); }
+function prev() { if (step > 0) { step--; applyStep(); } else if (cur > 0) go(cur - 1, maxStep(cur - 1)); }
+
+// timer (3-minute talk)
+let t0 = null, timerEl = document.querySelector('#top .timer');
+function startTimer() { if (t0 == null) t0 = performance.now(); }
+setInterval(() => { const s = t0 == null ? 0 : Math.floor((performance.now() - t0) / 1000); timerEl.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')} / 03:00`; timerEl.classList.toggle('over', s > 180); }, 500);
+timerEl.onclick = () => { t0 = null; };
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); startTimer(); next(); }
+  else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+  else if (k === 'Home') go(0); else if (k === 'End') go(slides.length - 1);
+  else if (k === 'n' || k === 'N') document.getElementById('notes').classList.toggle('on');
+  else if (k === 't' || k === 'T') t0 = performance.now();
+  else if (k === 'd' || k === 'D') toggleTheme();
+  else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => { }); }
+  else if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('on');
+  else if (k === 'Escape') { document.getElementById('help').classList.remove('on'); }
+});
+document.getElementById('help').onclick = e => { if (e.target.id === 'help') e.currentTarget.classList.remove('on'); };
+document.getElementById('next').onclick = () => { startTimer(); next(); };
+document.getElementById('prev').onclick = () => prev();
+document.getElementById('theme').onclick = () => toggleTheme();
+document.querySelector('#top .mark').onclick = () => go(0);
+document.querySelectorAll('#top nav a').forEach(a => a.onclick = () => go(slides.findIndex(s => s.dataset.sec === a.dataset.sec)));
+
+// ───────────────────────── touch devices ─────────────────────────
+// html.touch turns on the touch layout; set from the media query, or on the first real touch (hybrid laptops)
+if (matchMedia('(hover: none), (pointer: coarse)').matches) document.documentElement.classList.add('touch');
+addEventListener('touchstart', () => document.documentElement.classList.add('touch'), { once: true, passive: true });
+// swipe = ← / →. Touch events, not pointer events: the browser can cancel pointer streams it treats as a pan.
+// Drags that start on a figure, a control or an overlay belong to that element.
+let swipe = null;
+document.addEventListener('touchstart', e => {
+  const el = e.target, t = e.touches[0];
+  const owned = el.closest('input, button, a, .plot, #notes, #help, #rotate-hint') || document.getElementById('help').classList.contains('on');
+  swipe = e.touches.length === 1 && !owned ? { x: t.clientX, y: t.clientY, t: performance.now() } : null;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!swipe) return;
+  const t = e.changedTouches[0], dx = t.clientX - swipe.x, dy = t.clientY - swipe.y, quick = performance.now() - swipe.t < 800;
+  swipe = null;
+  if (quick && Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { if (dx < 0) { startTimer(); next(); } else prev(); }
+}, { passive: true });
+document.getElementById('t-notes').onclick = () => document.getElementById('notes').classList.toggle('on');
+document.getElementById('t-help').onclick = () => document.getElementById('help').classList.toggle('on');
+// Fullscreen: iPad Safari only has the webkit-prefixed API on older versions; hide the button where neither exists (iPhone)
+{
+  const root = document.documentElement, enter = root.requestFullscreen || root.webkitRequestFullscreen, fsBtn = document.getElementById('t-fs');
+  if (!enter) fsBtn.remove();
+  else fsBtn.onclick = () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else Promise.resolve(enter.call(root)).catch(() => { });
+  };
+}
+document.getElementById('rotate-hint').onclick = e => e.currentTarget.classList.add('gone');
+
+function boot() {
+  if (boot.done) return; boot.done = true;
+  if (/[?&]light/.test(location.search)) document.documentElement.classList.add('light');
+  layout();
+  const h = parseInt(location.hash.slice(1), 10);
+  go(isFinite(h) ? h - 1 : 0);
+  // ?static: no transitions and every step of the current slide shown (screenshots, handouts)
+  if (/[?&]static/.test(location.search)) { stage.classList.add('static'); step = maxStep(cur); applyStep(); }
+}
+window.addEventListener('resize', layout);
+window.addEventListener('load', boot);
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (boot.done) layout(); });
+</script>
+</body>
+</html>
