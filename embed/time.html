@@ -32,7 +32,7 @@
 
     
 
-    #purc-cooldown {
+    #parade, #mouacp-staging {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -87,16 +87,16 @@
         </div>  
         
         
-        <!-- Purchase cooldown -->
+        <!-- Mickey's Once Upon A Christmastime Parade -->
         <div id="line-countdown-box">
-            <div id="purc-cooldown"></div>
-            <div id="cd-caption">>$50 PURCHASE COOLDOWN</div> 
-        </div> 
+            <div id="parade"></div>
+            <div id="cd-caption">CHRISTMAS PARADE</div>
+        </div>
 
-         
+
         <div id="line-countdown-box">
-            <div id="vef-annual"></div>
-            <div id="cd-caption">VEF ANNUAL MEETING 2026</div> 
+            <div id="mouacp-staging"></div>
+            <div id="cd-caption">MOUACP STAGING</div> 
         </div> 
     </div>
 
@@ -216,8 +216,9 @@
         
         // Finals
         // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
-        document.getElementById("purc-cooldown").innerHTML = timeCountdown2Str(new Date("October 27, 2026 00:00:00").getTime());
-        document.getElementById("vef-annual").innerHTML = timeCountdown2Str(new Date("August 14, 2026 06:50:00").getTime());
+        // Staging opens 90 min before the parade; show IN PROGESS from staging until step-off
+        document.getElementById("parade").innerHTML = timeCountdown2Str(new Date("November 10, 2026 14:00:00").getTime());
+        document.getElementById("mouacp-staging").innerHTML = timeCountdown2Str(new Date("November 10, 2026 12:30:00").getTime(), new Date("November 10, 2026 14:00:00").getTime());
 
         // Nearest deadlines
     }, 1);
