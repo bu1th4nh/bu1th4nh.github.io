@@ -12,6 +12,7 @@ redirect_from:
 I actively introduce new technologies into every presentation I give. You can see my work here:
 - Fall 2026, Mathematical Introduction to Deep Learning: [Neural Collapse](/presentations/ucf_fall26_map6197_neuralcollapse/neural-collapse.html)
 - Fall 2026, Happiest Club On Earth Orlando \| PowerPoint night: [Go meet the face characters](/presentations/hcoe_fall26_facecharacters/face-characters.html)
+- Fall 2026, Lab meeting: [Spatial Multiomics - Data evolution and downstream tasks](/presentations/lab_fall2026_spatialmultiome/spatial-multiomics-experiments.html)
 
 ## 02 / Hobbies
 
