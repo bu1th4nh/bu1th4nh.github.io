@@ -6,6 +6,16 @@
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | escape }}">
   <link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}">
+  <script>
+    // Theme before first paint: saved choice wins, otherwise follow the OS. Storage can throw in private modes.
+    var savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+    if (savedTheme === 'dark' || (savedTheme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  </script>
+  <!-- Princess Mode type; font files are fetched only once a princess rule uses them -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f4f3ef;
@@ -300,6 +310,150 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; }
     }
+
+    /* ── Dark theme: html.dark, same tokens as the decks' dark default ── */
+    :root.dark {
+      color-scheme: dark;
+      --bg: #010101;
+      --fg: #f2f2f2;
+      --muted: #9b9b9b;
+      --rule: rgba(242,242,242,.3);
+      --soft-rule: rgba(242,242,242,.14);
+    }
+    :root.dark .prose code { background: rgba(242,242,242,.08); }
+    :root.dark .prose pre { background: rgba(242,242,242,.05); }
+
+    .theme-toggle {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      cursor: pointer;
+    }
+    .theme-toggle .when-dark,
+    :root.dark .theme-toggle .when-light { display: none; }
+    :root.dark .theme-toggle .when-dark { display: inline; }
+
+    /* ── Princess Mode: hidden, toggled by typing 7777 or 4 taps on the footer © line; same palette as the decks' light princess theme ── */
+    :root.princess {
+      --bg: #ffd9ee;
+      --fg: #2a0526;
+      --muted: #8c1763;
+      --rule: rgba(176,48,127,.25);
+      --soft-rule: rgba(176,48,127,.14);
+      --display: "Cormorant Garamond", Garamond, Georgia, serif;
+      --rose: #ff2d95;
+      --lav: #9d4edd;
+      --gold: #d99a00;
+      --title-grad: linear-gradient(100deg, #ff2d95 0%, #c2187f 45%, #9d4edd 100%);
+      --glow: radial-gradient(1000px 700px at 100% 0%, rgba(255,45,149,.2), transparent 65%),
+        radial-gradient(900px 700px at 0% 100%, rgba(157,78,221,.16), transparent 65%);
+      --star: #ff2d95;
+      --star-op: .55;
+      --crown: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 20L2 8l6 5 5-9 5 9 6-5-1 12z'/%3E%3Crect x='3' y='21.5' width='20' height='2.6' rx='1'/%3E%3Ccircle cx='13' cy='3' r='2.1'/%3E%3Ccircle cx='2' cy='6.8' r='1.8'/%3E%3Ccircle cx='24' cy='6.8' r='1.8'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    /* princess on the dark theme: the decks' default plum palette */
+    :root.princess.dark {
+      --bg: #3d0a3b;
+      --fg: #fff3fa;
+      --muted: #ffcbe7;
+      --rule: rgba(255,170,216,.4);
+      --soft-rule: rgba(255,170,216,.2);
+      --rose: #ff4fb2;
+      --lav: #c77dff;
+      --gold: #ffd166;
+      --title-grad: linear-gradient(100deg, #ffd1ec 0%, #ff6ec7 45%, #ffd166 100%);
+      --glow: radial-gradient(1000px 700px at 100% 0%, rgba(255,79,178,.3), transparent 65%),
+        radial-gradient(900px 700px at 0% 100%, rgba(199,125,255,.28), transparent 65%);
+      --star: #ffc2e6;
+      --star-op: .75;
+    }
+    /* Cormorant has a small x-height and thin strokes: scale to a sans-like x-height, one weight heavier, lining figures */
+    :root.princess body {
+      background: var(--glow), var(--bg);
+      background-attachment: fixed;
+      font-weight: 500;
+      font-size-adjust: ex-height .5;
+      font-feature-settings: "lnum" 1;
+    }
+    :root.princess ::selection { background: var(--rose); color: #fff; }
+    :root.princess h1, :root.princess h2, :root.princess h3, :root.princess h4,
+    :root.princess .statement, :root.princess .archive-title, :root.princess .list-row .title { font-weight: 600; }
+
+    /* sparkle field from the decks, fixed behind the content and faded toward the centre so text stays clear */
+    :root.princess body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: var(--star-op);
+      background-color: var(--star);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='%23000'%3E%3Cpath d='M38 300l2 7 7 2-7 2-2 7-2-7-7-2 7-2z'/%3E%3Cpath d='M520 70l1.5 5 5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5z'/%3E%3Cpath d='M330 520l2.5 8 8 2.5-8 2.5-2.5 8-2.5-8-8-2.5 8-2.5z'/%3E%3Ccircle cx='210' cy='140' r='1.4'/%3E%3Ccircle cx='440' cy='260' r='1.1'/%3E%3Ccircle cx='120' cy='470' r='1.2'/%3E%3Ccircle cx='560' cy='420' r='1'/%3E%3Ccircle cx='290' cy='30' r='1.2'/%3E%3Ccircle cx='20' cy='90' r='1'/%3E%3Ccircle cx='400' cy='380' r='.9'/%3E%3Cpath d='M150 214l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M470 134l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M250 384l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M560 544l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M80 544l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3C/g%3E%3C/svg%3E") 0 0/420px 420px repeat, radial-gradient(ellipse 72% 70% at 50% 50%, transparent 42%, #000 92%);
+      -webkit-mask-composite: source-in;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='%23000'%3E%3Cpath d='M38 300l2 7 7 2-7 2-2 7-2-7-7-2 7-2z'/%3E%3Cpath d='M520 70l1.5 5 5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5z'/%3E%3Cpath d='M330 520l2.5 8 8 2.5-8 2.5-2.5 8-2.5-8-8-2.5 8-2.5z'/%3E%3Ccircle cx='210' cy='140' r='1.4'/%3E%3Ccircle cx='440' cy='260' r='1.1'/%3E%3Ccircle cx='120' cy='470' r='1.2'/%3E%3Ccircle cx='560' cy='420' r='1'/%3E%3Ccircle cx='290' cy='30' r='1.2'/%3E%3Ccircle cx='20' cy='90' r='1'/%3E%3Ccircle cx='400' cy='380' r='.9'/%3E%3Cpath d='M150 214l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M470 134l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M250 384l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M560 544l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3Cpath d='M80 544l2.2 6.8 6.8 2.2-6.8 2.2-2.2 6.8-2.2-6.8-6.8-2.2 6.8-2.2z'/%3E%3C/g%3E%3C/svg%3E") 0 0/420px 420px repeat, radial-gradient(ellipse 72% 70% at 50% 50%, transparent 42%, #000 92%);
+      mask-composite: intersect;
+    }
+
+    /* candy gradient headlines; background-clip:text only paints inside the box, so pad it (and cancel the
+       padding with margins) to keep serif ascenders and descenders, and relax the tight sans line-height */
+    :root.princess .hero h1,
+    :root.princess .page-hero h1 {
+      line-height: 1;
+      padding: .14em 0 .2em;
+      margin-top: -.14em;
+      margin-bottom: -.2em;
+      background: var(--title-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 3px 0 rgba(255,79,178,.35));
+    }
+
+    /* chrome: rose brand, gradient header rule, rose section rules and sweeps */
+    :root.princess .brand { color: var(--rose); font-weight: 600; }
+    :root.princess .topbar { border-bottom: 3px solid; border-image: linear-gradient(90deg, #ff4fb2, #c77dff, #ffd166) 1; }
+    :root.princess .section, :root.princess .section-block, :root.princess footer,
+    :root.princess .list, :root.princess .archive-list, :root.princess .contact-links,
+    :root.princess .post-nav, :root.princess .empty-state { border-top-color: var(--rose); }
+    :root.princess .sweep::after, :root.princess .brand::after, :root.princess .nav a::after,
+    :root.princess footer a::after, :root.princess .archive-row::after,
+    :root.princess .contact-links a::after { background: linear-gradient(90deg, var(--rose), var(--lav)); height: 2px; }
+    :root.princess .nav a:hover, :root.princess .nav a:focus-visible { color: var(--rose); }
+
+    /* crowns on kickers, rose indices */
+    :root.princess .kicker::before,
+    :root.princess .page-kicker::before,
+    :root.princess .section-label::before {
+      content: "";
+      display: inline-block;
+      width: 1.3em;
+      height: 1.3em;
+      margin-right: 7px;
+      vertical-align: -.25em;
+      background: var(--rose);
+      -webkit-mask: var(--crown);
+      mask: var(--crown);
+    }
+    :root.princess .kicker, :root.princess .page-kicker, :root.princess .section-label,
+    :root.princess .project-index, :root.princess .section-head span:first-child { color: var(--rose); }
+
+    /* framed portrait, in colour */
+    :root.princess .contact-avatar {
+      filter: none;
+      border-radius: 22px;
+      border: 2px solid var(--rose);
+      box-shadow: 0 0 0 6px rgba(255,79,178,.16), 0 18px 50px rgba(255,79,178,.28);
+    }
+
+    /* prose details */
+    :root.princess .prose a { text-decoration-color: var(--rose); }
+    :root.princess .prose blockquote { border-left: 3px solid var(--rose); }
+    :root.princess .prose code { background: rgba(176,48,127,.09); }
+    :root.princess .prose pre { background: rgba(176,48,127,.06); border-color: var(--rose); }
   </style>
 </head>
 <body>
@@ -313,6 +467,7 @@
         <a href="{{ '/miscellaneous/' | relative_url }}">Misc</a>
         <a href="{{ '/' | relative_url }}#about">About</a>
         <a href="{{ '/' | relative_url }}#contact">Contact</a>
+        <button class="theme-toggle sweep" type="button" aria-label="Toggle dark theme"><span class="when-light">Dark</span><span class="when-dark">Light</span></button>
       </nav>
     </header>
 
@@ -321,10 +476,34 @@
     </main>
 
     <footer>
-      <div>© {{ 'now' | date: "%Y" }} Tien-Thanh Bui</div>
+      <div class="copyright">© {{ 'now' | date: "%Y" }} Tien-Thanh Bui</div>
       <div class="design-credit">Design language inspired by <a href="https://ndstudio.gov/" target="_blank" rel="noopener noreferrer">National Design Studio ↗</a></div>
       <a href="#top">Back to top ↑</a>
     </footer>
   </div>
+  <script>
+    // Theme toggle: the nav button flips html.dark and saves the choice; D does the same from the keyboard.
+    // Princess Mode: type 7777, or tap the footer © line 4 times within 1.5 s (touch stand-in).
+    // Not persisted: every page load starts in the normal theme, as in the decks.
+    {
+      let pin = '', taps = [];
+      const themeButton = document.querySelector('.theme-toggle');
+      themeButton.addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+      });
+      document.addEventListener('keydown', e => {
+        if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest?.('input, textarea, select, [contenteditable]')) return;
+        pin = /^[0-9]$/.test(e.key) ? (pin + e.key).slice(-4) : '';
+        if (pin === '7777') { pin = ''; document.documentElement.classList.toggle('princess'); }
+        else if (e.key === 'd' || e.key === 'D') themeButton.click();
+      });
+      document.querySelector('footer .copyright').addEventListener('click', () => {
+        const now = performance.now();
+        taps = taps.filter(t => now - t < 1500).concat(now);
+        if (taps.length >= 4) { taps = []; document.documentElement.classList.toggle('princess'); }
+      });
+    }
+  </script>
 </body>
 </html>
