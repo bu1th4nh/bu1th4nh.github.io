@@ -32,7 +32,7 @@
 
     
 
-    #parade, #mouacp-staging {
+    #COT6505-FINAL, #MAP6197-FINAL {
         font-family: 'HornetDisplay';
         color: #ff0000;
         font-size: 3em;
@@ -87,16 +87,16 @@
         </div>  
         
         
-        <!-- Mickey's Once Upon A Christmastime Parade -->
+        <!-- COT 6505 final presentation -->
         <div id="line-countdown-box">
-            <div id="parade"></div>
-            <div id="cd-caption">CHRISTMAS PARADE</div>
+            <div id="COT6505-FINAL"></div>
+            <div id="cd-caption">COT 6505 FINAL</div>
         </div>
 
 
         <div id="line-countdown-box">
-            <div id="mouacp-staging"></div>
-            <div id="cd-caption">MOUACP STAGING</div> 
+            <div id="MAP6197-FINAL"></div>
+            <div id="cd-caption">MAP 6197 FINAL</div> 
         </div> 
     </div>
 
@@ -216,9 +216,9 @@
         
         // Finals
         // document.getElementById("rd-princess-10k").innerHTML = timeCountdown2Str(new Date("Feb 22, 2025 05:00:00").getTime(), new Date("Feb 22, 2025 07:00:00").getTime());
-        // Staging opens 90 min before the parade; show IN PROGESS from staging until step-off
-        document.getElementById("parade").innerHTML = timeCountdown2Str(new Date("November 10, 2026 14:00:00").getTime());
-        document.getElementById("mouacp-staging").innerHTML = timeCountdown2Str(new Date("November 10, 2026 12:30:00").getTime(), new Date("November 10, 2026 14:00:00").getTime());
+        // Final presentation windows in Orlando time (EST, UTC-05:00).
+        document.getElementById("COT6505-FINAL").innerHTML = timeCountdown2Str(new Date("2026-12-01T13:30:00-05:00").getTime(), new Date("2026-12-01T14:45:00-05:00").getTime());
+        document.getElementById("MAP6197-FINAL").innerHTML = timeCountdown2Str(new Date("2026-12-02T16:30:00-05:00").getTime(), new Date("2026-12-02T17:45:00-05:00").getTime());
 
         // Nearest deadlines
     }, 1);
